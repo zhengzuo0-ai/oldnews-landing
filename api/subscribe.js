@@ -68,7 +68,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'OldNews <hello@oldnews.io>',
+        from: process.env.RESEND_FROM_EMAIL || 'OldNews <onboarding@resend.dev>',
         to: email,
         subject: lang === 'cn'
           ? '👀 欢迎加入旧闻'
