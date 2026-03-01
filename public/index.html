@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OldNews — Headlines fade. Stories don't.</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
+
+  :root {
+    --slate: #2a3a40;
+    --slate-light: #3a4e56;
+    --slate-dark: #1e2c32;
+    --gold: #b8956a;
+    --gold-hover: #a88358;
+    --gold-dim: rgba(184, 149, 106, 0.08);
+    --gold-border: rgba(184, 149, 106, 0.25);
+    --cream: #f5f0ea;
+    --cream-dark: #ebe4da;
+    --card-bg: #fff;
+    --card-border: #e4ddd0;
+    --text-dark: #2a3a40;
+    --text-mid: #6a7a7e;
+    --text-light: #8a9a9e;
+    --text-faint: #a8b4b8;
+    --red: #c4453a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ HEADER ═══ */
+  .header {
+    background: var(--slate);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e8e0d4;
+    letter-spacing: -0.5px;
+  }
+  .header-logo span { color: var(--gold); }
+  .header-right { display: flex; align-items: center; gap: 14px; }
+  .lang-switch {
+    display: flex; align-items: center; gap: 2px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px; padding: 3px;
+  }
+  .lang-switch a {
+    color: var(--text-faint); text-decoration: none;
+    padding: 5px 12px; border-radius: 4px;
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    transition: all 0.2s;
+  }
+  .lang-switch a:hover { color: #e8e0d4; }
+  .lang-switch a.active { background: var(--gold); color: var(--slate); font-weight: 700; }
+  .tracking-count { font-size: 13px; color: var(--text-faint); }
+  .tracking-count strong { color: var(--gold); font-size: 15px; }
+  .header-cta {
+    padding: 8px 18px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+    border: none; border-radius: 5px; cursor: pointer;
+    display: none; transition: background 0.2s;
+  }
+  .header-cta.visible { display: block; }
+  .header-cta:hover { background: var(--gold-hover); }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    background: var(--slate);
+    padding: 48px 24px 56px;
+    text-align: center;
+  }
+  .hero .date-badge {
+    display: inline-block; font-size: 10px; letter-spacing: 2.5px;
+    text-transform: uppercase; color: var(--text-light);
+    border: 1px solid var(--slate-light);
+    padding: 5px 16px; border-radius: 20px; margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(30px, 5.5vw, 48px);
+    font-weight: 300; color: #e8e0d4;
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: italic; color: var(--gold); font-weight: 400;
+  }
+  .hero p {
+    font-size: 15px; color: var(--text-light);
+    max-width: 460px; margin: 0 auto; line-height: 1.7;
+  }
+  .hero-tagline {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; color: var(--gold);
+    letter-spacing: 0.5px; margin-top: 24px; opacity: 0.7;
+    font-style: italic;
+  }
+
+  /* ═══ FEED ═══ */
+  .feed { max-width: 660px; margin: 0 auto; padding: 32px 24px 16px; }
+  .feed-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .news-card {
+    background: var(--card-bg); border: 2px solid var(--card-border);
+    border-radius: 10px; padding: 20px 22px; margin-bottom: 10px;
+    display: flex; align-items: flex-start; gap: 14px;
+    cursor: pointer; transition: all 0.2s ease;
+  }
+  .news-card:hover { border-color: #ccc8be; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+  .news-card.tracked { border-color: var(--gold); background: var(--gold-dim); }
+  .news-card.tracked .track-btn { background: var(--gold); color: #fff; border-color: var(--gold); }
+  .news-card.tracked .track-btn-text::before { content: '👀 '; }
+  .news-content { flex: 1; min-width: 0; }
+  .news-cat {
+    font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 4px;
+  }
+  .news-title {
+    font-family: 'Fraunces', serif; font-size: 16px; font-weight: 500;
+    color: var(--text-dark); line-height: 1.35; margin-bottom: 5px;
+  }
+  .news-summary { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .news-source { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
+  .track-btn {
+    flex-shrink: 0; padding: 7px 14px; background: transparent;
+    color: var(--text-mid); font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 600;
+    border: 1.5px solid var(--card-border); border-radius: 5px;
+    cursor: pointer; white-space: nowrap; margin-top: 3px; transition: all 0.2s;
+  }
+  .track-btn:hover { border-color: var(--gold); color: var(--slate); }
+
+  /* ═══ TIMELINE ═══ */
+  .timeline-section { max-width: 660px; margin: 0 auto; padding: 16px 24px 48px; }
+  .tl-invite {
+    background: var(--gold); border-radius: 10px; padding: 24px 26px;
+    cursor: pointer; display: flex; align-items: center; gap: 16px;
+    transition: all 0.2s; border: 2px solid var(--gold);
+  }
+  .tl-invite:hover { background: var(--gold-hover); border-color: var(--gold-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .tl-invite-emoji { font-size: 28px; flex-shrink: 0; }
+  .tl-invite-text { flex: 1; }
+  .tl-invite-title {
+    font-family: 'Fraunces', serif; font-size: 15px; font-weight: 600;
+    color: var(--slate); margin-bottom: 4px;
+  }
+  .tl-invite-cta {
+    font-size: 13px; font-weight: 700; color: var(--slate);
+    margin-top: 2px; text-decoration: underline; text-underline-offset: 3px;
+  }
+  .tl-invite-arrow {
+    font-size: 18px; color: var(--slate); flex-shrink: 0; transition: transform 0.3s;
+  }
+  .tl-invite.open .tl-invite-arrow { transform: rotate(90deg); }
+  .tl-content { display: none; animation: fadeSlide 0.3s ease; }
+  .tl-content.visible { display: block; }
+  @keyframes fadeSlide { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+  .tl-header {
+    background: var(--slate); border-radius: 10px 10px 0 0; padding: 18px 22px;
+  }
+  .tl-header-title {
+    font-family: 'Fraunces', serif; font-size: 16px; color: #e8e0d4; font-weight: 500; margin-bottom: 4px;
+  }
+  .tl-header-meta { font-size: 11px; color: var(--text-light); }
+  .tl-body {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-top: none; border-radius: 0 0 10px 10px; padding: 8px 22px 18px;
+  }
+  .tl-entry { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f0ebe4; }
+  .tl-entry:last-child { border-bottom: none; }
+  .tl-date-col { flex-shrink: 0; width: 52px; text-align: right; padding-top: 2px; }
+  .tl-date { font-size: 11px; font-weight: 700; color: var(--slate); line-height: 1.3; }
+  .tl-dot-col { flex-shrink: 0; display: flex; flex-direction: column; align-items: center; padding-top: 5px; }
+  .tl-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+  .tl-dot.major { background: var(--red); box-shadow: 0 0 5px rgba(196,69,58,0.25); }
+  .tl-line { width: 1px; flex: 1; background: var(--cream-dark); margin-top: 4px; }
+  .tl-text { flex: 1; font-size: 13px; line-height: 1.7; color: var(--text-mid); }
+  .tl-text strong { color: var(--text-dark); font-weight: 600; }
+  .tl-tag {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 7px; border-radius: 3px; margin-bottom: 4px;
+  }
+  .tl-tag.major { background: rgba(196,69,58,0.1); color: var(--red); }
+  .tl-tag.minor { background: var(--gold-dim); color: var(--gold); }
+
+  /* ═══ ONE-LINER ═══ */
+  .oneliner { background: var(--slate); padding: 48px 24px; text-align: center; }
+  .oneliner p {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(16px, 3vw, 21px); font-weight: 300;
+    color: #e8e0d4; max-width: 520px; margin: 0 auto; line-height: 1.7;
+  }
+  .oneliner p em { font-style: normal; color: var(--gold); font-weight: 500; }
+
+  /* ═══ HOW ═══ */
+  .how { max-width: 660px; margin: 0 auto; padding: 40px 24px; }
+  .how-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .how-title {
+    font-family: 'Fraunces', serif; font-size: 24px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 16px;
+  }
+  .how-steps { display: flex; gap: 0; }
+  .how-step {
+    flex: 1; padding: 20px; border-right: 1px solid var(--cream-dark); text-align: center;
+  }
+  .how-step:last-child { border-right: none; }
+  .how-step h3 {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600;
+    color: var(--gold); margin-bottom: 6px;
+  }
+  .how-step p { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+  @media (max-width: 600px) {
+    .how-steps { flex-direction: column; }
+    .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
+    .how-step:last-child { border-bottom: none; }
+
+    /* Header */
+    .header { padding: 12px 16px; }
+    .header-right { gap: 8px; }
+    .header-logo { font-size: 18px; }
+    .tracking-count { display: none; }
+    .header-cta { font-size: 11px; padding: 6px 12px; }
+    .lang-switch a { padding: 4px 8px; font-size: 12px; }
+
+    /* Hero */
+    .hero { padding: 36px 20px 42px; }
+    .hero h1 { font-size: 28px; }
+    .hero p { font-size: 14px; }
+    .hero-tagline { font-size: 12px; }
+
+    /* Feed */
+    .feed { padding: 24px 16px 12px; }
+    .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
+    .news-title { font-size: 15px; }
+    .track-btn { align-self: flex-start; }
+
+    /* Timeline invite */
+    .tl-invite { padding: 18px 18px; gap: 12px; }
+    .tl-invite-emoji { font-size: 22px; }
+    .tl-invite-title { font-size: 14px; }
+    .timeline-section { padding: 12px 16px 36px; }
+
+    /* Timeline entries */
+    .tl-date-col { width: 40px; }
+    .tl-date { font-size: 10px; }
+    .tl-text { font-size: 12px; }
+    .tl-body { padding: 6px 16px 14px; }
+
+    /* One-liner */
+    .oneliner { padding: 36px 20px; }
+    .oneliner p { font-size: 16px; }
+
+    /* How */
+    .how { padding: 32px 16px; }
+    .how-title { font-size: 20px; }
+
+    /* Bottom CTA */
+    .bottom-cta { padding: 40px 20px; }
+    .bottom-cta h2 { font-size: 19px; }
+    .cta-form { flex-direction: column; }
+    .cta-form input { border-right: 2px solid var(--card-border); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Sticky bar */
+    .bottom-bar { flex-direction: column; gap: 8px; padding: 12px 16px; }
+    .bar-text { font-size: 13px; }
+    .bar-form { width: 100%; }
+    .bar-form input { flex: 1; width: auto; }
+
+    /* Success overlay */
+    .success { padding: 32px 24px; }
+    .success h2 { font-size: 20px; }
+  }
+
+  /* ═══ BOTTOM CTA ═══ */
+  .bottom-cta { background: var(--cream-dark); padding: 56px 24px; text-align: center; }
+  .bottom-cta h2 {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 8px;
+  }
+  .bottom-cta p { font-size: 14px; color: var(--text-mid); margin-bottom: 28px; }
+  .cta-form {
+    display: flex; gap: 0; max-width: 400px; margin: 0 auto;
+    border-radius: 7px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .cta-form input {
+    flex: 1; padding: 14px 18px; border: 2px solid var(--card-border);
+    border-right: none; background: var(--card-bg); color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none;
+    border-radius: 7px 0 0 7px;
+  }
+  .cta-form input::placeholder { color: var(--text-faint); }
+  .cta-form input:focus { border-color: var(--gold); }
+  .cta-form button {
+    padding: 14px 24px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    border: 2px solid var(--gold); border-radius: 0 7px 7px 0;
+    cursor: pointer; white-space: nowrap;
+  }
+  .cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+
+  /* ═══ FOOTER ═══ */
+  .footer { background: var(--slate); padding: 32px 24px; text-align: center; }
+  .footer-logo {
+    font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700;
+    color: #e8e0d4; margin-bottom: 6px;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer p { font-size: 12px; color: var(--text-light); }
+  .footer a { color: var(--text-faint); text-decoration: none; }
+
+  /* ═══ STICKY BAR ═══ */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--slate); border-top: 2px solid var(--gold);
+    padding: 14px 24px; display: flex; align-items: center;
+    justify-content: center; gap: 12px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100; box-shadow: 0 -6px 30px rgba(0,0,0,0.15);
+  }
+  .bottom-bar.visible { transform: translateY(0); }
+  .bar-text { font-size: 14px; color: #e8e0d4; }
+  .bar-text strong { color: var(--gold); }
+  .bar-form { display: flex; gap: 0; }
+  .bar-form input {
+    padding: 10px 14px; border: 1.5px solid var(--slate-light);
+    border-right: none; background: rgba(255,255,255,0.05);
+    color: #e8e0d4; font-family: 'DM Sans', sans-serif; font-size: 13px;
+    border-radius: 5px 0 0 5px; outline: none; width: 200px;
+  }
+  .bar-form input:focus { border-color: var(--gold); }
+  .bar-form input::placeholder { color: var(--text-light); }
+  .bar-form button {
+    padding: 10px 18px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+    border: 1.5px solid var(--gold); border-radius: 0 5px 5px 0;
+    cursor: pointer; white-space: nowrap;
+  }
+
+  /* ═══ SUCCESS ═══ */
+  .overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(42,58,64,0.92); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .overlay.visible { display: flex; }
+  .success {
+    background: var(--slate); border: 2px solid var(--gold);
+    border-radius: 14px; padding: 40px 36px; text-align: center;
+    max-width: 420px; margin: 0 20px;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .success .check {
+    width: 48px; height: 48px; border-radius: 50%; background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; font-size: 24px; color: var(--slate);
+  }
+  .success h2 { font-family: 'Fraunces', serif; font-size: 22px; color: #e8e0d4; margin-bottom: 10px; }
+  .success p { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 6px; }
+  .tracked-list {
+    text-align: left; margin: 16px 0; padding: 14px;
+    background: rgba(184,149,106,0.06); border-radius: 8px;
+    border: 1px solid rgba(184,149,106,0.15);
+  }
+  .tracked-list-title {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .tracked-list-item {
+    font-size: 12px; color: #b8c4c8; padding: 3px 0 3px 14px; position: relative;
+  }
+  .tracked-list-item::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 11px; }
+  .close-btn {
+    margin-top: 12px; padding: 8px 28px; background: transparent;
+    color: var(--text-light); border: 1px solid var(--slate-light);
+    border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer;
+  }
+  .close-btn:hover { border-color: var(--text-light); color: #e8e0d4; }
+
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-logo">old<span>news</span></div>
+  <div class="header-right">
+    <div class="lang-switch">
+      <a href="#" class="active">EN</a>
+      <a href="/cn">中文</a>
+    </div>
+    <div class="tracking-count">Watching <strong id="headerCount">0</strong></div>
+    <button class="header-cta" id="headerCta" onclick="document.getElementById('emailBottom').focus(); document.getElementById('emailBottom').scrollIntoView({behavior:'smooth',block:'center'})">Leave your email →</button>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="date-badge">March 1, 2026</div>
+  <h1>Headlines fade.<br><em>Stories don't.</em></h1>
+  <p>You've felt it before:<br>a story dominates the news for three days, then disappears.<br>We keep watching. When something changes, we tell you.</p>
+  <div class="hero-tagline">The news gets old. The story keeps going.</div>
+</section>
+
+<section class="feed">
+  <div class="feed-label">Today's old news — these stories aren't over</div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate">
+    <div class="news-content">
+      <div class="news-cat">Litigation · Aviation</div>
+      <div class="news-title">Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate</div>
+      <div class="news-summary">Federal judge refuses to approve $2.44B guilty plea, saying the fine doesn't match 346 deaths. Boeing faces full criminal trial or renegotiation.</div>
+      <div class="news-source">Reuters · 6h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="OpenAI confirms for-profit conversion, Altman to hold ~10% equity">
+    <div class="news-content">
+      <div class="news-cat">Funding · AI</div>
+      <div class="news-title">OpenAI confirms for-profit conversion, Altman to hold ~10% equity</div>
+      <div class="news-summary">Conversion expected by year-end. Microsoft diluted to ~30% with profit-sharing priority. Musk's lawsuit to block conversion dismissed.</div>
+      <div class="news-source">The Information · 8h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="EU fines Apple €1.8B over App Store antitrust violations">
+    <div class="news-content">
+      <div class="news-cat">Regulation · Big Tech</div>
+      <div class="news-title">EU fines Apple €1.8B over App Store antitrust violations</div>
+      <div class="news-summary">European Commission finds Apple used platform dominance to restrict music streaming competition. Apple has filed an appeal.</div>
+      <div class="news-source">Financial Times · 4h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="Gaza ceasefire: Qatar proposes new three-phase framework">
+    <div class="news-content">
+      <div class="news-cat">Geopolitics · Middle East</div>
+      <div class="news-title">Gaza ceasefire: Qatar proposes new three-phase framework</div>
+      <div class="news-summary">Hamas says it's reviewing the proposal. Israel has not formally responded. US expresses "cautious optimism."</div>
+      <div class="news-source">Al Jazeera · 3h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="TikTok sale: ByteDance in early talks with at least three potential buyers">
+    <div class="news-content">
+      <div class="news-cat">Regulation · Social Media</div>
+      <div class="news-title">TikTok sale: ByteDance in early talks with at least three potential buyers</div>
+      <div class="news-summary">No formal due diligence yet. Next statutory deadline is April 5, affecting 170M US users.</div>
+      <div class="news-source">Bloomberg · 5h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="Evergrande liquidation: creditor recovery estimated below 4%">
+    <div class="news-content">
+      <div class="news-cat">Real Estate · Debt</div>
+      <div class="news-title">Evergrande liquidation: creditor recovery estimated below 4%</div>
+      <div class="news-summary">Court-appointed liquidators project 2.1%–3.8% recovery rate, below market expectations of 5%–8%.</div>
+      <div class="news-source">SCMP · 7h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="SpaceX Starship 7th test flight delayed by FAA environmental review">
+    <div class="news-content">
+      <div class="news-cat">Space · Regulation</div>
+      <div class="news-title">SpaceX Starship 7th test flight delayed by FAA environmental review</div>
+      <div class="news-summary">Flight 6 debris scattered beyond predicted zones. SpaceX says the delay will be "weeks, not months."</div>
+      <div class="news-source">Ars Technica · 10h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="Ozempic patent challenge: generic drugmakers take Novo Nordisk to court">
+    <div class="news-content">
+      <div class="news-cat">Pharma · IP Law</div>
+      <div class="news-title">Ozempic patent challenge: generic drugmakers take Novo Nordisk to court</div>
+      <div class="news-summary">If successful, generic semaglutide could hit market by 2028. Novo Nordisk shares down ~3%.</div>
+      <div class="news-source">STAT News · 2h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="Samsung heir Lee Jae-yong bribery retrial verdict imminent">
+    <div class="news-content">
+      <div class="news-cat">Corporate · South Korea</div>
+      <div class="news-title">Samsung heir Lee Jae-yong bribery retrial verdict imminent</div>
+      <div class="news-summary">Seoul High Court expected to rule within days. Outcome will directly affect Samsung's governance structure.</div>
+      <div class="news-source">Nikkei Asia · 12h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="news-card" onclick="toggle(this)" data-title="India bans 14 messaging apps citing national security">
+    <div class="news-content">
+      <div class="news-cat">Policy · Cybersecurity</div>
+      <div class="news-title">India bans 14 messaging apps citing national security</div>
+      <div class="news-summary">Several banned apps widely used in Kashmir. Digital rights groups challenge the ban as overreach.</div>
+      <div class="news-source">The Hindu · 9h ago</div>
+    </div>
+    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+</section>
+
+<section class="timeline-section">
+  <div class="tl-invite" id="tlToggle" onclick="toggleTimeline()">
+    <div class="tl-invite-emoji">👀</div>
+    <div class="tl-invite-text">
+      <div class="tl-invite-title">How do we watch a story for you?</div>
+      <div class="tl-invite-cta">See the full timeline ↓</div>
+    </div>
+    <div class="tl-invite-arrow">▶</div>
+  </div>
+
+  <div class="tl-content" id="tlContent">
+    <div class="tl-header">
+      <div class="tl-header-title">SpaceX Starship Test Flights</div>
+      <div class="tl-header-meta">Watching for 83 days · 6 updates · Latest: today</div>
+    </div>
+    <div class="tl-body">
+
+      <div class="tl-entry">
+        <div class="tl-date-col"><div class="tl-date">Mar 1<br>'26</div></div>
+        <div class="tl-dot-col"><div class="tl-dot major"></div><div class="tl-line"></div></div>
+        <div class="tl-text">
+          <div class="tl-tag major">Big move</div>
+          <strong>FAA formally delays Flight 7 license.</strong> Requires supplemental environmental assessment after Flight 6 debris exceeded predicted zones. SpaceX says delay is "weeks."
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <div class="tl-date-col"><div class="tl-date">Feb 18<br>'26</div></div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-text">
+          <div class="tl-tag minor">Small move</div>
+          Environmental groups file formal complaint with FAA, claiming Flight 6 debris entered Gulf of Mexico protected area. FAA confirms review.
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <div class="tl-date-col"><div class="tl-date">Jan 30<br>'26</div></div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-text">
+          <div class="tl-tag minor">Small move</div>
+          SpaceX submits Flight 7 application to FAA with improved booster recovery plan and revised debris zone models.
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <div class="tl-date-col"><div class="tl-date">Jan 16<br>'26</div></div>
+        <div class="tl-dot-col"><div class="tl-dot major"></div><div class="tl-line"></div></div>
+        <div class="tl-text">
+          <div class="tl-tag major">Big move</div>
+          <strong>Flight 6 completed.</strong> Booster successfully caught by "chopstick" arms, but upper stage broke apart on re-entry. Debris scattered ~40% beyond predicted zone. SpaceX calls it "an overall success."
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <div class="tl-date-col"><div class="tl-date">Dec 22<br>'25</div></div>
+        <div class="tl-dot-col"><div class="tl-dot"></div><div class="tl-line"></div></div>
+        <div class="tl-text">
+          <div class="tl-tag minor">Small move</div>
+          FAA approves Flight 6 license with conditions: expanded maritime exclusion zone and additional debris tracking equipment.
+        </div>
+      </div>
+
+      <div class="tl-entry">
+        <div class="tl-date-col"><div class="tl-date">Dec 8<br>'25</div></div>
+        <div class="tl-dot-col"><div class="tl-dot"></div></div>
+        <div class="tl-text">
+          <div class="tl-tag minor">Story begins</div>
+          SpaceX announces Starship Flight 6 is ready, pending FAA approval. Musk says the goal is "full orbital validation."
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="oneliner">
+  <p>We don't ping you for every keyword match.<br>Only when the story <em>actually moves forward</em>.</p>
+</section>
+
+<section class="how">
+  <div class="how-label">How it works</div>
+  <h2 class="how-title">Dead simple.</h2>
+  <div class="how-steps">
+    <div class="how-step">
+      <h3>Pick</h3>
+      <p>10 stories a day.<br>Tap "Watch this."</p>
+    </div>
+    <div class="how-step">
+      <h3>Watch</h3>
+      <p>AI checks for real progress,<br>not keyword noise.</p>
+    </div>
+    <div class="how-step">
+      <h3>Know</h3>
+      <p>Updates by email.<br>No news = no email.</p>
+    </div>
+  </div>
+</section>
+
+<section class="bottom-cta">
+  <h2>Every story has a next chapter.<br>No one tells you what it is.</h2>
+  <p>Free. One email a day. Unsubscribe anytime.</p>
+  <div class="cta-form">
+    <input type="email" id="emailBottom" placeholder="your@email.com">
+    <button onclick="submitFromBottom()">Subscribe free</button>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-logo">old<span>news</span></div>
+  <p>Curiosity + AI. <a href="#">About</a> · <a href="#">Privacy</a></p>
+</footer>
+
+<div class="bottom-bar" id="bottomBar">
+  <div class="bar-text">Watching <strong id="barCount">0</strong> stories. Leave your email.</div>
+  <div class="bar-form">
+    <input type="email" id="barEmail" placeholder="your@email.com">
+    <button onclick="submitEmail()">Done →</button>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="success">
+    <div class="check">✓</div>
+    <h2>You're in.</h2>
+    <p>We'll email you when your stories move forward.</p>
+    <div class="tracked-list">
+      <div class="tracked-list-title">👀 You're watching</div>
+      <div id="trackedItems"></div>
+    </div>
+    <p style="color:#7a8a8e; font-size:11px;">Plus 10 new stories to pick from every morning.</p>
+    <button class="close-btn" onclick="document.getElementById('overlay').classList.remove('visible')">Got it</button>
+  </div>
+</div>
+
+<script>
+let tracked = [];
+
+function toggle(card) {
+  const title = card.dataset.title;
+  const btnText = card.querySelector('.track-btn-text');
+  if (card.classList.contains('tracked')) {
+    card.classList.remove('tracked');
+    btnText.textContent = 'Watch this';
+    tracked = tracked.filter(t => t !== title);
+  } else {
+    card.classList.add('tracked');
+    btnText.textContent = 'Watching';
+    tracked.push(title);
+    card.style.transform = 'scale(1.01)';
+    setTimeout(() => card.style.transform = '', 150);
+  }
+  updateUI();
+}
+
+function updateUI() {
+  const n = tracked.length;
+  document.getElementById('headerCount').textContent = n;
+  document.getElementById('barCount').textContent = n;
+  document.getElementById('bottomBar').classList.toggle('visible', n > 0);
+  document.getElementById('headerCta').classList.toggle('visible', n > 0);
+}
+
+async function submitToAPI(email) {
+  try {
+    const res = await fetch('/api/subscribe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, stories: tracked, lang: 'en' })
+    });
+    if (res.ok) {
+      showSuccess();
+    } else {
+      alert('Something went wrong. Please try again.');
+    }
+  } catch (e) {
+    alert('Connection error. Please try again.');
+  }
+}
+
+function submitEmail() {
+  const email = document.getElementById('barEmail').value;
+  if (!email || !email.includes('@')) { document.getElementById('barEmail').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('barEmail').style.borderColor = '', 1500); return; }
+  submitToAPI(email);
+}
+
+function submitFromBottom() {
+  const email = document.getElementById('emailBottom').value;
+  if (!email || !email.includes('@')) { document.getElementById('emailBottom').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('emailBottom').style.borderColor = '', 1500); return; }
+  if (tracked.length === 0) { document.querySelector('.feed').scrollIntoView({ behavior: 'smooth' }); return; }
+  submitToAPI(email);
+}
+
+function showSuccess() {
+  const el = document.getElementById('trackedItems');
+  el.innerHTML = '';
+  tracked.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'tracked-list-item';
+    d.textContent = t;
+    el.appendChild(d);
+  });
+  document.getElementById('overlay').classList.add('visible');
+  document.getElementById('bottomBar').classList.remove('visible');
+}
+
+function toggleTimeline() {
+  const content = document.getElementById('tlContent');
+  const toggle = document.getElementById('tlToggle');
+  content.classList.toggle('visible');
+  toggle.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
