@@ -7,7 +7,7 @@ from datetime import date, datetime
 import httpx
 
 from config import (
-    ANTHROPIC_API_KEY,
+    MINIMAX_API_KEY,
     BASE_URL,
     RESEND_API_KEY,
     RESEND_FROM_EMAIL,
@@ -58,21 +58,21 @@ Respond in JSON only:
 {{"has_progress": true/false, "level": "big_move" or "small_move" or null, "summary": "...", "new_status": "..."}}"""
 
     response = await client.post(
-        "https://api.anthropic.com/v1/messages",
+        "https://api.minimaxi.chat/v1/text/chatcompletion_v2",
         headers={
-            "x-api-key": ANTHROPIC_API_KEY,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
+            "Authorization": f"Bearer {MINIMAX_API_KEY}",
+            "Content-Type": "application/json",
         },
         json={
-            "model": "claude-sonnet-4-6",
-            "max_tokens": 512,
+            "model": "MiniMax-M1-80k",
             "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": 512,
+            "temperature": 0.1,
         },
         timeout=30.0,
     )
     response.raise_for_status()
-    text = response.json()["content"][0]["text"]
+    text = response.json()["choices"][0]["message"]["content"]
 
     # Extract JSON from response
     start = text.find("{")
