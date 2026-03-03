@@ -1,7 +1,8 @@
-"""Minimal startup — test if Railway can run anything at all."""
+"""OldNews startup wrapper with error handling."""
 import os
 import sys
 import logging
+import traceback
 
 logging.basicConfig(level=logging.INFO, stream=sys.stdout, force=True)
 logger = logging.getLogger("start")
@@ -10,17 +11,21 @@ port = int(os.environ.get("PORT", "8000"))
 logger.info(f"Python {sys.version}")
 logger.info(f"PORT={port}")
 
-# Minimal app — no imports from our codebase
-from fastapi import FastAPI
-app = FastAPI()
-
-@app.get("/health")
-async def health():
-    return {"status": "ok", "mode": "minimal"}
-
-@app.get("/")
-async def root():
-    return {"app": "oldnews", "status": "starting"}
+try:
+    logger.info("Importing main app...")
+    from main import app
+    logger.info("Main app imported successfully")
+except Exception as e:
+    logger.error(f"Failed to import main app: {e}")
+    traceback.print_exc()
+    from fastapi import FastAPI
+    app = FastAPI()
+    @app.get("/health")
+    async def health():
+        return {"status": "degraded", "error": str(e)}
+    @app.get("/")
+    async def root():
+        return {"status": "degraded", "error": str(e)}
 
 if __name__ == "__main__":
     import uvicorn
