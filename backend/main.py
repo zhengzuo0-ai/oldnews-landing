@@ -35,7 +35,12 @@ app.add_middleware(
 
 @app.get("/health")
 async def health():
-    return {"status": "ok"}
+    from config import SUPABASE_URL
+    return {
+        "status": "ok",
+        "supabase_connected": supabase is not None,
+        "supabase_url_set": bool(SUPABASE_URL),
+    }
 
 
 # ── Stories ───────────────────────────────────────────────────────────
