@@ -1,32 +1,28 @@
-"""Startup wrapper with error handling and logging."""
-import sys
+"""Minimal startup — test if Railway can run anything at all."""
 import os
+import sys
 import logging
-import traceback
 
-logging.basicConfig(level=logging.INFO, stream=sys.stdout)
-logger = logging.getLogger("startup")
+logging.basicConfig(level=logging.INFO, stream=sys.stdout, force=True)
+logger = logging.getLogger("start")
 
 port = int(os.environ.get("PORT", "8000"))
 logger.info(f"Python {sys.version}")
-logger.info(f"Starting on port {port}")
-logger.info(f"Environment vars: {[k for k in os.environ.keys()]}")
+logger.info(f"PORT={port}")
 
-try:
-    logger.info("Importing main...")
-    from main import app
-    logger.info("Import OK, launching uvicorn...")
-except Exception as e:
-    logger.error(f"Import failed: {e}")
-    traceback.print_exc()
-    # Create minimal fallback app
-    from fastapi import FastAPI
-    app = FastAPI()
-    @app.get("/health")
-    async def health():
-        return {"status": "error", "detail": str(e)}
-    logger.info("Fallback app created")
+# Minimal app — no imports from our codebase
+from fastapi import FastAPI
+app = FastAPI()
+
+@app.get("/health")
+async def health():
+    return {"status": "ok", "mode": "minimal"}
+
+@app.get("/")
+async def root():
+    return {"app": "oldnews", "status": "starting"}
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    logger.info(f"Launching uvicorn on 0.0.0.0:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
