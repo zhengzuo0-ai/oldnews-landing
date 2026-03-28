@@ -1,3 +1,64 @@
+// Module-level cache for audience ID (persists across warm invocations)
+let cachedAudienceId = null;
+
+// Simple in-memory rate limiter (per serverless instance)
+const rateLimit = new Map();
+const RATE_LIMIT_WINDOW = 60000; // 1 minute
+const RATE_LIMIT_MAX = 5; // max 5 requests per IP per minute
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const entry = rateLimit.get(ip);
+  if (!entry || now - entry.timestamp > RATE_LIMIT_WINDOW) {
+    rateLimit.set(ip, { count: 1, timestamp: now });
+    return false;
+  }
+  entry.count++;
+  if (entry.count > RATE_LIMIT_MAX) return true;
+  return false;
+}
+
+async function getOrCreateAudienceId(apiKey) {
+  if (cachedAudienceId) return cachedAudienceId;
+
+  // Check env var first
+  if (process.env.RESEND_AUDIENCE_ID) {
+    cachedAudienceId = process.env.RESEND_AUDIENCE_ID;
+    return cachedAudienceId;
+  }
+
+  const audienceResponse = await fetch('https://api.resend.com/audiences', {
+    method: 'GET',
+    headers: { 'Authorization': `Bearer ${apiKey}` },
+  });
+
+  if (!audienceResponse.ok) {
+    throw new Error(`Failed to fetch audiences: ${audienceResponse.status}`);
+  }
+
+  const audiences = await audienceResponse.json();
+
+  if (audiences.data && audiences.data.length > 0) {
+    cachedAudienceId = audiences.data[0].id;
+  } else {
+    const createAudience = await fetch('https://api.resend.com/audiences', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: 'OldNews Subscribers' }),
+    });
+    if (!createAudience.ok) {
+      throw new Error(`Failed to create audience: ${createAudience.status}`);
+    }
+    const newAudience = await createAudience.json();
+    cachedAudienceId = newAudience.id;
+  }
+
+  return cachedAudienceId;
+}
+
 export default async function handler(req, res) {
   // CORS - restrict to our domain (allow all in development)
   const allowedOrigins = ['https://oldnews.io', 'https://www.oldnews.io'];
@@ -18,6 +79,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  // Rate limiting
+  const clientIp = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || 'unknown';
+  if (isRateLimited(clientIp)) {
+    return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+  }
+
   if (!process.env.RESEND_API_KEY) {
     console.error('RESEND_API_KEY is not configured');
     return res.status(500).json({ error: 'Server configuration error' });
@@ -30,51 +97,21 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Invalid email' });
   }
 
-  // Validate stories is an array if provided
-  const storyList = Array.isArray(stories) ? stories : [];
+  // Validate stories is an array if provided, limit size
+  const storyList = Array.isArray(stories)
+    ? stories.slice(0, 20).map(s => typeof s === 'string' ? s.slice(0, 200) : '')
+    : [];
+
+  const apiKey = process.env.RESEND_API_KEY;
 
   try {
-    // Add contact to Resend audience
-    const audienceResponse = await fetch('https://api.resend.com/audiences', {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-      },
-    });
-
-    if (!audienceResponse.ok) {
-      console.error('Failed to fetch audiences:', audienceResponse.status);
-      return res.status(500).json({ error: 'Server error' });
-    }
-
-    const audiences = await audienceResponse.json();
-
-    // Use first audience or create one
-    let audienceId;
-    if (audiences.data && audiences.data.length > 0) {
-      audienceId = audiences.data[0].id;
-    } else {
-      const createAudience = await fetch('https://api.resend.com/audiences', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: 'OldNews Subscribers' }),
-      });
-      if (!createAudience.ok) {
-        console.error('Failed to create audience:', createAudience.status);
-        return res.status(500).json({ error: 'Server error' });
-      }
-      const newAudience = await createAudience.json();
-      audienceId = newAudience.id;
-    }
+    const audienceId = await getOrCreateAudienceId(apiKey);
 
     // Add contact
     const contactResponse = await fetch(`https://api.resend.com/audiences/${audienceId}/contacts`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -99,7 +136,7 @@ export default async function handler(req, res) {
     const emailResponse = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+        'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

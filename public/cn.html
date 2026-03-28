@@ -854,6 +854,13 @@
     font-weight: 700;
   }
 
+  /* ═══ REDUCED MOTION ═══ */
+  @media (prefers-reduced-motion: reduce) {
+    .news-card, .how-step, .tl-invite { opacity: 1; transform: none; transition: none; }
+    .tl-content { animation: none; }
+    .overlay .success { animation: none; }
+  }
+
   /* ═══ RESPONSIVE ═══ */
   @media (max-width: 600px) {
     .how-steps { flex-direction: column; }
@@ -1259,6 +1266,11 @@ try {
   }
 } catch(e) {}
 
+// Check if already subscribed
+try {
+  if (localStorage.getItem('oldnews_subscribed_cn')) disableAllForms();
+} catch(e) {}
+
 function toggle(card) {
   const title = card.dataset.title;
   const btnText = card.querySelector('.track-btn-text');
@@ -1378,6 +1390,11 @@ function showSuccess() {
   document.getElementById('overlay').classList.add('visible');
   document.getElementById('bottomBar').classList.remove('visible');
   // Disable all forms after successful signup
+  disableAllForms();
+  try { localStorage.setItem('oldnews_subscribed_cn', '1'); } catch(e) {}
+}
+
+function disableAllForms() {
   document.querySelectorAll('.hero-cta-form button, .cta-form button, .bar-form button').forEach(btn => {
     btn.disabled = true;
     btn.textContent = '✓ 已订阅';
