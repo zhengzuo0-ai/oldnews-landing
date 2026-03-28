@@ -1145,6 +1145,39 @@ document.querySelectorAll('.news-card, .how-step, .tl-invite').forEach(el => rev
 }
 </script>
 
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is OldNews different from Google Alerts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google Alerts triggers on keywords. OldNews uses AI to judge whether there's actual progress — not just the same story republished by a different outlet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often will I get emails from OldNews?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At most once a day, in the morning. If none of your stories have updates, we don't send anything."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is OldNews really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We're building in public and want early feedback. A paid tier with custom tracking is coming later."
+      }
+    }
+  ]
+}
+</script>
+
 <!-- Vercel Web Analytics -->
 <script defer src="/_vercel/insights/script.js"></script>
 
