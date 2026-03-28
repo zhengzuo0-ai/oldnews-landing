@@ -65,6 +65,9 @@ export default async function handler(req, res) {
   const origin = req.headers.origin;
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
+  } else if (origin && origin.endsWith('.vercel.app')) {
+    // Allow Vercel preview/staging deployments
+    res.setHeader('Access-Control-Allow-Origin', origin);
   } else if (process.env.VERCEL_ENV !== 'production') {
     res.setHeader('Access-Control-Allow-Origin', '*');
   }
