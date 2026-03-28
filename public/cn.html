@@ -673,6 +673,10 @@
     margin-bottom: 6px;
   }
   .footer-logo span { color: var(--gold); }
+  .footer-logo-cn {
+    font-family: 'Noto Serif SC', serif; font-size: 12px;
+    color: var(--text-light) !important; letter-spacing: 2px; margin-left: 6px;
+  }
   .footer p { font-size: 12px; color: var(--text-light); }
   .footer a { color: var(--text-faint); text-decoration: none; }
   .footer { padding-bottom: 80px; }
@@ -795,6 +799,8 @@
     color: #b8c4c8;
     padding: 3px 0 3px 14px;
     position: relative;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
   .tracked-list-item::before {
     content: '→';
@@ -815,6 +821,7 @@
     font-size: 12px;
     cursor: pointer;
   }
+  .success-note { color: var(--text-light); font-size: 11px; }
   .close-btn:hover { border-color: var(--text-light); color: #e8e0d4; }
 
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
@@ -1225,7 +1232,7 @@
 
 <!-- ═══ FOOTER ═══ -->
 <footer class="footer" role="contentinfo">
-  <div class="footer-logo">old<span>news</span> <span style="font-family:'Noto Serif SC',serif; font-size:12px; color:var(--text-light); letter-spacing:2px; margin-left:6px;">旧闻</span></div>
+  <div class="footer-logo">old<span>news</span> <span class="footer-logo-cn">旧闻</span></div>
   <p>好奇心 + AI。你的数据很安全——我们只发你关心的更新。</p>
 </footer>
 
@@ -1248,7 +1255,7 @@
       <div class="tracked-list-title">👀 你在盯着</div>
       <div id="trackedItems"></div>
     </div>
-    <p style="color:#7a8a8e; font-size:11px;">每天早上还会有 10 条新的给你挑。</p>
+    <p class="success-note">每天早上还会有 10 条新的给你挑。</p>
     <button class="close-btn" onclick="document.getElementById('overlay').classList.remove('visible')">知道了</button>
   </div>
 </div>
