@@ -34,7 +34,7 @@
 <!-- Preconnect for faster font loading -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@300;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&family=Noto+Serif+SC:wght@300;500;600&display=swap">
 <style>
 
   :root {
@@ -1568,6 +1568,13 @@ function toggleTimeline() {
   content.classList.toggle('visible');
   toggle.classList.toggle('open');
   toggle.setAttribute('aria-expanded', content.classList.contains('visible'));
+}
+
+// Hide scroll hint after first scroll
+const scrollHint = document.querySelector('.hero-scroll-hint');
+if (scrollHint) {
+  const hideHint = () => { scrollHint.style.opacity = '0'; window.removeEventListener('scroll', hideHint); };
+  window.addEventListener('scroll', hideHint, { passive: true });
 }
 
 // Sync email across all inputs
