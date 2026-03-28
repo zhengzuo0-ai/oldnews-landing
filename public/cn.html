@@ -1496,6 +1496,8 @@ function disableAllForms() {
   document.querySelectorAll('.hero-cta-form input, .cta-form input, .bar-form input').forEach(input => {
     input.disabled = true;
   });
+  document.getElementById('bottomBar').classList.remove('visible');
+  document.getElementById('headerCta').classList.remove('visible');
 }
 
 function toggleTimeline() {
