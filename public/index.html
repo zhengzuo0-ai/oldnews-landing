@@ -50,7 +50,10 @@
     --text-mid: #6a7a7e;
     --text-light: #8a9a9e;
     --text-faint: #a8b4b8;
+    --text-cream: #e8e0d4;
     --red: #c4453a;
+    --red-dim: rgba(196, 69, 58, 0.1);
+    --separator: var(--separator);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -89,7 +92,7 @@
     font-family: 'Fraunces', serif;
     font-size: 22px;
     font-weight: 700;
-    color: #e8e0d4;
+    color: var(--text-cream);
     letter-spacing: -0.5px;
   }
   .header-logo span { color: var(--gold); }
@@ -105,7 +108,7 @@
     font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
     transition: all 0.2s;
   }
-  .lang-switch a:hover { color: #e8e0d4; }
+  .lang-switch a:hover { color: var(--text-cream); }
   .lang-switch a.active { background: var(--gold); color: var(--slate); font-weight: 700; }
   .tracking-count { font-size: 13px; color: var(--text-faint); }
   .tracking-count strong { color: var(--gold); font-size: 15px; }
@@ -134,7 +137,7 @@
   .hero h1 {
     font-family: 'Fraunces', serif;
     font-size: clamp(30px, 5.5vw, 48px);
-    font-weight: 300; color: #e8e0d4;
+    font-weight: 300; color: var(--text-cream);
     line-height: 1.2; margin-bottom: 16px;
   }
   .hero h1 em {
@@ -153,7 +156,7 @@
   .hero-cta-form input {
     flex: 1; padding: 14px 18px; border: 2px solid var(--slate-light);
     border-right: none; background: rgba(255,255,255,0.08);
-    color: #e8e0d4; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--text-cream); font-family: 'DM Sans', sans-serif; font-size: 14px;
     outline: none; border-radius: 7px 0 0 7px;
   }
   .hero-cta-form input::placeholder { color: var(--text-light); }
@@ -252,14 +255,14 @@
     background: var(--slate); border-radius: 10px 10px 0 0; padding: 18px 22px;
   }
   .tl-header-title {
-    font-family: 'Fraunces', serif; font-size: 16px; color: #e8e0d4; font-weight: 500; margin-bottom: 4px;
+    font-family: 'Fraunces', serif; font-size: 16px; color: var(--text-cream); font-weight: 500; margin-bottom: 4px;
   }
   .tl-header-meta { font-size: 11px; color: var(--text-light); }
   .tl-body {
     background: var(--card-bg); border: 1px solid var(--card-border);
     border-top: none; border-radius: 0 0 10px 10px; padding: 8px 22px 18px;
   }
-  .tl-entry { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f0ebe4; }
+  .tl-entry { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--separator); }
   .tl-entry:last-child { border-bottom: none; }
   .tl-date-col { flex-shrink: 0; width: 52px; text-align: right; padding-top: 2px; }
   .tl-date { font-size: 11px; font-weight: 700; color: var(--slate); line-height: 1.3; }
@@ -273,7 +276,7 @@
     display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
     padding: 2px 7px; border-radius: 3px; margin-bottom: 4px;
   }
-  .tl-tag.major { background: rgba(196,69,58,0.1); color: var(--red); }
+  .tl-tag.major { background: var(--red-dim); color: var(--red); }
   .tl-tag.minor { background: var(--gold-dim); color: var(--gold); }
 
   /* ═══ ONE-LINER ═══ */
@@ -281,7 +284,7 @@
   .oneliner p {
     font-family: 'Fraunces', serif;
     font-size: clamp(16px, 3vw, 21px); font-weight: 300;
-    color: #e8e0d4; max-width: 520px; margin: 0 auto; line-height: 1.7;
+    color: var(--text-cream); max-width: 520px; margin: 0 auto; line-height: 1.7;
   }
   .oneliner p em { font-style: normal; color: var(--gold); font-weight: 500; }
 
@@ -301,19 +304,19 @@
   }
   .email-mock-subject {
     font-family: 'Fraunces', serif; font-size: 14px; font-weight: 500;
-    color: #e8e0d4; margin-bottom: 2px;
+    color: var(--text-cream); margin-bottom: 2px;
   }
   .email-mock-from { font-size: 11px; color: var(--text-light); }
   .email-mock-body { padding: 16px 20px; }
   .email-mock-card {
-    padding: 14px 0; border-bottom: 1px solid #f0ebe4;
+    padding: 14px 0; border-bottom: 1px solid var(--separator);
   }
   .email-mock-card:last-child { border-bottom: none; }
   .email-mock-badge {
     display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
     padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; text-transform: uppercase;
   }
-  .email-mock-badge.big { background: rgba(196,69,58,0.1); color: var(--red); }
+  .email-mock-badge.big { background: var(--red-dim); color: var(--red); }
   .email-mock-badge.small { background: var(--gold-dim); color: var(--gold); }
   .email-mock-title {
     font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500;
@@ -377,7 +380,7 @@
   .footer { background: var(--slate); padding: 32px 24px; text-align: center; }
   .footer-logo {
     font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700;
-    color: #e8e0d4; margin-bottom: 6px;
+    color: var(--text-cream); margin-bottom: 6px;
   }
   .footer-logo span { color: var(--gold); }
   .footer p { font-size: 12px; color: var(--text-light); }
@@ -395,13 +398,13 @@
     z-index: 100; box-shadow: 0 -6px 30px rgba(0,0,0,0.15);
   }
   .bottom-bar.visible { transform: translateY(0); }
-  .bar-text { font-size: 14px; color: #e8e0d4; }
+  .bar-text { font-size: 14px; color: var(--text-cream); }
   .bar-text strong { color: var(--gold); }
   .bar-form { display: flex; gap: 0; }
   .bar-form input {
     padding: 10px 14px; border: 1.5px solid var(--slate-light);
     border-right: none; background: rgba(255,255,255,0.05);
-    color: #e8e0d4; font-family: 'DM Sans', sans-serif; font-size: 13px;
+    color: var(--text-cream); font-family: 'DM Sans', sans-serif; font-size: 13px;
     border-radius: 5px 0 0 5px; outline: none; width: 200px;
   }
   .bar-form input:focus { border-color: var(--gold); }
@@ -433,7 +436,7 @@
     display: flex; align-items: center; justify-content: center;
     margin: 0 auto 16px; font-size: 24px; color: var(--slate);
   }
-  .success h2 { font-family: 'Fraunces', serif; font-size: 22px; color: #e8e0d4; margin-bottom: 10px; }
+  .success h2 { font-family: 'Fraunces', serif; font-size: 22px; color: var(--text-cream); margin-bottom: 10px; }
   .success p { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 6px; }
   .tracked-list {
     text-align: left; margin: 16px 0; padding: 14px;
@@ -455,7 +458,7 @@
     border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer;
   }
   .success-note { color: var(--text-light); font-size: 11px; }
-  .close-btn:hover { border-color: var(--text-light); color: #e8e0d4; }
+  .close-btn:hover { border-color: var(--text-light); color: var(--text-cream); }
 
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 

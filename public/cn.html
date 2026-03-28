@@ -50,8 +50,10 @@
     --text-mid: #6a7a7e;
     --text-light: #8a9a9e;
     --text-faint: #a8b4b8;
+    --text-cream: #e8e0d4;
     --red: #c4453a;
-
+    --red-dim: rgba(196, 69, 58, 0.1);
+    --separator: var(--separator);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -90,7 +92,7 @@
     font-family: 'Fraunces', serif;
     font-size: 22px;
     font-weight: 700;
-    color: #e8e0d4;
+    color: var(--text-cream);
     letter-spacing: -0.5px;
   }
   .header-logo span { color: var(--gold); }
@@ -161,7 +163,7 @@
     font-family: 'Noto Serif SC', serif;
     font-size: clamp(26px, 5vw, 42px);
     font-weight: 300;
-    color: #e8e0d4;
+    color: var(--text-cream);
     line-height: 1.4;
     margin-bottom: 14px;
   }
@@ -189,7 +191,7 @@
   .hero-cta-form input {
     flex: 1; padding: 14px 18px; border: 2px solid var(--slate-light);
     border-right: none; background: rgba(255,255,255,0.08);
-    color: #e8e0d4; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    color: var(--text-cream); font-family: 'DM Sans', sans-serif; font-size: 14px;
     outline: none; border-radius: 7px 0 0 7px;
   }
   .hero-cta-form input::placeholder { color: var(--text-light); }
@@ -410,7 +412,7 @@
   .tl-header-title {
     font-family: 'Noto Serif SC', serif;
     font-size: 16px;
-    color: #e8e0d4;
+    color: var(--text-cream);
     font-weight: 500;
     margin-bottom: 4px;
   }
@@ -433,7 +435,7 @@
     display: flex;
     gap: 14px;
     padding: 14px 0;
-    border-bottom: 1px solid #f0ebe4;
+    border-bottom: 1px solid var(--separator);
   }
   .tl-entry:last-child { border-bottom: none; }
 
@@ -492,7 +494,7 @@
     margin-bottom: 4px;
     font-family: 'DM Sans', sans-serif;
   }
-  .tl-tag.major { background: rgba(196,69,58,0.1); color: var(--red); }
+  .tl-tag.major { background: var(--red-dim); color: var(--red); }
   .tl-tag.minor { background: var(--gold-dim); color: var(--gold); }
 
   /* ═══ ONE-LINER ═══ */
@@ -506,7 +508,7 @@
     font-family: 'Noto Serif SC', serif;
     font-size: clamp(16px, 3vw, 21px);
     font-weight: 300;
-    color: #e8e0d4;
+    color: var(--text-cream);
     max-width: 520px;
     margin: 0 auto;
     line-height: 1.7;
@@ -533,19 +535,19 @@
   }
   .email-mock-subject {
     font-family: 'Noto Serif SC', serif; font-size: 14px; font-weight: 500;
-    color: #e8e0d4; margin-bottom: 2px;
+    color: var(--text-cream); margin-bottom: 2px;
   }
   .email-mock-from { font-size: 11px; color: var(--text-light); }
   .email-mock-body { padding: 16px 20px; }
   .email-mock-card {
-    padding: 14px 0; border-bottom: 1px solid #f0ebe4;
+    padding: 14px 0; border-bottom: 1px solid var(--separator);
   }
   .email-mock-card:last-child { border-bottom: none; }
   .email-mock-badge {
     display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
     padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; text-transform: uppercase;
   }
-  .email-mock-badge.big { background: rgba(196,69,58,0.1); color: var(--red); }
+  .email-mock-badge.big { background: var(--red-dim); color: var(--red); }
   .email-mock-badge.small { background: var(--gold-dim); color: var(--gold); }
   .email-mock-title {
     font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 500;
@@ -669,7 +671,7 @@
   .footer-logo {
     font-family: 'Fraunces', serif;
     font-size: 18px; font-weight: 700;
-    color: #e8e0d4;
+    color: var(--text-cream);
     margin-bottom: 6px;
   }
   .footer-logo span { color: var(--gold); }
@@ -699,7 +701,7 @@
   }
   .bottom-bar.visible { transform: translateY(0); }
 
-  .bar-text { font-size: 14px; color: #e8e0d4; }
+  .bar-text { font-size: 14px; color: var(--text-cream); }
   .bar-text strong { color: var(--gold); }
 
   .bar-form { display: flex; gap: 0; }
@@ -708,7 +710,7 @@
     border: 1.5px solid var(--slate-light);
     border-right: none;
     background: rgba(255,255,255,0.05);
-    color: #e8e0d4;
+    color: var(--text-cream);
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     border-radius: 5px 0 0 5px;
@@ -770,7 +772,7 @@
   .success h2 {
     font-family: 'Noto Serif SC', serif;
     font-size: 22px;
-    color: #e8e0d4;
+    color: var(--text-cream);
     margin-bottom: 10px;
   }
 
@@ -822,7 +824,7 @@
     cursor: pointer;
   }
   .success-note { color: var(--text-light); font-size: 11px; }
-  .close-btn:hover { border-color: var(--text-light); color: #e8e0d4; }
+  .close-btn:hover { border-color: var(--text-light); color: var(--text-cream); }
 
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 
@@ -861,7 +863,7 @@
     font-size: 13px;
     font-weight: 500;
   }
-  .lang-switch a:hover { color: #e8e0d4; }
+  .lang-switch a:hover { color: var(--text-cream); }
   .lang-switch a.active {
     background: var(--gold);
     color: var(--slate);
