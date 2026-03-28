@@ -104,6 +104,7 @@ export default async function handler(req, res) {
   if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'Invalid email' });
   }
+  const normalizedEmail = email.toLowerCase().trim();
 
   // Validate stories is an array if provided, limit size
   const storyList = Array.isArray(stories)
@@ -123,7 +124,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: email,
+        email: normalizedEmail,
         unsubscribed: false,
         first_name: lang === 'cn' ? 'cn' : 'en',
         last_name: storyList.length > 0
@@ -151,7 +152,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         from: process.env.RESEND_FROM_EMAIL || 'OldNews <onboarding@resend.dev>',
-        to: email,
+        to: normalizedEmail,
         subject: lang === 'cn'
           ? '👀 欢迎加入旧闻'
           : '👀 Welcome to OldNews',
