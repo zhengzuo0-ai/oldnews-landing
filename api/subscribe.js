@@ -120,8 +120,10 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         email: email,
         unsubscribed: false,
-        first_name: '',
-        last_name: '',
+        first_name: lang === 'cn' ? 'cn' : 'en',
+        last_name: storyList.length > 0
+          ? storyList.map(s => s.slice(0, 40)).join(' | ').slice(0, 200)
+          : '',
       }),
     });
 
