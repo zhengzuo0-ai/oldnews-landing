@@ -6,6 +6,7 @@
     <lastmod>2026-03-28</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://oldnews.io/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://oldnews.io/cn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://oldnews.io/"/>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -14,6 +15,7 @@
     <lastmod>2026-03-28</lastmod>
     <xhtml:link rel="alternate" hreflang="en" href="https://oldnews.io/"/>
     <xhtml:link rel="alternate" hreflang="zh" href="https://oldnews.io/cn"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://oldnews.io/"/>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
