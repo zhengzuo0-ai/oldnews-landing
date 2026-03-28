@@ -952,12 +952,13 @@ try {
   }
 } catch(e) {}
 
+let hasSubscribed = false;
+
 // Check if already subscribed
 try {
   if (localStorage.getItem('oldnews_subscribed')) { hasSubscribed = true; disableAllForms(); }
 } catch(e) {}
 
-let hasSubscribed = false;
 function toggle(card) {
   if (hasSubscribed) return;
   const title = card.dataset.title;
