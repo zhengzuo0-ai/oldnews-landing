@@ -280,6 +280,43 @@
   }
   .oneliner p em { font-style: normal; color: var(--gold); font-weight: 500; }
 
+  /* ═══ EMAIL PREVIEW ═══ */
+  .email-preview { max-width: 660px; margin: 0 auto; padding: 40px 24px 16px; }
+  .email-preview-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .email-mock {
+    background: var(--card-bg); border: 2px solid var(--card-border);
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .email-mock-header {
+    background: var(--slate); padding: 14px 20px;
+  }
+  .email-mock-subject {
+    font-family: 'Fraunces', serif; font-size: 14px; font-weight: 500;
+    color: #e8e0d4; margin-bottom: 2px;
+  }
+  .email-mock-from { font-size: 11px; color: var(--text-light); }
+  .email-mock-body { padding: 16px 20px; }
+  .email-mock-card {
+    padding: 14px 0; border-bottom: 1px solid #f0ebe4;
+  }
+  .email-mock-card:last-child { border-bottom: none; }
+  .email-mock-badge {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; text-transform: uppercase;
+  }
+  .email-mock-badge.big { background: rgba(196,69,58,0.1); color: var(--red); }
+  .email-mock-badge.small { background: var(--gold-dim); color: var(--gold); }
+  .email-mock-title {
+    font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 4px;
+  }
+  .email-mock-text { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .email-mock-meta { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
+
   /* ═══ HOW ═══ */
   .how { max-width: 660px; margin: 0 auto; padding: 40px 24px; }
   .how-label {
@@ -340,6 +377,7 @@
   .footer-logo span { color: var(--gold); }
   .footer p { font-size: 12px; color: var(--text-light); }
   .footer a { color: var(--text-faint); text-decoration: none; }
+  .footer { padding-bottom: 80px; }
 
   /* ═══ STICKY BAR ═══ */
   .bottom-bar {
@@ -521,14 +559,13 @@
 <section class="hero">
   <div class="date-badge" id="dateBadge"></div>
   <h1>Headlines fade.<br><em>Stories don't.</em></h1>
-  <p>You've felt it before:<br>a story dominates the news for three days, then disappears.<br>We keep watching. When something changes, we tell you.</p>
+  <p>A story dominates the news for three days, then vanishes.<br>But the lawsuit, the vote, the deal — it keeps going.<br>We watch it for you. When something moves, you'll know.</p>
   <div class="hero-form">
     <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
       <input type="email" id="emailHero" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
       <button type="submit">Start watching — free</button>
     </form>
-    <div class="hero-form-note">A free daily email. Pick stories below, or just subscribe.</div>
-    <div class="hero-social-proof">Join curious readers who don't let stories disappear.</div>
+    <div class="hero-form-note">A free daily email, every morning. Pick stories to watch, or just subscribe.</div>
   </div>
   <div class="hero-tagline">The news gets old. The story keeps going.</div>
 </section>
@@ -716,6 +753,30 @@
   <p>We don't ping you for every keyword match.<br>Only when the story <em>actually moves forward</em>.</p>
 </section>
 
+<section class="email-preview">
+  <div class="email-preview-label">Here's what your morning email looks like</div>
+  <div class="email-mock">
+    <div class="email-mock-header">
+      <div class="email-mock-subject">OldNews 3.1 &nbsp;|&nbsp; Boeing case moves forward</div>
+      <div class="email-mock-from">from: hello@oldnews.io</div>
+    </div>
+    <div class="email-mock-body">
+      <div class="email-mock-card">
+        <div class="email-mock-badge big">Big move</div>
+        <div class="email-mock-title">Boeing 737 MAX</div>
+        <div class="email-mock-text">Federal judge rejects $2.44B plea deal, calls penalty inadequate. Boeing now faces full criminal trial or renegotiation. Families of the 346 victims had pushed for rejection.</div>
+        <div class="email-mock-meta">Tracking for 47 days · 3 updates</div>
+      </div>
+      <div class="email-mock-card">
+        <div class="email-mock-badge small">Small move</div>
+        <div class="email-mock-title">TikTok sale</div>
+        <div class="email-mock-text">ByteDance confirms "preliminary conversations" with two US-based consortiums. No formal due diligence yet. April 5 deadline looms.</div>
+        <div class="email-mock-meta">Tracking for 22 days · 5 updates</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="how">
   <div class="how-label">How it works</div>
   <h2 class="how-title">Dead simple.</h2>
@@ -736,7 +797,7 @@
 </section>
 
 <section class="bottom-cta">
-  <h2>Every story has a next chapter.<br>No one tells you what it is.</h2>
+  <h2>Every story has a next chapter.<br>We'll tell you what it is.</h2>
   <p>Free. One email a day. Unsubscribe anytime.</p>
   <form class="cta-form" onsubmit="event.preventDefault(); submitFromBottom()">
     <input type="email" id="emailBottom" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
@@ -746,7 +807,7 @@
 
 <footer class="footer" role="contentinfo">
   <div class="footer-logo">old<span>news</span></div>
-  <p>Curiosity + AI. <a href="#">About</a> · <a href="#">Privacy</a></p>
+  <p>Curiosity + AI. Your data stays safe — we only send updates you asked for.</p>
 </footer>
 
 <div class="bottom-bar" id="bottomBar">
@@ -861,14 +922,15 @@ async function submitToAPI(email, sourceBtn) {
 }
 
 function showInlineError(nearBtn, msg) {
-  const parent = nearBtn ? nearBtn.closest('form, .bar-form, .cta-form, .hero-cta-form') : document.querySelector('.hero-cta-form');
+  const parent = nearBtn ? nearBtn.closest('form') : document.querySelector('.hero-cta-form');
   if (!parent) return;
-  const existing = parent.parentElement.querySelector('.inline-error');
+  const container = parent.parentElement;
+  const existing = container.querySelector('.inline-error');
   if (existing) existing.remove();
   const el = document.createElement('div');
   el.className = 'inline-error';
   el.textContent = msg;
-  parent.parentElement.appendChild(el);
+  parent.insertAdjacentElement('afterend', el);
   setTimeout(() => el.remove(), 4000);
 }
 

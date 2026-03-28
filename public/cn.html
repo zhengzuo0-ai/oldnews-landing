@@ -31,7 +31,7 @@
 <!-- Preconnect for faster font loading -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@300;500;600&display=swap">
 <style>
 
   :root {
@@ -68,7 +68,7 @@
   .skip-link:focus { top: 0; }
 
   body {
-    font-family: 'DM Sans', 'Noto Serif SC', serif;
+    font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     background: var(--cream);
     color: var(--text-dark);
     -webkit-font-smoothing: antialiased;
@@ -135,6 +135,7 @@
   }
   .header-cta.visible { display: block; }
   .header-cta:hover { background: var(--gold-hover); }
+  .header-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   /* ═══ HERO ═══ */
   .hero {
@@ -324,22 +325,6 @@
     padding: 16px 24px 48px;
   }
 
-  .tl-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 14px 0;
-    border-top: 1px solid var(--cream-dark);
-  }
-
-  .tl-toggle-arrow {
-    font-size: 12px;
-    color: var(--gold);
-    transition: transform 0.3s;
-  }
-  .tl-toggle.open .tl-toggle-arrow { transform: rotate(90deg); }
-
   .tl-invite {
     background: var(--gold);
     border-radius: 10px;
@@ -527,6 +512,43 @@
     font-weight: 500;
   }
 
+  /* ═══ EMAIL PREVIEW ═══ */
+  .email-preview { max-width: 660px; margin: 0 auto; padding: 40px 24px 16px; }
+  .email-preview-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .email-mock {
+    background: var(--card-bg); border: 2px solid var(--card-border);
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .email-mock-header {
+    background: var(--slate); padding: 14px 20px;
+  }
+  .email-mock-subject {
+    font-family: 'Noto Serif SC', serif; font-size: 14px; font-weight: 500;
+    color: #e8e0d4; margin-bottom: 2px;
+  }
+  .email-mock-from { font-size: 11px; color: var(--text-light); }
+  .email-mock-body { padding: 16px 20px; }
+  .email-mock-card {
+    padding: 14px 0; border-bottom: 1px solid #f0ebe4;
+  }
+  .email-mock-card:last-child { border-bottom: none; }
+  .email-mock-badge {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; text-transform: uppercase;
+  }
+  .email-mock-badge.big { background: rgba(196,69,58,0.1); color: var(--red); }
+  .email-mock-badge.small { background: var(--gold-dim); color: var(--gold); }
+  .email-mock-title {
+    font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 4px;
+  }
+  .email-mock-text { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .email-mock-meta { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
+
   /* ═══ HOW ═══ */
   .how {
     max-width: 660px;
@@ -560,9 +582,6 @@
     text-align: center;
   }
   .how-step:last-child { border-right: none; }
-
-  .step-icon { display: none; }
-  .step-num { display: none; }
 
   .step-text h3 {
     font-family: 'Noto Serif SC', serif;
@@ -651,6 +670,7 @@
   .footer-logo span { color: var(--gold); }
   .footer p { font-size: 12px; color: var(--text-light); }
   .footer a { color: var(--text-faint); text-decoration: none; }
+  .footer { padding-bottom: 80px; }
 
   /* ═══ STICKY BAR ═══ */
   .bottom-bar {
@@ -935,10 +955,9 @@
   <div class="hero-form">
     <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
       <input type="email" id="emailHero" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
-      <button type="submit">开始盯着 — 免费</button>
+      <button type="submit">免费开始盯着</button>
     </form>
-    <div class="hero-form-note">每天一封免费邮件。下面选故事，或者直接订阅。</div>
-    <div class="hero-social-proof">加入不让故事消失的好奇读者。</div>
+    <div class="hero-form-note">每天早上一封免费邮件。选故事盯着，或者直接订阅。</div>
   </div>
   <div class="hero-tagline">新闻在变旧，事情仍然在发展。</div>
 </section>
@@ -1128,6 +1147,30 @@
   <p>我们不会因为出现了某个关键词就推给你。<br>只有事情<em>真的往前走了一步</em>，才会告诉你。</p>
 </section>
 
+<section class="email-preview">
+  <div class="email-preview-label">你每天早上收到的邮件长这样</div>
+  <div class="email-mock">
+    <div class="email-mock-header">
+      <div class="email-mock-subject">旧闻 3.1 &nbsp;|&nbsp; 波音的事又有动静了</div>
+      <div class="email-mock-from">from: hello@oldnews.io</div>
+    </div>
+    <div class="email-mock-body">
+      <div class="email-mock-card">
+        <div class="email-mock-badge big">大动静</div>
+        <div class="email-mock-title">波音 737 MAX</div>
+        <div class="email-mock-text">联邦法官驳回 24.4 亿美元的认罪协议，称罚款与 346 条生命不匹配。波音面临全面刑事审判或重新谈判。</div>
+        <div class="email-mock-meta">已盯 47 天 · 3 次更新</div>
+      </div>
+      <div class="email-mock-card">
+        <div class="email-mock-badge small">小动静</div>
+        <div class="email-mock-title">TikTok 出售</div>
+        <div class="email-mock-text">字节跳动确认与两个美国财团进行"初步对话"。尚未进入正式尽调。4月5日截止日逼近。</div>
+        <div class="email-mock-meta">已盯 22 天 · 5 次更新</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ HOW ═══ -->
 <section class="how">
   <div class="how-label">HOW IT WORKS</div>
@@ -1167,7 +1210,7 @@
 <!-- ═══ FOOTER ═══ -->
 <footer class="footer" role="contentinfo">
   <div class="footer-logo">old<span>news</span> <span style="font-family:'Noto Serif SC',serif; font-size:12px; color:var(--text-light); letter-spacing:2px; margin-left:6px;">旧闻</span></div>
-  <p>好奇心 + AI。 <a href="#">关于我们</a> · <a href="#">隐私</a></p>
+  <p>好奇心 + AI。你的数据很安全——我们只发你关心的更新。</p>
 </footer>
 
 <!-- ═══ STICKY BAR ═══ -->
@@ -1285,14 +1328,15 @@ async function submitToAPI(email, sourceBtn) {
 }
 
 function showInlineError(nearBtn, msg) {
-  const parent = nearBtn ? nearBtn.closest('form, .bar-form, .cta-form, .hero-cta-form') : document.querySelector('.hero-cta-form');
+  const parent = nearBtn ? nearBtn.closest('form') : document.querySelector('.hero-cta-form');
   if (!parent) return;
-  const existing = parent.parentElement.querySelector('.inline-error');
+  const container = parent.parentElement;
+  const existing = container.querySelector('.inline-error');
   if (existing) existing.remove();
   const el = document.createElement('div');
   el.className = 'inline-error';
   el.textContent = msg;
-  parent.parentElement.appendChild(el);
+  parent.insertAdjacentElement('afterend', el);
   setTimeout(() => el.remove(), 4000);
 }
 
