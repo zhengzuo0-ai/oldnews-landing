@@ -844,6 +844,7 @@
 
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 
+  .ohnoh { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; overflow: hidden; }
   .inline-error {
     font-size: 12px; color: var(--red); margin-top: 8px;
     text-align: center; animation: fadeSlide 0.3s ease;
@@ -1001,6 +1002,7 @@
   <div class="hero-form">
     <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
       <input type="email" id="emailHero" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+      <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit">免费订阅 →</button>
     </form>
     <div class="hero-form-note">每天早上一封免费邮件。选故事盯着，或者直接订阅。</div>
@@ -1267,6 +1269,7 @@
   <p>免费。每天一封。没动静不发。随时退。</p>
   <form class="cta-form" onsubmit="event.preventDefault(); submitFromBottom()">
     <input type="email" id="emailBottom" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+    <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
     <button type="submit">留下邮箱</button>
   </form>
 </section>
@@ -1282,6 +1285,7 @@
   <div class="bar-text">选了 <strong id="barCount">0</strong> 条让我们盯着，留个邮箱就行</div>
   <form class="bar-form" onsubmit="event.preventDefault(); submitEmail()">
     <input type="email" id="barEmail" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+    <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
     <button type="submit">搞定 →</button>
   </form>
 </div>
@@ -1377,9 +1381,15 @@ function setLoading(btn, loading) {
   btn.style.opacity = loading ? '0.7' : '1';
 }
 
+function checkHoneypot(form) {
+  const hp = form ? form.querySelector('.ohnoh') : null;
+  return hp && hp.value;
+}
+
 let isSubmitting = false;
 async function submitToAPI(email, sourceBtn) {
   if (isSubmitting) return;
+  if (checkHoneypot(sourceBtn?.closest('form'))) return;
   isSubmitting = true;
   if (sourceBtn) setLoading(sourceBtn, true);
   try {
