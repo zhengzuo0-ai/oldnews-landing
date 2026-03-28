@@ -1326,6 +1326,7 @@ function toggle(card) {
     card.classList.add('tracked');
     btnText.textContent = '盯着了';
     tracked.push(title);
+    trackEvent('story_watch', { title: title.slice(0, 50), count: tracked.length });
     card.style.transform = 'scale(1.01)';
     setTimeout(() => card.style.transform = '', 150);
   }
@@ -1339,6 +1340,10 @@ function updateUI() {
   document.getElementById('bottomBar').classList.toggle('visible', n > 0);
   document.getElementById('headerCta').classList.toggle('visible', n > 0);
   try { localStorage.setItem('oldnews_tracked_cn', JSON.stringify(tracked)); } catch(e) {}
+}
+
+function trackEvent(name, data) {
+  try { window.va?.track(name, data); } catch(e) {}
 }
 
 function submitHero() {
@@ -1371,6 +1376,7 @@ async function submitToAPI(email, sourceBtn) {
       body: JSON.stringify({ email, stories: tracked, lang: 'cn' })
     });
     if (res.ok) {
+      trackEvent('subscribe', { stories: tracked.length });
       showSuccess();
     } else {
       showInlineError(sourceBtn, '出了点问题，请重试。');
