@@ -141,6 +141,30 @@
     font-size: 15px; color: var(--text-light);
     max-width: 460px; margin: 0 auto; line-height: 1.7;
   }
+  .hero-form { margin-top: 28px; }
+  .hero-cta-form {
+    display: flex; gap: 0; max-width: 400px; margin: 0 auto;
+    border-radius: 7px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .hero-cta-form input {
+    flex: 1; padding: 14px 18px; border: 2px solid var(--slate-light);
+    border-right: none; background: rgba(255,255,255,0.08);
+    color: #e8e0d4; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; border-radius: 7px 0 0 7px;
+  }
+  .hero-cta-form input::placeholder { color: var(--text-light); }
+  .hero-cta-form input:focus { border-color: var(--gold); }
+  .hero-cta-form button {
+    padding: 14px 22px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    border: 2px solid var(--gold); border-radius: 0 7px 7px 0;
+    cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .hero-cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+  .hero-form-note {
+    font-size: 12px; color: var(--text-light); margin-top: 10px; opacity: 0.7;
+  }
   .hero-tagline {
     font-family: 'Fraunces', serif;
     font-size: 13px; color: var(--gold);
@@ -269,68 +293,6 @@
     color: var(--gold); margin-bottom: 6px;
   }
   .how-step p { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
-  @media (max-width: 600px) {
-    .how-steps { flex-direction: column; }
-    .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
-    .how-step:last-child { border-bottom: none; }
-
-    /* Header */
-    .header { padding: 12px 16px; }
-    .header-right { gap: 8px; }
-    .header-logo { font-size: 18px; }
-    .tracking-count { display: none; }
-    .header-cta { font-size: 11px; padding: 6px 12px; }
-    .lang-switch a { padding: 4px 8px; font-size: 12px; }
-
-    /* Hero */
-    .hero { padding: 36px 20px 42px; }
-    .hero h1 { font-size: 28px; }
-    .hero p { font-size: 14px; }
-    .hero-tagline { font-size: 12px; }
-
-    /* Feed */
-    .feed { padding: 24px 16px 12px; }
-    .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
-    .news-title { font-size: 15px; }
-    .track-btn { align-self: flex-start; }
-
-    /* Timeline invite */
-    .tl-invite { padding: 18px 18px; gap: 12px; }
-    .tl-invite-emoji { font-size: 22px; }
-    .tl-invite-title { font-size: 14px; }
-    .timeline-section { padding: 12px 16px 36px; }
-
-    /* Timeline entries */
-    .tl-date-col { width: 40px; }
-    .tl-date { font-size: 10px; }
-    .tl-text { font-size: 12px; }
-    .tl-body { padding: 6px 16px 14px; }
-
-    /* One-liner */
-    .oneliner { padding: 36px 20px; }
-    .oneliner p { font-size: 16px; }
-
-    /* How */
-    .how { padding: 32px 16px; }
-    .how-title { font-size: 20px; }
-
-    /* Bottom CTA */
-    .bottom-cta { padding: 40px 20px; }
-    .bottom-cta h2 { font-size: 19px; }
-    .cta-form { flex-direction: column; }
-    .cta-form input { border-right: 2px solid var(--card-border); border-radius: 7px 7px 0 0; border-bottom: none; }
-    .cta-form button { border-radius: 0 0 7px 7px; }
-
-    /* Sticky bar */
-    .bottom-bar { flex-direction: column; gap: 8px; padding: 12px 16px; }
-    .bar-text { font-size: 13px; }
-    .bar-form { width: 100%; }
-    .bar-form input { flex: 1; width: auto; }
-
-    /* Success overlay */
-    .success { padding: 32px 24px; }
-    .success h2 { font-size: 20px; }
-  }
 
   /* ═══ BOTTOM CTA ═══ */
   .bottom-cta { background: var(--cream-dark); padding: 56px 24px; text-align: center; }
@@ -441,6 +403,11 @@
 
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 
+  .inline-error {
+    font-size: 12px; color: var(--red); margin-top: 8px;
+    text-align: center; animation: fadeSlide 0.3s ease;
+  }
+
   /* Scroll reveal animation */
   .news-card, .how-step, .tl-invite {
     opacity: 0;
@@ -452,10 +419,81 @@
     transform: translateY(0);
   }
 
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .how-steps { flex-direction: column; }
+    .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
+    .how-step:last-child { border-bottom: none; }
+
+    /* Header */
+    .header { padding: 12px 16px; }
+    .header-right { gap: 8px; }
+    .header-logo { font-size: 18px; }
+    .tracking-count { display: none; }
+    .header-cta { font-size: 11px; padding: 6px 12px; }
+    .lang-switch a { padding: 4px 8px; font-size: 12px; }
+
+    /* Hero */
+    .hero { padding: 36px 20px 42px; }
+    .hero h1 { font-size: 28px; }
+    .hero p { font-size: 14px; }
+    .hero-tagline { font-size: 12px; }
+
+    /* Hero form */
+    .hero-cta-form { flex-direction: column; }
+    .hero-cta-form input { border-right: 2px solid var(--slate-light); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .hero-cta-form input:focus { border-color: var(--gold); }
+    .hero-cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Feed */
+    .feed { padding: 24px 16px 12px; }
+    .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
+    .news-title { font-size: 15px; }
+    .track-btn { align-self: flex-start; }
+
+    /* Timeline invite */
+    .tl-invite { padding: 18px 18px; gap: 12px; }
+    .tl-invite-emoji { font-size: 22px; }
+    .tl-invite-title { font-size: 14px; }
+    .timeline-section { padding: 12px 16px 36px; }
+
+    /* Timeline entries */
+    .tl-date-col { width: 40px; }
+    .tl-date { font-size: 10px; }
+    .tl-text { font-size: 12px; }
+    .tl-body { padding: 6px 16px 14px; }
+
+    /* One-liner */
+    .oneliner { padding: 36px 20px; }
+    .oneliner p { font-size: 16px; }
+
+    /* How */
+    .how { padding: 32px 16px; }
+    .how-title { font-size: 20px; }
+
+    /* Bottom CTA */
+    .bottom-cta { padding: 40px 20px; }
+    .bottom-cta h2 { font-size: 19px; }
+    .cta-form { flex-direction: column; }
+    .cta-form input { border-right: 2px solid var(--card-border); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Sticky bar */
+    .bottom-bar { flex-direction: column; gap: 8px; padding: 12px 16px; }
+    .bar-text { font-size: 13px; }
+    .bar-form { width: 100%; }
+    .bar-form input { flex: 1; width: auto; }
+
+    /* Success overlay */
+    .success { padding: 32px 24px; }
+    .success h2 { font-size: 20px; }
+  }
+
 </style>
 </head>
 <body>
 
+<noscript><style>.news-card,.how-step,.tl-invite{opacity:1!important;transform:none!important;}</style></noscript>
 <a class="skip-link" href="#emailBottom">Skip to signup</a>
 
 <header class="header" role="banner">
@@ -474,13 +512,20 @@
   <div class="date-badge" id="dateBadge"></div>
   <h1>Headlines fade.<br><em>Stories don't.</em></h1>
   <p>You've felt it before:<br>a story dominates the news for three days, then disappears.<br>We keep watching. When something changes, we tell you.</p>
+  <div class="hero-form">
+    <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
+      <input type="email" id="emailHero" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
+      <button type="submit">Start watching — free</button>
+    </form>
+    <div class="hero-form-note">A free daily email. Pick stories below, or just subscribe.</div>
+  </div>
   <div class="hero-tagline">The news gets old. The story keeps going.</div>
 </section>
 
 <section class="feed">
   <div class="feed-label">Today's old news — these stories aren't over</div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate">
     <div class="news-content">
       <div class="news-cat">Litigation · Aviation</div>
       <div class="news-title">Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate</div>
@@ -490,7 +535,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI confirms for-profit conversion, Altman to hold ~10% equity">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI confirms for-profit conversion, Altman to hold ~10% equity">
     <div class="news-content">
       <div class="news-cat">Funding · AI</div>
       <div class="news-title">OpenAI confirms for-profit conversion, Altman to hold ~10% equity</div>
@@ -500,7 +545,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="EU fines Apple €1.8B over App Store antitrust violations">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="EU fines Apple €1.8B over App Store antitrust violations">
     <div class="news-content">
       <div class="news-cat">Regulation · Big Tech</div>
       <div class="news-title">EU fines Apple €1.8B over App Store antitrust violations</div>
@@ -510,7 +555,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Gaza ceasefire: Qatar proposes new three-phase framework">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Gaza ceasefire: Qatar proposes new three-phase framework">
     <div class="news-content">
       <div class="news-cat">Geopolitics · Middle East</div>
       <div class="news-title">Gaza ceasefire: Qatar proposes new three-phase framework</div>
@@ -520,7 +565,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok sale: ByteDance in early talks with at least three potential buyers">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok sale: ByteDance in early talks with at least three potential buyers">
     <div class="news-content">
       <div class="news-cat">Regulation · Social Media</div>
       <div class="news-title">TikTok sale: ByteDance in early talks with at least three potential buyers</div>
@@ -530,7 +575,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Evergrande liquidation: creditor recovery estimated below 4%">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Evergrande liquidation: creditor recovery estimated below 4%">
     <div class="news-content">
       <div class="news-cat">Real Estate · Debt</div>
       <div class="news-title">Evergrande liquidation: creditor recovery estimated below 4%</div>
@@ -540,7 +585,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="SpaceX Starship 7th test flight delayed by FAA environmental review">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="SpaceX Starship 7th test flight delayed by FAA environmental review">
     <div class="news-content">
       <div class="news-cat">Space · Regulation</div>
       <div class="news-title">SpaceX Starship 7th test flight delayed by FAA environmental review</div>
@@ -550,7 +595,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Ozempic patent challenge: generic drugmakers take Novo Nordisk to court">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Ozempic patent challenge: generic drugmakers take Novo Nordisk to court">
     <div class="news-content">
       <div class="news-cat">Pharma · IP Law</div>
       <div class="news-title">Ozempic patent challenge: generic drugmakers take Novo Nordisk to court</div>
@@ -560,7 +605,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Samsung heir Lee Jae-yong bribery retrial verdict imminent">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Samsung heir Lee Jae-yong bribery retrial verdict imminent">
     <div class="news-content">
       <div class="news-cat">Corporate · South Korea</div>
       <div class="news-title">Samsung heir Lee Jae-yong bribery retrial verdict imminent</div>
@@ -570,7 +615,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="India bans 14 messaging apps citing national security">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="India bans 14 messaging apps citing national security">
     <div class="news-content">
       <div class="news-cat">Policy · Cybersecurity</div>
       <div class="news-title">India bans 14 messaging apps citing national security</div>
@@ -682,10 +727,10 @@
 <section class="bottom-cta">
   <h2>Every story has a next chapter.<br>No one tells you what it is.</h2>
   <p>Free. One email a day. Unsubscribe anytime.</p>
-  <div class="cta-form">
+  <form class="cta-form" onsubmit="event.preventDefault(); submitFromBottom()">
     <input type="email" id="emailBottom" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
-    <button onclick="submitFromBottom()">Subscribe free</button>
-  </div>
+    <button type="submit">Subscribe free</button>
+  </form>
 </section>
 
 <footer class="footer" role="contentinfo">
@@ -695,10 +740,10 @@
 
 <div class="bottom-bar" id="bottomBar">
   <div class="bar-text">Watching <strong id="barCount">0</strong> stories. Leave your email.</div>
-  <div class="bar-form">
+  <form class="bar-form" onsubmit="event.preventDefault(); submitEmail()">
     <input type="email" id="barEmail" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
-    <button onclick="submitEmail()">Done →</button>
-  </div>
+    <button type="submit">Done →</button>
+  </form>
 </div>
 
 <div class="overlay" id="overlay">
@@ -720,6 +765,21 @@
 document.getElementById('dateBadge').textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
 let tracked = [];
+
+// Restore selections from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('oldnews_tracked') || '[]');
+  if (Array.isArray(saved) && saved.length > 0) {
+    document.querySelectorAll('.news-card').forEach(card => {
+      if (saved.includes(card.dataset.title)) {
+        card.classList.add('tracked');
+        card.querySelector('.track-btn-text').textContent = 'Watching';
+        tracked.push(card.dataset.title);
+      }
+    });
+    updateUI();
+  }
+} catch(e) {}
 
 function toggle(card) {
   const title = card.dataset.title;
@@ -744,6 +804,14 @@ function updateUI() {
   document.getElementById('barCount').textContent = n;
   document.getElementById('bottomBar').classList.toggle('visible', n > 0);
   document.getElementById('headerCta').classList.toggle('visible', n > 0);
+  try { localStorage.setItem('oldnews_tracked', JSON.stringify(tracked)); } catch(e) {}
+}
+
+function submitHero() {
+  const input = document.getElementById('emailHero');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.hero-cta-form').querySelector('button'));
 }
 
 function isValidEmail(email) {
@@ -768,13 +836,25 @@ async function submitToAPI(email, sourceBtn) {
     if (res.ok) {
       showSuccess();
     } else {
-      alert('Something went wrong. Please try again.');
+      showInlineError(sourceBtn, 'Something went wrong. Please try again.');
     }
   } catch (e) {
-    alert('Connection error. Please try again.');
+    showInlineError(sourceBtn, 'Connection error. Please try again.');
   } finally {
     if (sourceBtn) setLoading(sourceBtn, false);
   }
+}
+
+function showInlineError(nearBtn, msg) {
+  const parent = nearBtn ? nearBtn.closest('form, .bar-form, .cta-form, .hero-cta-form') : document.querySelector('.hero-cta-form');
+  if (!parent) return;
+  const existing = parent.parentElement.querySelector('.inline-error');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'inline-error';
+  el.textContent = msg;
+  parent.parentElement.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
 }
 
 function shakeInvalid(input) {
@@ -794,19 +874,24 @@ function submitFromBottom() {
   const input = document.getElementById('emailBottom');
   const email = input.value.trim();
   if (!isValidEmail(email)) { shakeInvalid(input); return; }
-  if (tracked.length === 0) { document.querySelector('.feed').scrollIntoView({ behavior: 'smooth' }); return; }
   submitToAPI(email, input.closest('.cta-form').querySelector('button'));
 }
 
 function showSuccess() {
   const el = document.getElementById('trackedItems');
+  const trackedList = document.querySelector('.tracked-list');
   el.innerHTML = '';
-  tracked.forEach(t => {
-    const d = document.createElement('div');
-    d.className = 'tracked-list-item';
-    d.textContent = t;
-    el.appendChild(d);
-  });
+  if (tracked.length > 0) {
+    trackedList.style.display = '';
+    tracked.forEach(t => {
+      const d = document.createElement('div');
+      d.className = 'tracked-list-item';
+      d.textContent = t;
+      el.appendChild(d);
+    });
+  } else {
+    trackedList.style.display = 'none';
+  }
   document.getElementById('overlay').classList.add('visible');
   document.getElementById('bottomBar').classList.remove('visible');
 }
@@ -817,6 +902,14 @@ function toggleTimeline() {
   content.classList.toggle('visible');
   toggle.classList.toggle('open');
 }
+
+// Close overlay with Escape or click outside
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('overlay').classList.remove('visible');
+});
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove('visible');
+});
 
 // Scroll reveal
 const revealObserver = new IntersectionObserver((entries) => {

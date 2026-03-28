@@ -176,6 +176,30 @@
     font-family: 'DM Sans', 'Noto Serif SC', serif;
   }
 
+  .hero-form { margin-top: 28px; }
+  .hero-cta-form {
+    display: flex; gap: 0; max-width: 400px; margin: 0 auto;
+    border-radius: 7px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  }
+  .hero-cta-form input {
+    flex: 1; padding: 14px 18px; border: 2px solid var(--slate-light);
+    border-right: none; background: rgba(255,255,255,0.08);
+    color: #e8e0d4; font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; border-radius: 7px 0 0 7px;
+  }
+  .hero-cta-form input::placeholder { color: var(--text-light); }
+  .hero-cta-form input:focus { border-color: var(--gold); }
+  .hero-cta-form button {
+    padding: 14px 22px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    border: 2px solid var(--gold); border-radius: 0 7px 7px 0;
+    cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .hero-cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+  .hero-form-note {
+    font-size: 12px; color: var(--text-light); margin-top: 10px; opacity: 0.7;
+  }
   .hero-tagline {
     font-family: 'Noto Serif SC', serif;
     font-size: 13px;
@@ -545,70 +569,6 @@
     line-height: 1.5;
   }
 
-  @media (max-width: 600px) {
-    .how-steps { flex-direction: column; }
-    .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
-    .how-step:last-child { border-bottom: none; }
-
-    /* Header */
-    .header { padding: 12px 16px; }
-    .header-right { gap: 8px; }
-    .header-logo { font-size: 18px; }
-    .header-logo-sub { font-size: 9px; margin-left: 6px; }
-    .tracking-count { display: none; }
-    .header-cta { font-size: 11px; padding: 6px 12px; }
-    .lang-switch a { padding: 4px 8px; font-size: 12px; }
-
-    /* Hero */
-    .hero { padding: 36px 20px 42px; }
-    .hero h1 { font-size: 26px; }
-    .hero p { font-size: 14px; }
-    .hero-tagline { font-size: 12px; }
-
-    /* Feed */
-    .feed { padding: 24px 16px 12px; }
-    .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
-    .news-title { font-size: 15px; }
-    .track-btn { align-self: flex-start; }
-
-    /* Timeline invite */
-    .tl-invite { padding: 18px 18px; gap: 12px; }
-    .tl-invite-emoji { font-size: 22px; }
-    .tl-invite-title { font-size: 14px; }
-    .timeline-section { padding: 12px 16px 36px; }
-
-    /* Timeline entries */
-    .tl-date-col { width: 40px; }
-    .tl-date { font-size: 10px; }
-    .tl-text { font-size: 12px; }
-    .tl-body { padding: 6px 16px 14px; }
-
-    /* One-liner */
-    .oneliner { padding: 36px 20px; }
-    .oneliner p { font-size: 16px; }
-
-    /* How */
-    .how { padding: 32px 16px; }
-    .how-title { font-size: 20px; }
-
-    /* Bottom CTA */
-    .bottom-cta { padding: 40px 20px; }
-    .bottom-cta h2 { font-size: 19px; }
-    .cta-form { flex-direction: column; }
-    .cta-form input { border-right: 2px solid var(--card-border); border-radius: 7px 7px 0 0; border-bottom: none; }
-    .cta-form button { border-radius: 0 0 7px 7px; }
-
-    /* Sticky bar */
-    .bottom-bar { flex-direction: column; gap: 8px; padding: 12px 16px; }
-    .bar-text { font-size: 13px; }
-    .bar-form { width: 100%; }
-    .bar-form input { flex: 1; width: auto; }
-
-    /* Success overlay */
-    .success { padding: 32px 24px; }
-    .success h2 { font-size: 20px; }
-  }
-
   /* ═══ BOTTOM CTA ═══ */
   .bottom-cta {
     background: var(--cream-dark);
@@ -822,6 +782,11 @@
 
   @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
 
+  .inline-error {
+    font-size: 12px; color: var(--red); margin-top: 8px;
+    text-align: center; animation: fadeSlide 0.3s ease;
+  }
+
   /* Scroll reveal animation */
   .news-card, .how-step, .tl-toggle {
     opacity: 0;
@@ -860,6 +825,76 @@
   }
 
   /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .how-steps { flex-direction: column; }
+    .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
+    .how-step:last-child { border-bottom: none; }
+
+    /* Header */
+    .header { padding: 12px 16px; }
+    .header-right { gap: 8px; }
+    .header-logo { font-size: 18px; }
+    .header-logo-sub { font-size: 9px; margin-left: 6px; }
+    .tracking-count { display: none; }
+    .header-cta { font-size: 11px; padding: 6px 12px; }
+    .lang-switch a { padding: 4px 8px; font-size: 12px; }
+
+    /* Hero */
+    .hero { padding: 36px 20px 42px; }
+    .hero h1 { font-size: 26px; }
+    .hero p { font-size: 14px; }
+    .hero-tagline { font-size: 12px; }
+
+    /* Hero form */
+    .hero-cta-form { flex-direction: column; }
+    .hero-cta-form input { border-right: 2px solid var(--slate-light); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .hero-cta-form input:focus { border-color: var(--gold); }
+    .hero-cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Feed */
+    .feed { padding: 24px 16px 12px; }
+    .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
+    .news-title { font-size: 15px; }
+    .track-btn { align-self: flex-start; }
+
+    /* Timeline invite */
+    .tl-invite { padding: 18px 18px; gap: 12px; }
+    .tl-invite-emoji { font-size: 22px; }
+    .tl-invite-title { font-size: 14px; }
+    .timeline-section { padding: 12px 16px 36px; }
+
+    /* Timeline entries */
+    .tl-date-col { width: 40px; }
+    .tl-date { font-size: 10px; }
+    .tl-text { font-size: 12px; }
+    .tl-body { padding: 6px 16px 14px; }
+
+    /* One-liner */
+    .oneliner { padding: 36px 20px; }
+    .oneliner p { font-size: 16px; }
+
+    /* How */
+    .how { padding: 32px 16px; }
+    .how-title { font-size: 20px; }
+
+    /* Bottom CTA */
+    .bottom-cta { padding: 40px 20px; }
+    .bottom-cta h2 { font-size: 19px; }
+    .cta-form { flex-direction: column; }
+    .cta-form input { border-right: 2px solid var(--card-border); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Sticky bar */
+    .bottom-bar { flex-direction: column; gap: 8px; padding: 12px 16px; }
+    .bar-text { font-size: 13px; }
+    .bar-form { width: 100%; }
+    .bar-form input { flex: 1; width: auto; }
+
+    /* Success overlay */
+    .success { padding: 32px 24px; }
+    .success h2 { font-size: 20px; }
+  }
+
 </style>
 </head>
 <body>
@@ -867,6 +902,7 @@
 <!-- lang switch is in header -->
 
 <!-- ═══ HEADER ═══ -->
+<noscript><style>.news-card,.how-step,.tl-toggle{opacity:1!important;transform:none!important;}</style></noscript>
 <a class="skip-link" href="#emailBottom">跳到注册</a>
 
 <header class="header" role="banner">
@@ -886,6 +922,13 @@
   <div class="date-badge" id="dateBadge"></div>
   <h1>热搜下了<br><em>事情还在继续。</em></h1>
   <p>你肯定有过这种感觉：<br>一条新闻刷屏了三天，然后就没人提了。<br>我们帮你盯着。有动静了告诉你。</p>
+  <div class="hero-form">
+    <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
+      <input type="email" id="emailHero" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+      <button type="submit">开始盯着 — 免费</button>
+    </form>
+    <div class="hero-form-note">每天一封免费邮件。下面选故事，或者直接订阅。</div>
+  </div>
   <div class="hero-tagline">新闻在变旧，事情仍然在发展。</div>
 </section>
 
@@ -893,7 +936,7 @@
 <section class="feed">
   <div class="feed-label">今日旧闻 — 这些事还有下文，感兴趣就点一下</div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="波音 737 MAX 认罪协议被法官驳回">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="波音 737 MAX 认罪协议被法官驳回">
     <div class="news-content">
       <div class="news-cat">诉讼 · 航空安全</div>
       <div class="news-title">波音 737 MAX 刑事案：法官驳回认罪协议，认为处罚力度不足</div>
@@ -903,7 +946,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI 重组：Altman 放弃 100 亿美元股权">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI 重组：Altman 放弃 100 亿美元股权">
     <div class="news-content">
       <div class="news-cat">融资 · 人工智能</div>
       <div class="news-title">OpenAI 营利性转型确认，Altman 将持约 10% 股份但不持控制权</div>
@@ -913,7 +956,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="欧盟对苹果开出 18 亿欧元反垄断罚单">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="欧盟对苹果开出 18 亿欧元反垄断罚单">
     <div class="news-content">
       <div class="news-cat">监管 · 科技巨头</div>
       <div class="news-title">欧盟因 App Store 垄断行为对苹果处以 18 亿欧元罚款</div>
@@ -923,7 +966,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="加沙停火：卡塔尔提出三阶段方案">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="加沙停火：卡塔尔提出三阶段方案">
     <div class="news-content">
       <div class="news-cat">地缘政治 · 中东</div>
       <div class="news-title">加沙停火谈判：卡塔尔提出新的三阶段停火框架</div>
@@ -933,7 +976,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok 禁令：字节跳动与微软等初步接触">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok 禁令：字节跳动与微软等初步接触">
     <div class="news-content">
       <div class="news-cat">监管 · 社交媒体</div>
       <div class="news-title">TikTok 出售谈判：字节跳动与至少三家潜在买方初步接触</div>
@@ -943,7 +986,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="恒大清盘：海外债权人回收率可能低于 4%">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="恒大清盘：海外债权人回收率可能低于 4%">
     <div class="news-content">
       <div class="news-cat">房地产 · 债务危机</div>
       <div class="news-title">恒大清盘首份资产报告：海外债权人预计回收率不足 4%</div>
@@ -953,7 +996,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="SpaceX 星舰：FAA 推迟第七次试飞许可">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="SpaceX 星舰：FAA 推迟第七次试飞许可">
     <div class="news-content">
       <div class="news-cat">航天 · 监管</div>
       <div class="news-title">SpaceX 星舰第七次试飞许可被推迟，FAA 要求补充环境审查</div>
@@ -963,7 +1006,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Ozempic 专利挑战：仿制药企提起诉讼">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Ozempic 专利挑战：仿制药企提起诉讼">
     <div class="news-content">
       <div class="news-cat">制药 · 知识产权</div>
       <div class="news-title">多家仿制药企挑战 Ozempic 核心专利，诺和诺德股价承压</div>
@@ -973,7 +1016,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="三星掌门人李在镕重审判决即将出炉">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="三星掌门人李在镕重审判决即将出炉">
     <div class="news-content">
       <div class="news-cat">企业 · 韩国</div>
       <div class="news-title">三星李在镕行贿案重审判决在即</div>
@@ -983,7 +1026,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="印度封禁 14 款与恐怖融资相关的通讯应用">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="印度封禁 14 款与恐怖融资相关的通讯应用">
     <div class="news-content">
       <div class="news-cat">政策 · 网络安全</div>
       <div class="news-title">印度以国家安全为由封禁 14 款通讯应用</div>
@@ -1104,10 +1147,10 @@
 <section class="bottom-cta">
   <h2>每条新闻都有下文，只是没人告诉你。</h2>
   <p>免费。每天一封。随时退。</p>
-  <div class="cta-form">
+  <form class="cta-form" onsubmit="event.preventDefault(); submitFromBottom()">
     <input type="email" id="emailBottom" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
-    <button onclick="submitFromBottom()">留下邮箱</button>
-  </div>
+    <button type="submit">留下邮箱</button>
+  </form>
 </section>
 
 <!-- ═══ FOOTER ═══ -->
@@ -1119,10 +1162,10 @@
 <!-- ═══ STICKY BAR ═══ -->
 <div class="bottom-bar" id="bottomBar">
   <div class="bar-text">选了 <strong id="barCount">0</strong> 条让我们盯着，留个邮箱就行</div>
-  <div class="bar-form">
+  <form class="bar-form" onsubmit="event.preventDefault(); submitEmail()">
     <input type="email" id="barEmail" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
-    <button onclick="submitEmail()">搞定 →</button>
-  </div>
+    <button type="submit">搞定 →</button>
+  </form>
 </div>
 
 <!-- ═══ SUCCESS ═══ -->
@@ -1147,6 +1190,21 @@ document.getElementById('dateBadge').textContent = `${now.getFullYear()} 年 ${n
 
 let tracked = [];
 
+// Restore selections from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('oldnews_tracked_cn') || '[]');
+  if (Array.isArray(saved) && saved.length > 0) {
+    document.querySelectorAll('.news-card').forEach(card => {
+      if (saved.includes(card.dataset.title)) {
+        card.classList.add('tracked');
+        card.querySelector('.track-btn-text').textContent = '盯着了';
+        tracked.push(card.dataset.title);
+      }
+    });
+    updateUI();
+  }
+} catch(e) {}
+
 function toggle(card) {
   const title = card.dataset.title;
   const btnText = card.querySelector('.track-btn-text');
@@ -1170,6 +1228,14 @@ function updateUI() {
   document.getElementById('barCount').textContent = n;
   document.getElementById('bottomBar').classList.toggle('visible', n > 0);
   document.getElementById('headerCta').classList.toggle('visible', n > 0);
+  try { localStorage.setItem('oldnews_tracked_cn', JSON.stringify(tracked)); } catch(e) {}
+}
+
+function submitHero() {
+  const input = document.getElementById('emailHero');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.hero-cta-form').querySelector('button'));
 }
 
 function isValidEmail(email) {
@@ -1194,13 +1260,25 @@ async function submitToAPI(email, sourceBtn) {
     if (res.ok) {
       showSuccess();
     } else {
-      alert('出了点问题，请重试。');
+      showInlineError(sourceBtn, '出了点问题，请重试。');
     }
   } catch (e) {
-    alert('网络错误，请重试。');
+    showInlineError(sourceBtn, '网络错误，请重试。');
   } finally {
     if (sourceBtn) setLoading(sourceBtn, false);
   }
+}
+
+function showInlineError(nearBtn, msg) {
+  const parent = nearBtn ? nearBtn.closest('form, .bar-form, .cta-form, .hero-cta-form') : document.querySelector('.hero-cta-form');
+  if (!parent) return;
+  const existing = parent.parentElement.querySelector('.inline-error');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'inline-error';
+  el.textContent = msg;
+  parent.parentElement.appendChild(el);
+  setTimeout(() => el.remove(), 4000);
 }
 
 function shakeInvalid(input) {
@@ -1220,22 +1298,24 @@ function submitFromBottom() {
   const input = document.getElementById('emailBottom');
   const email = input.value.trim();
   if (!isValidEmail(email)) { shakeInvalid(input); return; }
-  if (tracked.length === 0) {
-    document.querySelector('.feed').scrollIntoView({ behavior: 'smooth' });
-    return;
-  }
   submitToAPI(email, input.closest('.cta-form').querySelector('button'));
 }
 
 function showSuccess() {
   const el = document.getElementById('trackedItems');
+  const trackedList = document.querySelector('.tracked-list');
   el.innerHTML = '';
-  tracked.forEach(t => {
-    const d = document.createElement('div');
-    d.className = 'tracked-list-item';
-    d.textContent = t;
-    el.appendChild(d);
-  });
+  if (tracked.length > 0) {
+    trackedList.style.display = '';
+    tracked.forEach(t => {
+      const d = document.createElement('div');
+      d.className = 'tracked-list-item';
+      d.textContent = t;
+      el.appendChild(d);
+    });
+  } else {
+    trackedList.style.display = 'none';
+  }
   document.getElementById('overlay').classList.add('visible');
   document.getElementById('bottomBar').classList.remove('visible');
 }
@@ -1246,6 +1326,14 @@ function toggleTimeline() {
   content.classList.toggle('visible');
   toggle.classList.toggle('open');
 }
+
+// Close overlay with Escape or click outside
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('overlay').classList.remove('visible');
+});
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove('visible');
+});
 
 // Scroll reveal
 const revealObserver = new IntersectionObserver((entries) => {
