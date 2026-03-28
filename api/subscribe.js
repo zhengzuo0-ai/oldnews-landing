@@ -93,7 +93,12 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: 'Server configuration error' });
   }
 
-  const { email, stories, lang } = req.body;
+  const { email, stories, lang, website } = req.body;
+
+  // Honeypot check - bots fill the hidden "website" field
+  if (website) {
+    return res.status(200).json({ success: true }); // silent success to not tip off bots
+  }
 
   // Stronger email validation
   if (!email || typeof email !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
