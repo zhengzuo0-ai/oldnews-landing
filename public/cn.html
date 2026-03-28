@@ -180,8 +180,23 @@
     font-size: 14px; color: var(--text-cream); line-height: 1.8;
     padding-left: 64px; position: relative;
   }
-  .hero-ex-line.faded { color: var(--text-light); }
+  .hero-ex-line:first-child {
+    animation: newsAge 3s ease-out 1s forwards;
+  }
+  .hero-ex-line.faded {
+    color: var(--text-light);
+    opacity: 0;
+    animation: fadeIn 1s ease-out 2.5s forwards;
+  }
   .hero-ex-line em { color: var(--gold); font-style: normal; font-weight: 500; }
+  @keyframes newsAge {
+    0% { color: var(--text-cream); opacity: 1; filter: none; }
+    100% { color: var(--text-faint); opacity: 0.5; filter: sepia(0.3); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
   .hero-ex-day {
     position: absolute; left: 0; font-size: 11px; font-weight: 700;
     color: var(--gold); letter-spacing: 0.5px; top: 3px;
