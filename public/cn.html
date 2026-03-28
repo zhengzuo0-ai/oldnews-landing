@@ -960,7 +960,7 @@
   <div class="header-logo" aria-label="旧闻 OldNews">old<span>news</span><span class="header-logo-sub">旧闻</span></div>
   <div class="header-right">
     <nav class="lang-switch" aria-label="语言切换">
-      <a href="/" hreflang="en">EN</a>
+      <a href="/" hreflang="en" lang="en">EN</a>
       <a href="/cn" class="active" aria-current="page">中文</a>
     </nav>
     <div class="tracking-count" aria-live="polite">在盯 <strong id="headerCount">0</strong> 条</div>
@@ -1446,11 +1446,13 @@ document.getElementById('overlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) e.currentTarget.classList.remove('visible');
 });
 
-// Scroll reveal
+// Scroll reveal with stable stagger
+let revealCount = 0;
 const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
+  entries.forEach(entry => {
     if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('revealed'), i * 60);
+      setTimeout(() => entry.target.classList.add('revealed'), revealCount * 60);
+      revealCount++;
       revealObserver.unobserve(entry.target);
     }
   });

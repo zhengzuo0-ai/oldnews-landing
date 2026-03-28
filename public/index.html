@@ -564,7 +564,7 @@
   <div class="header-right">
     <nav class="lang-switch" aria-label="Language">
       <a href="/" class="active" aria-current="page">EN</a>
-      <a href="/cn" hreflang="zh">中文</a>
+      <a href="/cn" hreflang="zh" lang="zh">中文</a>
     </nav>
     <div class="tracking-count" aria-live="polite">Watching <strong id="headerCount">0</strong></div>
     <button class="header-cta" id="headerCta" onclick="document.getElementById('emailBottom').focus(); document.getElementById('emailBottom').scrollIntoView({behavior:'smooth',block:'center'})">Leave your email →</button>
@@ -1034,11 +1034,13 @@ document.getElementById('overlay').addEventListener('click', e => {
   if (e.target === e.currentTarget) e.currentTarget.classList.remove('visible');
 });
 
-// Scroll reveal
+// Scroll reveal with stable stagger
+let revealCount = 0;
 const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
+  entries.forEach(entry => {
     if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('revealed'), i * 60);
+      setTimeout(() => entry.target.classList.add('revealed'), revealCount * 60);
+      revealCount++;
       revealObserver.unobserve(entry.target);
     }
   });
