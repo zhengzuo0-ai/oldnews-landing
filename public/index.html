@@ -1204,6 +1204,7 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll('.news-card, .how-step, .tl-invite').forEach(el => revealObserver.observe(el));
 
 // Live "aging" ticker on story cards
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
 document.querySelectorAll('.news-source').forEach(el => {
   const match = el.textContent.match(/Tracked (\d+) days/);
   if (!match) return;
@@ -1225,6 +1226,7 @@ document.querySelectorAll('.news-source').forEach(el => {
   tick();
   setInterval(tick, 1000);
 });
+}
 </script>
 
 <script type="application/ld+json">
