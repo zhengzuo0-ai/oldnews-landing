@@ -260,6 +260,32 @@
   .track-btn:hover { border-color: var(--gold); color: var(--slate); }
   .track-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
+  /* ═══ INLINE CTA ═══ */
+  .inline-cta {
+    background: var(--gold); border-radius: 10px; padding: 20px 22px;
+    margin-bottom: 10px; text-align: center;
+  }
+  .inline-cta-text {
+    font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500;
+    color: var(--slate); margin-bottom: 12px;
+  }
+  .inline-cta-form {
+    display: flex; gap: 0; max-width: 340px; margin: 0 auto;
+    border-radius: 6px; overflow: hidden;
+  }
+  .inline-cta-form input[type="email"] {
+    flex: 1; padding: 10px 14px; border: none;
+    background: rgba(255,255,255,0.9); color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
+  }
+  .inline-cta-form input::placeholder { color: var(--text-mid); }
+  .inline-cta-form button {
+    padding: 10px 16px; background: var(--slate); color: var(--text-cream);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+    border: none; cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .inline-cta-form button:hover { background: var(--slate-dark); }
+
   /* ═══ TIMELINE ═══ */
   .timeline-section { max-width: 660px; margin: 0 auto; padding: 16px 24px 48px; }
   .tl-invite {
@@ -572,6 +598,11 @@
     .news-title { font-size: 15px; }
     .track-btn { align-self: flex-start; }
 
+    /* Inline CTA */
+    .inline-cta-form { flex-direction: column; border-radius: 6px; }
+    .inline-cta-form input[type="email"] { border-radius: 6px 6px 0 0; }
+    .inline-cta-form button { border-radius: 0 0 6px 6px; }
+
     /* Timeline invite */
     .tl-invite { padding: 18px 18px; gap: 12px; }
     .tl-invite-emoji { font-size: 22px; }
@@ -691,6 +722,15 @@
       <div class="news-source">Al Jazeera · 3h ago · Tracked 89 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
+  </div>
+
+  <div class="inline-cta">
+    <div class="inline-cta-text">Want these in your inbox every morning?</div>
+    <form class="inline-cta-form" onsubmit="event.preventDefault(); submitInline()">
+      <input type="email" id="emailInline" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
+      <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit">Start watching →</button>
+    </form>
   </div>
 
   <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok sale: ByteDance in early talks with at least three potential buyers">
@@ -999,6 +1039,13 @@ function submitHero() {
   submitToAPI(email, input.closest('.hero-cta-form').querySelector('button'));
 }
 
+function submitInline() {
+  const input = document.getElementById('emailInline');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.inline-cta-form').querySelector('button'));
+}
+
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
@@ -1098,11 +1145,11 @@ function showSuccess() {
 }
 
 function disableAllForms() {
-  document.querySelectorAll('.hero-cta-form button, .cta-form button, .bar-form button').forEach(btn => {
+  document.querySelectorAll('.hero-cta-form button, .inline-cta-form button, .cta-form button, .bar-form button').forEach(btn => {
     btn.disabled = true;
     btn.textContent = '✓ Watching';
   });
-  document.querySelectorAll('.hero-cta-form input, .cta-form input, .bar-form input').forEach(input => {
+  document.querySelectorAll('.hero-cta-form input, .inline-cta-form input, .cta-form input, .bar-form input').forEach(input => {
     input.disabled = true;
   });
   document.getElementById('bottomBar').classList.remove('visible');
@@ -1118,10 +1165,10 @@ function toggleTimeline() {
 }
 
 // Sync email across all inputs
-['emailHero', 'emailBottom', 'barEmail'].forEach(id => {
+['emailHero', 'emailInline', 'emailBottom', 'barEmail'].forEach(id => {
   document.getElementById(id).addEventListener('input', function() {
     const val = this.value;
-    ['emailHero', 'emailBottom', 'barEmail'].forEach(otherId => {
+    ['emailHero', 'emailInline', 'emailBottom', 'barEmail'].forEach(otherId => {
       if (otherId !== id) document.getElementById(otherId).value = val;
     });
   });
