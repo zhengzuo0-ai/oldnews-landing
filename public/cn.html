@@ -3,9 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OldNews — 后来呢？</title>
+<title>旧闻 OldNews — 新闻在变旧，事情仍然在发展</title>
+<meta name="description" content="新闻热搜三天就消失了，但事情还在发展。旧闻帮你盯着，有动静了才通知你。">
+<meta name="theme-color" content="#2a3a40">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="旧闻 OldNews — 新闻在变旧，事情仍然在发展">
+<meta property="og:description" content="新闻热搜三天就消失了，但事情还在发展。旧闻帮你盯着，有动静了才通知你。">
+<meta property="og:url" content="https://oldnews.io/cn">
+<meta property="og:site_name" content="旧闻 OldNews">
+<meta property="og:locale" content="zh_CN">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="旧闻 OldNews — 新闻在变旧，事情仍然在发展">
+<meta name="twitter:description" content="新闻热搜三天就消失了，但事情还在发展。旧闻帮你盯着，有动静了才通知你。">
+
+<link rel="canonical" href="https://oldnews.io/cn">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a3a40'/%3E%3Ctext x='4' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23e8e0d4'%3Eo%3C/text%3E%3Ctext x='14' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23b8956a'%3En%3C/text%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Preconnect for faster font loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap');
 
   :root {
     --slate: #2a3a40;
@@ -29,6 +53,16 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+
+  .skip-link {
+    position: absolute; top: -40px; left: 0;
+    background: var(--gold); color: var(--slate);
+    padding: 8px 16px; z-index: 200; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    text-decoration: none; border-radius: 0 0 4px 0;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 0; }
 
   body {
     font-family: 'DM Sans', 'Noto Serif SC', serif;
@@ -183,6 +217,7 @@
     border-color: #ccc8be;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   }
+  .news-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .news-card.tracked {
     border-color: var(--gold);
     background: var(--gold-dim);
@@ -229,7 +264,7 @@
 
   .track-btn {
     flex-shrink: 0;
-    padding: 7px 14px;
+    padding: 10px 16px;
     background: transparent;
     color: var(--text-mid);
     font-family: 'DM Sans', 'Noto Serif SC', serif;
@@ -241,11 +276,15 @@
     white-space: nowrap;
     margin-top: 3px;
     transition: all 0.2s;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
   .track-btn:hover {
     border-color: var(--gold);
     color: var(--slate);
   }
+  .track-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   /* ═══ TIMELINE ═══ */
   .timeline-section {
@@ -781,6 +820,19 @@
   }
   .close-btn:hover { border-color: var(--text-light); color: #e8e0d4; }
 
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+  /* Scroll reveal animation */
+  .news-card, .how-step, .tl-toggle {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .news-card.revealed, .how-step.revealed, .tl-toggle.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   /* ═══ LANG SWITCH ═══ */
   .lang-switch {
     display: flex;
@@ -815,21 +867,23 @@
 <!-- lang switch is in header -->
 
 <!-- ═══ HEADER ═══ -->
-<div class="header">
-  <div class="header-logo">old<span>news</span><span class="header-logo-sub">旧闻</span></div>
+<a class="skip-link" href="#emailBottom">跳到注册</a>
+
+<header class="header" role="banner">
+  <div class="header-logo" aria-label="旧闻 OldNews">old<span>news</span><span class="header-logo-sub">旧闻</span></div>
   <div class="header-right">
-    <div class="lang-switch">
-      <a href="/">EN</a>
-      <a href="#" class="active">中文</a>
-    </div>
-    <div class="tracking-count">在盯 <strong id="headerCount">0</strong> 条</div>
+    <nav class="lang-switch" aria-label="语言切换">
+      <a href="/" hreflang="en">EN</a>
+      <a href="#" class="active" aria-current="page">中文</a>
+    </nav>
+    <div class="tracking-count" aria-live="polite">在盯 <strong id="headerCount">0</strong> 条</div>
     <button class="header-cta" id="headerCta" onclick="document.getElementById('emailBottom').focus(); document.getElementById('emailBottom').scrollIntoView({behavior:'smooth',block:'center'})">留个邮箱 →</button>
   </div>
-</div>
+</header>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
-  <div class="date-badge">2026 年 3 月 1 日</div>
+  <div class="date-badge" id="dateBadge"></div>
   <h1>热搜下了<br><em>事情还在继续。</em></h1>
   <p>你肯定有过这种感觉：<br>一条新闻刷屏了三天，然后就没人提了。<br>我们帮你盯着。有动静了告诉你。</p>
   <div class="hero-tagline">新闻在变旧，事情仍然在发展。</div>
@@ -839,7 +893,7 @@
 <section class="feed">
   <div class="feed-label">今日旧闻 — 这些事还有下文，感兴趣就点一下</div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="波音 737 MAX 认罪协议被法官驳回">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="波音 737 MAX 认罪协议被法官驳回">
     <div class="news-content">
       <div class="news-cat">诉讼 · 航空安全</div>
       <div class="news-title">波音 737 MAX 刑事案：法官驳回认罪协议，认为处罚力度不足</div>
@@ -849,7 +903,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="OpenAI 重组：Altman 放弃 100 亿美元股权">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI 重组：Altman 放弃 100 亿美元股权">
     <div class="news-content">
       <div class="news-cat">融资 · 人工智能</div>
       <div class="news-title">OpenAI 营利性转型确认，Altman 将持约 10% 股份但不持控制权</div>
@@ -859,7 +913,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="欧盟对苹果开出 18 亿欧元反垄断罚单">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="欧盟对苹果开出 18 亿欧元反垄断罚单">
     <div class="news-content">
       <div class="news-cat">监管 · 科技巨头</div>
       <div class="news-title">欧盟因 App Store 垄断行为对苹果处以 18 亿欧元罚款</div>
@@ -869,7 +923,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="加沙停火：卡塔尔提出三阶段方案">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="加沙停火：卡塔尔提出三阶段方案">
     <div class="news-content">
       <div class="news-cat">地缘政治 · 中东</div>
       <div class="news-title">加沙停火谈判：卡塔尔提出新的三阶段停火框架</div>
@@ -879,7 +933,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="TikTok 禁令：字节跳动与微软等初步接触">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok 禁令：字节跳动与微软等初步接触">
     <div class="news-content">
       <div class="news-cat">监管 · 社交媒体</div>
       <div class="news-title">TikTok 出售谈判：字节跳动与至少三家潜在买方初步接触</div>
@@ -889,7 +943,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="恒大清盘：海外债权人回收率可能低于 4%">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="恒大清盘：海外债权人回收率可能低于 4%">
     <div class="news-content">
       <div class="news-cat">房地产 · 债务危机</div>
       <div class="news-title">恒大清盘首份资产报告：海外债权人预计回收率不足 4%</div>
@@ -899,7 +953,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="SpaceX 星舰：FAA 推迟第七次试飞许可">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="SpaceX 星舰：FAA 推迟第七次试飞许可">
     <div class="news-content">
       <div class="news-cat">航天 · 监管</div>
       <div class="news-title">SpaceX 星舰第七次试飞许可被推迟，FAA 要求补充环境审查</div>
@@ -909,7 +963,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="Ozempic 专利挑战：仿制药企提起诉讼">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Ozempic 专利挑战：仿制药企提起诉讼">
     <div class="news-content">
       <div class="news-cat">制药 · 知识产权</div>
       <div class="news-title">多家仿制药企挑战 Ozempic 核心专利，诺和诺德股价承压</div>
@@ -919,7 +973,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="三星掌门人李在镕重审判决即将出炉">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="三星掌门人李在镕重审判决即将出炉">
     <div class="news-content">
       <div class="news-cat">企业 · 韩国</div>
       <div class="news-title">三星李在镕行贿案重审判决在即</div>
@@ -929,7 +983,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="印度封禁 14 款与恐怖融资相关的通讯应用">
+  <div class="news-card" role="button" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="印度封禁 14 款与恐怖融资相关的通讯应用">
     <div class="news-content">
       <div class="news-cat">政策 · 网络安全</div>
       <div class="news-title">印度以国家安全为由封禁 14 款通讯应用</div>
@@ -1051,13 +1105,13 @@
   <h2>每条新闻都有下文，只是没人告诉你。</h2>
   <p>免费。每天一封。随时退。</p>
   <div class="cta-form">
-    <input type="email" id="emailBottom" placeholder="your@email.com">
+    <input type="email" id="emailBottom" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
     <button onclick="submitFromBottom()">留下邮箱</button>
   </div>
 </section>
 
 <!-- ═══ FOOTER ═══ -->
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   <div class="footer-logo">old<span>news</span> <span style="font-family:'Noto Serif SC',serif; font-size:12px; color:var(--text-light); letter-spacing:2px; margin-left:6px;">旧闻</span></div>
   <p>好奇心 + AI。 <a href="#">关于我们</a> · <a href="#">隐私</a></p>
 </footer>
@@ -1066,7 +1120,7 @@
 <div class="bottom-bar" id="bottomBar">
   <div class="bar-text">选了 <strong id="barCount">0</strong> 条让我们盯着，留个邮箱就行</div>
   <div class="bar-form">
-    <input type="email" id="barEmail" placeholder="your@email.com">
+    <input type="email" id="barEmail" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
     <button onclick="submitEmail()">搞定 →</button>
   </div>
 </div>
@@ -1087,6 +1141,10 @@
 </div>
 
 <script>
+// Dynamic date in Chinese format
+const now = new Date();
+document.getElementById('dateBadge').textContent = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日`;
+
 let tracked = [];
 
 function toggle(card) {
@@ -1114,7 +1172,19 @@ function updateUI() {
   document.getElementById('headerCta').classList.toggle('visible', n > 0);
 }
 
-async function submitToAPI(email) {
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function setLoading(btn, loading) {
+  btn.disabled = loading;
+  btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+  btn.textContent = loading ? '发送中...' : btn.dataset.originalText;
+  btn.style.opacity = loading ? '0.7' : '1';
+}
+
+async function submitToAPI(email, sourceBtn) {
+  if (sourceBtn) setLoading(sourceBtn, true);
   try {
     const res = await fetch('/api/subscribe', {
       method: 'POST',
@@ -1128,23 +1198,33 @@ async function submitToAPI(email) {
     }
   } catch (e) {
     alert('网络错误，请重试。');
+  } finally {
+    if (sourceBtn) setLoading(sourceBtn, false);
   }
 }
 
+function shakeInvalid(input) {
+  input.style.borderColor = '#c4453a';
+  input.style.animation = 'shake 0.3s ease';
+  setTimeout(() => { input.style.borderColor = ''; input.style.animation = ''; }, 1500);
+}
+
 function submitEmail() {
-  const email = document.getElementById('barEmail').value;
-  if (!email || !email.includes('@')) { document.getElementById('barEmail').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('barEmail').style.borderColor = '', 1500); return; }
-  submitToAPI(email);
+  const input = document.getElementById('barEmail');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.bar-form').querySelector('button'));
 }
 
 function submitFromBottom() {
-  const email = document.getElementById('emailBottom').value;
-  if (!email || !email.includes('@')) { document.getElementById('emailBottom').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('emailBottom').style.borderColor = '', 1500); return; }
+  const input = document.getElementById('emailBottom');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
   if (tracked.length === 0) {
     document.querySelector('.feed').scrollIntoView({ behavior: 'smooth' });
     return;
   }
-  submitToAPI(email);
+  submitToAPI(email, input.closest('.cta-form').querySelector('button'));
 }
 
 function showSuccess() {
@@ -1165,6 +1245,39 @@ function toggleTimeline() {
   const toggle = document.getElementById('tlToggle');
   content.classList.toggle('visible');
   toggle.classList.toggle('open');
+}
+
+// Scroll reveal
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('revealed'), i * 60);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.news-card, .how-step, .tl-toggle').forEach(el => revealObserver.observe(el));
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "旧闻 OldNews",
+  "url": "https://oldnews.io/cn",
+  "inLanguage": "zh-CN",
+  "description": "新闻热搜三天就消失了，但事情还在发展。旧闻帮你盯着，有动静了才通知你。",
+  "applicationCategory": "NewsApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "OldNews"
+  }
 }
 </script>
 
