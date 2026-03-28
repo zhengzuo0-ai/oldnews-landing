@@ -168,7 +168,7 @@ export default async function handler(req, res) {
               <h2 style="color:#2a3a40;">Welcome to OldNews 👀</h2>
               <p style="color:#6a7a7e;line-height:1.6;">We've got your email.</p>
               <p style="color:#6a7a7e;line-height:1.6;">OldNews is still being built. You'll be among the first to know when we launch.</p>
-              ${storyCount > 0 ? `<p style="color:#6a7a7e;line-height:1.6;">You picked ${storyCount} stories to watch. We've noted them.</p>` : ''}
+              ${storyCount > 0 ? `<p style="color:#6a7a7e;line-height:1.6;">You picked ${storyCount} ${storyCount === 1 ? 'story' : 'stories'} to watch. We've noted them.</p>` : ''}
               <p style="color:#b8956a;margin-top:24px;">— OldNews</p>
             </div>`,
       }),
