@@ -293,6 +293,23 @@
   }
   .oneliner p em { font-style: normal; color: var(--gold); font-weight: 500; }
 
+  /* ═══ FAQ ═══ */
+  .faq { max-width: 660px; margin: 0 auto; padding: 40px 24px; }
+  .faq-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .faq-item {
+    padding: 16px 0; border-bottom: 1px solid var(--cream-dark);
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 6px;
+  }
+  .faq-a { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .faq-a em { color: var(--gold); font-style: normal; font-weight: 500; }
+
   /* ═══ EMAIL PREVIEW ═══ */
   .email-preview { max-width: 660px; margin: 0 auto; padding: 40px 24px 16px; }
   .email-preview-label {
@@ -818,6 +835,22 @@
       <h3>Know</h3>
       <p>Updates by email.<br>No news = no email.</p>
     </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="faq-label">Common questions</div>
+  <div class="faq-item">
+    <div class="faq-q">How is this different from Google Alerts?</div>
+    <div class="faq-a">Google Alerts triggers on keywords. We use AI to judge whether there's <em>actual progress</em> — not just the same story republished by a different outlet.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How often will I get emails?</div>
+    <div class="faq-a">At most once a day, in the morning. If none of your stories have updates, we don't send anything.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is it really free?</div>
+    <div class="faq-a">Yes. We're building in public and want early feedback. A paid tier with custom tracking is coming later.</div>
   </div>
 </section>
 

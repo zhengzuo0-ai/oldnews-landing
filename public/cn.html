@@ -512,6 +512,23 @@
     font-weight: 500;
   }
 
+  /* ═══ FAQ ═══ */
+  .faq { max-width: 660px; margin: 0 auto; padding: 40px 24px; }
+  .faq-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .faq-item {
+    padding: 16px 0; border-bottom: 1px solid var(--cream-dark);
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 6px;
+  }
+  .faq-a { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .faq-a em { color: var(--gold); font-style: normal; font-weight: 500; }
+
   /* ═══ EMAIL PREVIEW ═══ */
   .email-preview { max-width: 660px; margin: 0 auto; padding: 40px 24px 16px; }
   .email-preview-label {
@@ -1212,6 +1229,22 @@
         <p>有动静发邮件，<br>没动静不打扰。</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="faq-label">常见问题</div>
+  <div class="faq-item">
+    <div class="faq-q">和 Google Alerts 有什么不同？</div>
+    <div class="faq-a">Google Alerts 只看关键词。我们用 AI 判断是否有<em>真正的新进展</em>——而不是同一条旧闻被不同媒体转发。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">多久会收到一次邮件？</div>
+    <div class="faq-a">最多一天一封，早上发。如果你盯的故事都没动静，就不会打扰你。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">真的免费吗？</div>
+    <div class="faq-a">是的。我们正在开放测试，希望获得早期反馈。未来会有付费的自定义追踪功能。</div>
   </div>
 </section>
 
