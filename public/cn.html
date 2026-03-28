@@ -1350,10 +1350,12 @@ try {
 
 // Check if already subscribed
 try {
-  if (localStorage.getItem('oldnews_subscribed_cn')) disableAllForms();
+  if (localStorage.getItem('oldnews_subscribed_cn')) { hasSubscribed = true; disableAllForms(); }
 } catch(e) {}
 
+let hasSubscribed = false;
 function toggle(card) {
+  if (hasSubscribed) return;
   const title = card.dataset.title;
   const btnText = card.querySelector('.track-btn-text');
   if (card.classList.contains('tracked')) {
@@ -1484,6 +1486,7 @@ function showSuccess() {
   document.getElementById('overlay').classList.add('visible');
   document.getElementById('bottomBar').classList.remove('visible');
   // Disable all forms after successful signup
+  hasSubscribed = true;
   disableAllForms();
   try { localStorage.setItem('oldnews_subscribed_cn', '1'); } catch(e) {}
 }
