@@ -1202,6 +1202,29 @@ const revealObserver = new IntersectionObserver((entries) => {
   });
 }, { threshold: 0.1 });
 document.querySelectorAll('.news-card, .how-step, .tl-invite').forEach(el => revealObserver.observe(el));
+
+// Live "aging" ticker on story cards
+document.querySelectorAll('.news-source').forEach(el => {
+  const match = el.textContent.match(/Tracked (\d+) days/);
+  if (!match) return;
+  const baseDays = parseInt(match[1]);
+  const baseSeconds = baseDays * 86400 + Math.floor(Math.random() * 86400);
+  let elapsed = baseSeconds;
+  const tick = () => {
+    elapsed++;
+    const d = Math.floor(elapsed / 86400);
+    const h = Math.floor((elapsed % 86400) / 3600);
+    const m = Math.floor((elapsed % 3600) / 60);
+    const s = elapsed % 60;
+    const original = el.textContent.split('·');
+    if (original.length >= 3) {
+      original[2] = ` ${d}d ${h}h ${m}m ${String(s).padStart(2,'0')}s`;
+      el.textContent = original.join('·');
+    }
+  };
+  tick();
+  setInterval(tick, 1000);
+});
 </script>
 
 <script type="application/ld+json">
