@@ -21,6 +21,9 @@
 <meta name="twitter:description" content="News stories disappear from headlines, but the events keep developing. We keep watching. When something changes, we tell you.">
 
 <link rel="canonical" href="https://oldnews.io">
+<link rel="alternate" hreflang="en" href="https://oldnews.io">
+<link rel="alternate" hreflang="zh" href="https://oldnews.io/cn">
+<link rel="alternate" hreflang="x-default" href="https://oldnews.io">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a3a40'/%3E%3Ctext x='4' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23e8e0d4'%3Eo%3C/text%3E%3Ctext x='14' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23b8956a'%3En%3C/text%3E%3C/svg%3E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -164,6 +167,10 @@
   .hero-cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
   .hero-form-note {
     font-size: 12px; color: var(--text-light); margin-top: 10px; opacity: 0.7;
+  }
+  .hero-social-proof {
+    font-size: 11px; color: var(--gold); margin-top: 8px; opacity: 0.6;
+    letter-spacing: 0.3px;
   }
   .hero-tagline {
     font-family: 'Fraunces', serif;
@@ -320,6 +327,9 @@
     cursor: pointer; white-space: nowrap;
   }
   .cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+  .cta-form button:focus-visible, .bar-form button:focus-visible, .hero-cta-form button:focus-visible, .close-btn:focus-visible {
+    outline: 2px solid var(--gold); outline-offset: 2px;
+  }
 
   /* ═══ FOOTER ═══ */
   .footer { background: var(--slate); padding: 32px 24px; text-align: center; }
@@ -518,6 +528,7 @@
       <button type="submit">Start watching — free</button>
     </form>
     <div class="hero-form-note">A free daily email. Pick stories below, or just subscribe.</div>
+    <div class="hero-social-proof">Join curious readers who don't let stories disappear.</div>
   </div>
   <div class="hero-tagline">The news gets old. The story keeps going.</div>
 </section>
@@ -627,7 +638,7 @@
 </section>
 
 <section class="timeline-section">
-  <div class="tl-invite" id="tlToggle" onclick="toggleTimeline()">
+  <div class="tl-invite" id="tlToggle" role="button" tabindex="0" aria-expanded="false" onclick="toggleTimeline()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTimeline()}">
     <div class="tl-invite-emoji">👀</div>
     <div class="tl-invite-text">
       <div class="tl-invite-title">How do we watch a story for you?</div>
@@ -825,7 +836,10 @@ function setLoading(btn, loading) {
   btn.style.opacity = loading ? '0.7' : '1';
 }
 
+let isSubmitting = false;
 async function submitToAPI(email, sourceBtn) {
+  if (isSubmitting) return;
+  isSubmitting = true;
   if (sourceBtn) setLoading(sourceBtn, true);
   try {
     const res = await fetch('/api/subscribe', {
@@ -842,6 +856,7 @@ async function submitToAPI(email, sourceBtn) {
     showInlineError(sourceBtn, 'Connection error. Please try again.');
   } finally {
     if (sourceBtn) setLoading(sourceBtn, false);
+    isSubmitting = false;
   }
 }
 
@@ -894,6 +909,14 @@ function showSuccess() {
   }
   document.getElementById('overlay').classList.add('visible');
   document.getElementById('bottomBar').classList.remove('visible');
+  // Disable all forms after successful signup
+  document.querySelectorAll('.hero-cta-form button, .cta-form button, .bar-form button').forEach(btn => {
+    btn.disabled = true;
+    btn.textContent = '✓ Subscribed';
+  });
+  document.querySelectorAll('.hero-cta-form input, .cta-form input, .bar-form input').forEach(input => {
+    input.disabled = true;
+  });
 }
 
 function toggleTimeline() {
@@ -901,7 +924,18 @@ function toggleTimeline() {
   const toggle = document.getElementById('tlToggle');
   content.classList.toggle('visible');
   toggle.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', content.classList.contains('visible'));
 }
+
+// Sync email across all inputs
+['emailHero', 'emailBottom', 'barEmail'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    const val = this.value;
+    ['emailHero', 'emailBottom', 'barEmail'].forEach(otherId => {
+      if (otherId !== id) document.getElementById(otherId).value = val;
+    });
+  });
+});
 
 // Close overlay with Escape or click outside
 document.addEventListener('keydown', e => {
