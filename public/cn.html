@@ -182,6 +182,19 @@
     font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   }
 
+  .hero-example {
+    max-width: 440px; margin: 20px auto 0; text-align: left;
+  }
+  .hero-ex-line {
+    font-size: 14px; color: var(--text-cream); line-height: 1.8;
+    padding-left: 64px; position: relative;
+  }
+  .hero-ex-line.faded { color: var(--text-light); }
+  .hero-ex-line em { color: var(--gold); font-style: normal; font-weight: 500; }
+  .hero-ex-day {
+    position: absolute; left: 0; font-size: 11px; font-weight: 700;
+    color: var(--gold); letter-spacing: 0.5px; top: 3px;
+  }
   .hero-form { margin-top: 28px; }
   .hero-cta-form {
     display: flex; gap: 0; max-width: 400px; margin: 0 auto;
@@ -262,6 +275,7 @@
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   }
   .news-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .news-card.fresh { border-left: 3px solid var(--red); }
   .news-card.tracked {
     border-color: var(--gold);
     background: var(--gold-dim);
@@ -984,7 +998,10 @@
 <section class="hero">
   <div class="date-badge" id="dateBadge"></div>
   <h1>热搜下了<br><em>事情还在继续。</em></h1>
-  <p>你肯定有过这种感觉：<br>一条新闻刷屏了三天，然后就没人提了。<br>我们帮你盯着。有动静了告诉你。</p>
+  <div class="hero-example">
+    <div class="hero-ex-line"><span class="hero-ex-day">第 1 天</span> "波音认罪协议被驳回" — 到处都是。</div>
+    <div class="hero-ex-line faded"><span class="hero-ex-day">第 47 天</span> 没人再提了。但审判日期刚改了。<em>我们会告诉你。</em></div>
+  </div>
   <div class="hero-form">
     <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
       <input type="email" id="emailHero" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
@@ -1001,7 +1018,7 @@
 <section class="feed">
   <div class="feed-label">今天 10 条旧闻更新 — 点"帮我盯着"</div>
 
-  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="波音 737 MAX 认罪协议被法官驳回">
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="波音 737 MAX 认罪协议被法官驳回">
     <div class="news-content">
       <div class="news-cat">诉讼 · 航空安全</div>
       <div class="news-title">波音 737 MAX 刑事案：法官驳回认罪协议，认为处罚力度不足</div>
@@ -1011,7 +1028,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI 确认转营利结构，Altman 将持约 10% 股份">
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI 确认转营利结构，Altman 将持约 10% 股份">
     <div class="news-content">
       <div class="news-cat">融资 · 人工智能</div>
       <div class="news-title">OpenAI 营利性转型确认，Altman 将持约 10% 股份但不持控制权</div>

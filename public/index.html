@@ -147,6 +147,19 @@
     font-size: 15px; color: var(--text-light);
     max-width: 460px; margin: 0 auto; line-height: 1.7;
   }
+  .hero-example {
+    max-width: 440px; margin: 20px auto 0; text-align: left;
+  }
+  .hero-ex-line {
+    font-size: 14px; color: var(--text-cream); line-height: 1.8;
+    padding-left: 60px; position: relative;
+  }
+  .hero-ex-line.faded { color: var(--text-light); }
+  .hero-ex-line em { color: var(--gold); font-style: normal; font-weight: 500; }
+  .hero-ex-day {
+    position: absolute; left: 0; font-size: 11px; font-weight: 700;
+    color: var(--gold); letter-spacing: 0.5px; top: 3px;
+  }
   .hero-form { margin-top: 28px; }
   .hero-cta-form {
     display: flex; gap: 0; max-width: 400px; margin: 0 auto;
@@ -206,6 +219,7 @@
   }
   .news-card:hover { border-color: #ccc8be; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
   .news-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .news-card.fresh { border-left: 3px solid var(--red); }
   .news-card.tracked { border-color: var(--gold); background: var(--gold-dim); }
   .news-card.tracked .track-btn { background: var(--gold); color: #fff; border-color: var(--gold); }
   .news-card.tracked .track-btn-text::before { content: '👀 '; }
@@ -599,7 +613,10 @@
 <section class="hero">
   <div class="date-badge" id="dateBadge"></div>
   <h1>Headlines fade.<br><em>Stories don't.</em></h1>
-  <p>A story dominates the news for three days, then vanishes.<br>But the lawsuit, the vote, the deal — it keeps going.<br>We watch it for you. When something moves, you'll know.</p>
+  <div class="hero-example">
+    <div class="hero-ex-line"><span class="hero-ex-day">Day 1</span> "Boeing plea deal rejected" — everywhere.</div>
+    <div class="hero-ex-line faded"><span class="hero-ex-day">Day 47</span> Silence. But the trial date just moved. <em>We'd tell you.</em></div>
+  </div>
   <div class="hero-form">
     <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
       <input type="email" id="emailHero" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
@@ -615,7 +632,7 @@
 <section class="feed">
   <div class="feed-label">10 stories updated today — tap to watch</div>
 
-  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate">
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate">
     <div class="news-content">
       <div class="news-cat">Litigation · Aviation</div>
       <div class="news-title">Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate</div>
@@ -625,7 +642,7 @@
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI confirms for-profit conversion, Altman to hold ~10% equity">
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI confirms for-profit conversion, Altman to hold ~10% equity">
     <div class="news-content">
       <div class="news-cat">Funding · AI</div>
       <div class="news-title">OpenAI confirms for-profit conversion, Altman to hold ~10% equity</div>
