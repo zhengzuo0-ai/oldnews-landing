@@ -257,5 +257,21 @@ async def run_pipeline() -> dict:
                 logger.error(f"Error sending email to {user['email']}: {e}")
                 continue
 
+    # Log pipeline execution to database
+    try:
+        supabase.table("pipeline_runs").upsert(
+            {
+                "run_date": today,
+                "status": "success",
+                "stories_checked": stats["stories_checked"],
+                "updates_found": stats["updates_found"],
+                "emails_sent": stats["emails_sent"],
+                "skipped_duplicate": stats["skipped_duplicate"],
+            },
+            on_conflict="run_date",
+        ).execute()
+    except Exception as e:
+        logger.error(f"Failed to log pipeline run: {e}")
+
     logger.info(f"Pipeline complete: {stats}")
     return stats

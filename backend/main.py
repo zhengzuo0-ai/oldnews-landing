@@ -336,8 +336,23 @@ async def stats():
         .gte("created_at", f"{today}T00:00:00")
         .execute()
     )
+    # Get today's pipeline run status
+    pipeline_run = None
+    try:
+        run_resp = (
+            supabase.table("pipeline_runs")
+            .select("*")
+            .eq("run_date", today)
+            .execute()
+        )
+        if run_resp.data:
+            pipeline_run = run_resp.data[0]
+    except Exception:
+        pass
+
     return {
         "active_stories": stories.count,
         "verified_users": users.count,
         "updates_today": updates.count,
+        "pipeline_today": pipeline_run,
     }
