@@ -106,7 +106,7 @@ Respond in JSON only:
 
 async def run_pipeline() -> dict:
     """Run the full daily pipeline: search → judge → update DB → send emails."""
-    stats = {"stories_checked": 0, "updates_found": 0, "emails_sent": 0, "skipped_duplicate": 0}
+    stats = {"stories_checked": 0, "updates_found": 0, "emails_sent": 0, "skipped_duplicate": 0, "errors": 0}
     today = date.today().isoformat()
 
     # Get all active stories
@@ -142,14 +142,14 @@ async def run_pipeline() -> dict:
                     continue
 
                 results = await retry_async(
-                    lambda: search_story(client, story["title"]), max_retries=2
+                    lambda s=story: search_story(client, s["title"]), max_retries=2
                 )
                 if not results:
                     logger.info(f"No search results for: {story['title']}")
                     continue
 
                 judgment = await retry_async(
-                    lambda: judge_progress(client, story, results), max_retries=2
+                    lambda s=story, r=results: judge_progress(client, s, r), max_retries=2
                 )
 
                 if judgment.get("has_progress"):
@@ -183,6 +183,7 @@ async def run_pipeline() -> dict:
                     )
 
             except Exception as e:
+                stats["errors"] += 1
                 logger.error(f"Error processing story {story['title']}: {e}")
                 continue
 
@@ -258,15 +259,17 @@ async def run_pipeline() -> dict:
                 continue
 
     # Log pipeline execution to database
+    run_status = "success" if stats["errors"] == 0 else "partial"
     try:
         supabase.table("pipeline_runs").upsert(
             {
                 "run_date": today,
-                "status": "success",
+                "status": run_status,
                 "stories_checked": stats["stories_checked"],
                 "updates_found": stats["updates_found"],
                 "emails_sent": stats["emails_sent"],
                 "skipped_duplicate": stats["skipped_duplicate"],
+                "error_message": f"{stats['errors']} stories failed" if stats["errors"] > 0 else None,
             },
             on_conflict="run_date",
         ).execute()
