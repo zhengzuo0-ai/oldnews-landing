@@ -1,10 +1,13 @@
 """OldNews Backend — FastAPI app with all endpoints."""
 
 import logging
+import os
 import uuid
 from datetime import date, datetime
 
 import httpx
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
+from apscheduler.triggers.cron import CronTrigger
 from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
@@ -28,6 +31,41 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Daily Scheduler ──────────────────────────────────────────────────
+scheduler = AsyncIOScheduler()
+
+PIPELINE_HOUR = int(os.environ.get("PIPELINE_HOUR", "8"))
+PIPELINE_MINUTE = int(os.environ.get("PIPELINE_MINUTE", "0"))
+PIPELINE_TIMEZONE = os.environ.get("PIPELINE_TIMEZONE", "UTC")
+
+
+async def scheduled_pipeline():
+    """Wrapper for the scheduled daily pipeline run."""
+    logger.info("Scheduled pipeline starting...")
+    try:
+        result = await run_pipeline()
+        logger.info(f"Scheduled pipeline completed: {result}")
+    except Exception as e:
+        logger.error(f"Scheduled pipeline failed: {e}")
+
+
+@app.on_event("startup")
+async def start_scheduler():
+    scheduler.add_job(
+        scheduled_pipeline,
+        CronTrigger(hour=PIPELINE_HOUR, minute=PIPELINE_MINUTE, timezone=PIPELINE_TIMEZONE),
+        id="daily_pipeline",
+        replace_existing=True,
+    )
+    scheduler.start()
+    logger.info(f"Scheduler started — daily pipeline at {PIPELINE_HOUR:02d}:{PIPELINE_MINUTE:02d} {PIPELINE_TIMEZONE}")
+
+
+@app.on_event("shutdown")
+async def stop_scheduler():
+    scheduler.shutdown(wait=False)
+    logger.info("Scheduler stopped")
 
 
 # ── Health ────────────────────────────────────────────────────────────
