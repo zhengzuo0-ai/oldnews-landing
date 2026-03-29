@@ -3,6 +3,7 @@
 import asyncio
 import json
 import logging
+import os
 from datetime import date, datetime
 
 import httpx
@@ -275,6 +276,25 @@ async def run_pipeline() -> dict:
         ).execute()
     except Exception as e:
         logger.error(f"Failed to log pipeline run: {e}")
+
+    # Alert admin if there were errors
+    admin_email = os.environ.get("ADMIN_EMAIL")
+    if admin_email and stats["errors"] > 0:
+        try:
+            async with httpx.AsyncClient() as alert_client:
+                await alert_client.post(
+                    "https://api.resend.com/emails",
+                    headers={"Authorization": f"Bearer {RESEND_API_KEY}", "Content-Type": "application/json"},
+                    json={
+                        "from": RESEND_FROM_EMAIL,
+                        "to": admin_email,
+                        "subject": f"⚠️ OldNews pipeline: {stats['errors']} errors on {today}",
+                        "html": f"<p>Pipeline ran with errors.</p><pre>{json.dumps(stats, indent=2)}</pre>",
+                    },
+                    timeout=EMAIL_TIMEOUT,
+                )
+        except Exception as e:
+            logger.error(f"Failed to send admin alert: {e}")
 
     logger.info(f"Pipeline complete: {stats}")
     return stats
