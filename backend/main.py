@@ -47,7 +47,9 @@ async def health():
 
 
 @app.post("/api/stories")
-async def create_story(story: StoryCreate):
+async def create_story(story: StoryCreate, x_api_secret: str = Header(None, alias="X-API-Secret")):
+    if API_SECRET and x_api_secret != API_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid API secret")
     data = (
         supabase.table("stories")
         .insert(
@@ -335,7 +337,21 @@ async def trigger_pipeline(x_api_secret: str = Header(None, alias="X-API-Secret"
         logger.info(f"Pipeline completed: {result}")
         return result
     except Exception as e:
-        logger.error(f"Pipeline failed after {(datetime.utcnow() - start).total_seconds()}s: {e}")
+        duration = (datetime.utcnow() - start).total_seconds()
+        logger.error(f"Pipeline failed after {duration}s: {e}")
+        # Log failure to database
+        try:
+            supabase.table("pipeline_runs").upsert(
+                {
+                    "run_date": date.today().isoformat(),
+                    "status": "failed",
+                    "duration_seconds": duration,
+                    "error_message": str(e)[:500],
+                },
+                on_conflict="run_date",
+            ).execute()
+        except Exception:
+            pass
         raise HTTPException(status_code=500, detail=f"Pipeline failed: {str(e)}")
 
 
