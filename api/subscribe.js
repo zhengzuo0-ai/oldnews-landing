@@ -160,14 +160,14 @@ export default async function handler(req, res) {
           ? `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:40px 20px;">
               <h2 style="color:#2a3a40;">欢迎加入旧闻 👀</h2>
               <p style="color:#6a7a7e;line-height:1.6;">我们收到了你的邮箱。</p>
-              <p style="color:#6a7a7e;line-height:1.6;">OldNews 还在准备中，上线后你会是第一批收到邮件的人。</p>
+              <p style="color:#6a7a7e;line-height:1.6;">旧闻 2026 年 4 月上线，你会是第一批收到每日邮件的人。</p>
               ${storyCount > 0 ? `<p style="color:#6a7a7e;line-height:1.6;">你选了 ${storyCount} 条想盯的新闻，我们记下了。</p>` : ''}
               <p style="color:#b8956a;margin-top:24px;">— OldNews 旧闻</p>
             </div>`
           : `<div style="font-family:sans-serif;max-width:480px;margin:0 auto;padding:40px 20px;">
               <h2 style="color:#2a3a40;">Welcome to OldNews 👀</h2>
               <p style="color:#6a7a7e;line-height:1.6;">We've got your email.</p>
-              <p style="color:#6a7a7e;line-height:1.6;">OldNews is still being built. You'll be among the first to know when we launch.</p>
+              <p style="color:#6a7a7e;line-height:1.6;">OldNews launches in April 2026. You'll be among the first to get the daily email.</p>
               ${storyCount > 0 ? `<p style="color:#6a7a7e;line-height:1.6;">You picked ${storyCount} ${storyCount === 1 ? 'story' : 'stories'} to watch. We've noted them.</p>` : ''}
               <p style="color:#b8956a;margin-top:24px;">— OldNews</p>
             </div>`,
