@@ -61,6 +61,21 @@ async def start_scheduler():
     scheduler.start()
     logger.info(f"Scheduler started — daily pipeline at {PIPELINE_HOUR:02d}:{PIPELINE_MINUTE:02d} {PIPELINE_TIMEZONE}")
 
+    # Check if today's pipeline has already run (handles container restarts)
+    if os.environ.get("PIPELINE_CATCHUP", "true").lower() == "true":
+        try:
+            today = date.today().isoformat()
+            run_check = supabase.table("pipeline_runs").select("id").eq("run_date", today).execute()
+            if not run_check.data:
+                now = datetime.utcnow()
+                scheduled_time = now.replace(hour=PIPELINE_HOUR, minute=PIPELINE_MINUTE, second=0)
+                if now > scheduled_time:
+                    logger.info("Pipeline missed today — running catch-up")
+                    import asyncio
+                    asyncio.create_task(scheduled_pipeline())
+        except Exception as e:
+            logger.warning(f"Catch-up check failed: {e}")
+
 
 @app.on_event("shutdown")
 async def stop_scheduler():
