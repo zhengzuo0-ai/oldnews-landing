@@ -107,7 +107,7 @@ Respond in JSON only:
 
 async def run_pipeline() -> dict:
     """Run the full daily pipeline: search → judge → update DB → send emails."""
-    stats = {"stories_checked": 0, "updates_found": 0, "emails_sent": 0, "skipped_duplicate": 0, "errors": 0}
+    stats = {"stories_checked": 0, "updates_found": 0, "emails_sent": 0, "emails_failed": 0, "skipped_duplicate": 0, "errors": 0}
     today = date.today().isoformat()
 
     # Get all active stories
@@ -238,7 +238,7 @@ async def run_pipeline() -> dict:
                     today, user_updates, extra_stories, daily_url, lang
                 )
 
-                await client.post(
+                email_resp = await client.post(
                     "https://api.resend.com/emails",
                     headers={
                         "Authorization": f"Bearer {RESEND_API_KEY}",
@@ -252,10 +252,12 @@ async def run_pipeline() -> dict:
                     },
                     timeout=EMAIL_TIMEOUT,
                 )
+                email_resp.raise_for_status()
                 stats["emails_sent"] += 1
                 logger.info(f"Email sent to {user['email']}")
 
             except Exception as e:
+                stats["emails_failed"] += 1
                 logger.error(f"Error sending email to {user['email']}: {e}")
                 continue
 
@@ -279,7 +281,7 @@ async def run_pipeline() -> dict:
 
     # Alert admin if there were errors
     admin_email = os.environ.get("ADMIN_EMAIL")
-    if admin_email and stats["errors"] > 0:
+    if admin_email and (stats["errors"] > 0 or stats["emails_failed"] > 0):
         try:
             async with httpx.AsyncClient() as alert_client:
                 await alert_client.post(

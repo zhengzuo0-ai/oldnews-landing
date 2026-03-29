@@ -102,6 +102,26 @@ async def health():
     }
 
 
+@app.get("/health/pipeline")
+async def pipeline_health():
+    """Check if today's pipeline ran successfully. For external monitoring."""
+    today = date.today().isoformat()
+    now = datetime.utcnow()
+    expected_by = now.replace(hour=PIPELINE_HOUR + 1, minute=0, second=0)
+
+    try:
+        run_resp = supabase.table("pipeline_runs").select("*").eq("run_date", today).execute()
+        if run_resp.data:
+            run = run_resp.data[0]
+            return {"status": "ok" if run["status"] == "success" else "degraded", "run": run}
+        elif now > expected_by:
+            return {"status": "missed", "message": f"No pipeline run found for {today} (expected by {PIPELINE_HOUR+1}:00 UTC)"}
+        else:
+            return {"status": "pending", "message": f"Pipeline scheduled for {PIPELINE_HOUR:02d}:00 UTC"}
+    except Exception as e:
+        return {"status": "error", "message": str(e)}
+
+
 # ── Stories ───────────────────────────────────────────────────────────
 
 
