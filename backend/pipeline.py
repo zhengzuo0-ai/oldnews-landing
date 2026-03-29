@@ -1,16 +1,39 @@
 """OldNews daily pipeline: search → AI judge → update DB → send emails."""
 
+import asyncio
 import json
 import logging
+import os
 from datetime import date, datetime
 
 import httpx
 
+
+async def retry_async(func, max_retries=3, backoff=2):
+    """Retry an async function with exponential backoff."""
+    for attempt in range(max_retries):
+        try:
+            return await func()
+        except Exception as e:
+            if attempt == max_retries - 1:
+                raise
+            wait = backoff ** attempt
+            logging.getLogger(__name__).warning(
+                f"Retry {attempt + 1}/{max_retries} after {wait}s: {e}"
+            )
+            await asyncio.sleep(wait)
+
 from config import (
-    MINIMAX_API_KEY,
+    AI_MODEL,
+    AI_TIMEOUT,
     BASE_URL,
+    EMAIL_TIMEOUT,
+    MINIMAX_API_KEY,
+    NEW_STORIES_LIMIT,
     RESEND_API_KEY,
     RESEND_FROM_EMAIL,
+    SEARCH_RESULTS_LIMIT,
+    SEARCH_TIMEOUT,
     SERPER_API_KEY,
 )
 from database import supabase
@@ -24,8 +47,8 @@ async def search_story(client: httpx.AsyncClient, title: str) -> list[dict]:
     response = await client.post(
         "https://google.serper.dev/search",
         headers={"X-API-KEY": SERPER_API_KEY, "Content-Type": "application/json"},
-        json={"q": title, "num": 5, "tbs": "qdr:d"},
-        timeout=15.0,
+        json={"q": title, "num": SEARCH_RESULTS_LIMIT, "tbs": "qdr:d"},
+        timeout=SEARCH_TIMEOUT,
     )
     response.raise_for_status()
     data = response.json()
@@ -64,12 +87,12 @@ Respond in JSON only:
             "Content-Type": "application/json",
         },
         json={
-            "model": "MiniMax-M1-80k",
+            "model": AI_MODEL,
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": 512,
             "temperature": 0.1,
         },
-        timeout=30.0,
+        timeout=AI_TIMEOUT,
     )
     response.raise_for_status()
     text = response.json()["choices"][0]["message"]["content"]
@@ -84,7 +107,7 @@ Respond in JSON only:
 
 async def run_pipeline() -> dict:
     """Run the full daily pipeline: search → judge → update DB → send emails."""
-    stats = {"stories_checked": 0, "updates_found": 0, "emails_sent": 0}
+    stats = {"stories_checked": 0, "updates_found": 0, "emails_sent": 0, "emails_failed": 0, "skipped_duplicate": 0, "errors": 0}
     today = date.today().isoformat()
 
     # Get all active stories
@@ -93,6 +116,15 @@ async def run_pipeline() -> dict:
     )
     stories = stories_resp.data
     stats["stories_checked"] = len(stories)
+
+    # Get today's existing updates to prevent duplicates
+    existing_updates_resp = (
+        supabase.table("updates")
+        .select("story_id")
+        .gte("created_at", f"{today}T00:00:00")
+        .execute()
+    )
+    already_updated_ids = {u["story_id"] for u in existing_updates_resp.data}
 
     if not stories:
         logger.info("No active stories to check")
@@ -104,12 +136,22 @@ async def run_pipeline() -> dict:
         # Step 1 & 2: Search and judge each story
         for story in stories:
             try:
-                results = await search_story(client, story["title"])
+                # Skip stories already updated today (idempotency)
+                if story["id"] in already_updated_ids:
+                    stats["skipped_duplicate"] += 1
+                    logger.info(f"Skipping (already updated today): {story['title']}")
+                    continue
+
+                results = await retry_async(
+                    lambda s=story: search_story(client, s["title"]), max_retries=2
+                )
                 if not results:
                     logger.info(f"No search results for: {story['title']}")
                     continue
 
-                judgment = await judge_progress(client, story, results)
+                judgment = await retry_async(
+                    lambda s=story, r=results: judge_progress(client, s, r), max_retries=2
+                )
 
                 if judgment.get("has_progress"):
                     # Step 3: Update database
@@ -142,6 +184,7 @@ async def run_pipeline() -> dict:
                     )
 
             except Exception as e:
+                stats["errors"] += 1
                 logger.error(f"Error processing story {story['title']}: {e}")
                 continue
 
@@ -157,7 +200,7 @@ async def run_pipeline() -> dict:
             .select("*")
             .eq("is_active", True)
             .order("created_at", desc=True)
-            .limit(10)
+            .limit(NEW_STORIES_LIMIT)
             .execute()
         )
         new_stories_all = new_stories_resp.data
@@ -188,14 +231,14 @@ async def run_pipeline() -> dict:
                 # Filter new_stories to exclude already-watched
                 extra_stories = [
                     s for s in new_stories_all if s["id"] not in watched_ids
-                ][:10]
+                ][:NEW_STORIES_LIMIT]
 
                 subject = daily_email_subject(today, user_updates, lang)
                 html = daily_email_html(
                     today, user_updates, extra_stories, daily_url, lang
                 )
 
-                await client.post(
+                email_resp = await client.post(
                     "https://api.resend.com/emails",
                     headers={
                         "Authorization": f"Bearer {RESEND_API_KEY}",
@@ -207,14 +250,53 @@ async def run_pipeline() -> dict:
                         "subject": subject,
                         "html": html,
                     },
-                    timeout=10.0,
+                    timeout=EMAIL_TIMEOUT,
                 )
+                email_resp.raise_for_status()
                 stats["emails_sent"] += 1
                 logger.info(f"Email sent to {user['email']}")
 
             except Exception as e:
+                stats["emails_failed"] += 1
                 logger.error(f"Error sending email to {user['email']}: {e}")
                 continue
+
+    # Log pipeline execution to database
+    run_status = "success" if stats["errors"] == 0 else "partial"
+    try:
+        supabase.table("pipeline_runs").upsert(
+            {
+                "run_date": today,
+                "status": run_status,
+                "stories_checked": stats["stories_checked"],
+                "updates_found": stats["updates_found"],
+                "emails_sent": stats["emails_sent"],
+                "skipped_duplicate": stats["skipped_duplicate"],
+                "error_message": f"{stats['errors']} stories failed" if stats["errors"] > 0 else None,
+            },
+            on_conflict="run_date",
+        ).execute()
+    except Exception as e:
+        logger.error(f"Failed to log pipeline run: {e}")
+
+    # Alert admin if there were errors
+    admin_email = os.environ.get("ADMIN_EMAIL")
+    if admin_email and (stats["errors"] > 0 or stats["emails_failed"] > 0):
+        try:
+            async with httpx.AsyncClient() as alert_client:
+                await alert_client.post(
+                    "https://api.resend.com/emails",
+                    headers={"Authorization": f"Bearer {RESEND_API_KEY}", "Content-Type": "application/json"},
+                    json={
+                        "from": RESEND_FROM_EMAIL,
+                        "to": admin_email,
+                        "subject": f"⚠️ OldNews pipeline: {stats['errors']} errors on {today}",
+                        "html": f"<p>Pipeline ran with errors.</p><pre>{json.dumps(stats, indent=2)}</pre>",
+                    },
+                    timeout=EMAIL_TIMEOUT,
+                )
+        except Exception as e:
+            logger.error(f"Failed to send admin alert: {e}")
 
     logger.info(f"Pipeline complete: {stats}")
     return stats

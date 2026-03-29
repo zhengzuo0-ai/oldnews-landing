@@ -3,9 +3,40 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OldNews — 后来呢？</title>
+<title>旧闻 OldNews — 新闻在变旧，事情仍然在发展</title>
+<meta name="description" content="波音认罪协议？TikTok禁令？AI 用真正的进展检测帮你盯着热搜消失后的故事。免费每日邮件，2026年4月上线。">
+<meta name="theme-color" content="#2a3a40">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="旧闻 OldNews — 新闻在变旧，事情仍然在发展">
+<meta property="og:description" content="波音认罪协议？TikTok禁令？AI 用真正的进展检测帮你盯着热搜消失后的故事。免费每日邮件，2026年4月上线。">
+<meta property="og:url" content="https://oldnews.io/cn">
+<meta property="og:site_name" content="旧闻 OldNews">
+<meta property="og:locale" content="zh_CN">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="旧闻 OldNews — 新闻在变旧，事情仍然在发展">
+<meta name="twitter:description" content="波音认罪协议？TikTok禁令？AI 帮你盯着热搜消失后的故事后续。免费每日邮件，2026年4月上线。">
+<!-- TODO: Create og-cn.png (1200x630) with Chinese brand visuals -->
+<meta property="og:image" content="https://oldnews.io/og-cn.png">
+<meta name="twitter:image" content="https://oldnews.io/og-cn.png">
+
+<link rel="canonical" href="https://oldnews.io/cn">
+<link rel="alternate" hreflang="en" href="https://oldnews.io">
+<link rel="alternate" hreflang="zh" href="https://oldnews.io/cn">
+<link rel="alternate" hreflang="x-default" href="https://oldnews.io">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a3a40'/%3E%3Ctext x='4' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23e8e0d4'%3Eo%3C/text%3E%3Ctext x='14' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23b8956a'%3En%3C/text%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Preconnect for faster font loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&family=Noto+Serif+SC:wght@300;500;600&display=swap">
+<script>document.documentElement.classList.add('js');</script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Noto+Serif+SC:wght@300;400;500;600;700&display=swap');
 
   :root {
     --slate: #2a3a40;
@@ -23,15 +54,27 @@
     --text-mid: #6a7a7e;
     --text-light: #8a9a9e;
     --text-faint: #a8b4b8;
+    --text-cream: #e8e0d4;
     --red: #c4453a;
-    --green: #4a8a5a;
+    --red-dim: rgba(196, 69, 58, 0.1);
+    --separator: #f0ebe4;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
+  .skip-link {
+    position: absolute; top: -40px; left: 0;
+    background: var(--gold); color: var(--slate);
+    padding: 8px 16px; z-index: 200; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    text-decoration: none; border-radius: 0 0 4px 0;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 0; }
+
   body {
-    font-family: 'DM Sans', 'Noto Serif SC', serif;
+    font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     background: var(--cream);
     color: var(--text-dark);
     -webkit-font-smoothing: antialiased;
@@ -53,7 +96,7 @@
     font-family: 'Fraunces', serif;
     font-size: 22px;
     font-weight: 700;
-    color: #e8e0d4;
+    color: var(--text-cream);
     letter-spacing: -0.5px;
   }
   .header-logo span { color: var(--gold); }
@@ -98,6 +141,7 @@
   }
   .header-cta.visible { display: block; }
   .header-cta:hover { background: var(--gold-hover); }
+  .header-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   /* ═══ HERO ═══ */
   .hero {
@@ -123,7 +167,7 @@
     font-family: 'Noto Serif SC', serif;
     font-size: clamp(26px, 5vw, 42px);
     font-weight: 300;
-    color: #e8e0d4;
+    color: var(--text-cream);
     line-height: 1.4;
     margin-bottom: 14px;
   }
@@ -132,30 +176,91 @@
     color: var(--gold);
     font-weight: 500;
   }
-
-  .hero p {
-    font-size: 15px;
-    color: var(--text-light);
-    max-width: 400px;
-    margin: 0 auto;
-    line-height: 1.7;
-    font-family: 'DM Sans', 'Noto Serif SC', serif;
+  .hero-sub {
+    font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-size: 14px; font-weight: 400;
+    color: var(--text-light); letter-spacing: 0.3px; margin-bottom: 4px;
   }
 
-  .hero-tagline {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 13px;
-    color: var(--gold);
-    letter-spacing: 1px;
-    margin-top: 24px;
-    opacity: 0.7;
+  .hero-example {
+    max-width: 440px; margin: 20px auto 0; text-align: left;
+  }
+  .hero-ex-line {
+    font-size: 14px; color: var(--text-cream); line-height: 1.8;
+    padding-left: 64px; position: relative;
+  }
+  .hero-ex-line:first-child {
+    animation: newsAge 2s ease-out 0.5s forwards;
+  }
+  .hero-ex-line.faded {
+    color: var(--text-light);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 1.5s forwards;
+  }
+  .hero-ex-line em { color: var(--gold); font-style: normal; font-weight: 500; }
+  @keyframes newsAge {
+    0% { color: var(--text-cream); opacity: 1; filter: none; }
+    100% { color: var(--text-faint); opacity: 0.5; filter: sepia(0.3); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-ex-day {
+    position: absolute; left: 0; font-size: 11px; font-weight: 700;
+    color: var(--gold); letter-spacing: 0.5px; top: 3px;
+  }
+  .hero-form { margin-top: 28px; }
+  .hero-cta-form {
+    display: flex; gap: 0; max-width: 400px; margin: 0 auto;
+    border-radius: 7px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    animation: subtleGlow 3s ease-in-out 2s 1;
+  }
+  @keyframes subtleGlow {
+    0%,100% { box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    50% { box-shadow: 0 4px 24px rgba(184,149,106,0.3); }
+  }
+  .hero-cta-form input {
+    flex: 1; padding: 14px 18px; border: 2px solid var(--slate-light);
+    border-right: none; background: rgba(255,255,255,0.08);
+    color: var(--text-cream); font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; border-radius: 7px 0 0 7px;
+  }
+  .hero-cta-form input::placeholder { color: var(--text-light); }
+  .hero-cta-form input:focus { border-color: var(--gold); }
+  .hero-cta-form button {
+    padding: 14px 22px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    border: 2px solid var(--gold); border-radius: 0 7px 7px 0;
+    cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .hero-cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+  .hero-form-note {
+    font-size: 12px; color: var(--text-light); margin-top: 10px; opacity: 0.7;
+  }
+  .hero-social-proof {
+    font-size: 11px; color: var(--gold); margin-top: 8px; opacity: 0.6;
+    letter-spacing: 0.3px;
+  }
+
+  .hero-scroll-hint {
+    margin-top: 20px; font-size: 18px; color: var(--text-light); opacity: 0.4;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  /* ═══ TRUST STRIP ═══ */
+  .trust-strip {
+    background: var(--cream-dark); text-align: center; padding: 12px 24px;
+    font-size: 13px; color: var(--text-mid); line-height: 1.5;
   }
 
   /* ═══ FEED ═══ */
   .feed {
     max-width: 660px;
     margin: 0 auto;
-    padding: 32px 24px 16px;
+    padding: 40px 24px 16px;
   }
 
   .feed-label {
@@ -177,12 +282,14 @@
     align-items: flex-start;
     gap: 14px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
   .news-card:hover {
     border-color: #ccc8be;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   }
+  .news-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .news-card.fresh { border-left: 3px solid var(--red); }
   .news-card.tracked {
     border-color: var(--gold);
     background: var(--gold-dim);
@@ -229,10 +336,10 @@
 
   .track-btn {
     flex-shrink: 0;
-    padding: 7px 14px;
+    padding: 10px 16px;
     background: transparent;
     color: var(--text-mid);
-    font-family: 'DM Sans', 'Noto Serif SC', serif;
+    font-family: 'DM Sans', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     font-size: 12px;
     font-weight: 600;
     border: 1.5px solid var(--card-border);
@@ -240,12 +347,43 @@
     cursor: pointer;
     white-space: nowrap;
     margin-top: 3px;
-    transition: all 0.2s;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
   }
   .track-btn:hover {
     border-color: var(--gold);
     color: var(--slate);
   }
+  .track-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* ═══ INLINE CTA ═══ */
+  .inline-cta {
+    background: var(--gold); border-radius: 10px; padding: 20px 22px;
+    margin-bottom: 10px; text-align: center;
+  }
+  .inline-cta-text {
+    font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 500;
+    color: var(--slate); margin-bottom: 12px;
+  }
+  .inline-cta-form {
+    display: flex; gap: 0; max-width: 340px; margin: 0 auto;
+    border-radius: 6px; overflow: hidden;
+  }
+  .inline-cta-form input[type="email"] {
+    flex: 1; padding: 10px 14px; border: none;
+    background: rgba(255,255,255,0.9); color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
+  }
+  .inline-cta-form input::placeholder { color: var(--text-mid); }
+  .inline-cta-form input[type="email"]:focus { outline: 2px solid var(--gold); outline-offset: -2px; }
+  .inline-cta-form button {
+    padding: 10px 16px; background: var(--slate); color: var(--text-cream);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+    border: none; cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .inline-cta-form button:hover { background: var(--slate-dark); }
 
   /* ═══ TIMELINE ═══ */
   .timeline-section {
@@ -253,22 +391,6 @@
     margin: 0 auto;
     padding: 16px 24px 48px;
   }
-
-  .tl-toggle {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 14px 0;
-    border-top: 1px solid var(--cream-dark);
-  }
-
-  .tl-toggle-arrow {
-    font-size: 12px;
-    color: var(--gold);
-    transition: transform 0.3s;
-  }
-  .tl-toggle.open .tl-toggle-arrow { transform: rotate(90deg); }
 
   .tl-invite {
     background: var(--gold);
@@ -278,7 +400,7 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    transition: all 0.2s;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
     border: 2px solid var(--gold);
   }
   .tl-invite:hover {
@@ -286,6 +408,7 @@
     border-color: var(--gold-hover);
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   }
+  .tl-invite:focus-visible { outline: 2px solid var(--slate); outline-offset: 2px; }
   .tl-invite-emoji {
     font-size: 28px;
     flex-shrink: 0;
@@ -299,11 +422,6 @@
     font-weight: 600;
     color: var(--slate);
     margin-bottom: 4px;
-  }
-  .tl-invite-sub {
-    font-size: 12px;
-    color: var(--slate-light);
-    line-height: 1.5;
   }
   .tl-invite-cta {
     font-size: 13px;
@@ -321,13 +439,6 @@
   }
   .tl-invite.open .tl-invite-arrow {
     transform: rotate(90deg);
-  }
-
-  .tl-toggle-text {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 14px;
-    color: var(--gold);
-    font-weight: 500;
   }
 
   .tl-content {
@@ -350,7 +461,7 @@
   .tl-header-title {
     font-family: 'Noto Serif SC', serif;
     font-size: 16px;
-    color: #e8e0d4;
+    color: var(--text-cream);
     font-weight: 500;
     margin-bottom: 4px;
   }
@@ -373,7 +484,7 @@
     display: flex;
     gap: 14px;
     padding: 14px 0;
-    border-bottom: 1px solid #f0ebe4;
+    border-bottom: 1px solid var(--separator);
   }
   .tl-entry:last-child { border-bottom: none; }
 
@@ -432,7 +543,7 @@
     margin-bottom: 4px;
     font-family: 'DM Sans', sans-serif;
   }
-  .tl-tag.major { background: rgba(196,69,58,0.1); color: var(--red); }
+  .tl-tag.major { background: var(--red-dim); color: var(--red); }
   .tl-tag.minor { background: var(--gold-dim); color: var(--gold); }
 
   /* ═══ ONE-LINER ═══ */
@@ -446,7 +557,7 @@
     font-family: 'Noto Serif SC', serif;
     font-size: clamp(16px, 3vw, 21px);
     font-weight: 300;
-    color: #e8e0d4;
+    color: var(--text-cream);
     max-width: 520px;
     margin: 0 auto;
     line-height: 1.7;
@@ -456,6 +567,60 @@
     color: var(--gold);
     font-weight: 500;
   }
+
+  /* ═══ FAQ ═══ */
+  .faq { max-width: 660px; margin: 0 auto; padding: 40px 24px; }
+  .faq-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .faq-item {
+    padding: 16px 0; border-bottom: 1px solid var(--cream-dark);
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 6px;
+  }
+  .faq-a { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .faq-a em { color: var(--gold); font-style: normal; font-weight: 500; }
+
+  /* ═══ EMAIL PREVIEW ═══ */
+  .email-preview { max-width: 660px; margin: 0 auto; padding: 40px 24px 16px; }
+  .email-preview-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .email-mock {
+    background: var(--card-bg); border: 2px solid var(--card-border);
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .email-mock-header {
+    background: var(--slate); padding: 14px 20px;
+  }
+  .email-mock-subject {
+    font-family: 'Noto Serif SC', serif; font-size: 14px; font-weight: 500;
+    color: var(--text-cream); margin-bottom: 2px;
+  }
+  .email-mock-from { font-size: 11px; color: var(--text-light); }
+  .email-mock-body { padding: 16px 20px; }
+  .email-mock-card {
+    padding: 14px 0; border-bottom: 1px solid var(--separator);
+  }
+  .email-mock-card:last-child { border-bottom: none; }
+  .email-mock-badge {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; text-transform: uppercase;
+  }
+  .email-mock-badge.big { background: var(--red-dim); color: var(--red); }
+  .email-mock-badge.small { background: var(--gold-dim); color: var(--gold); }
+  .email-mock-title {
+    font-family: 'Noto Serif SC', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 4px;
+  }
+  .email-mock-text { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .email-mock-meta { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
 
   /* ═══ HOW ═══ */
   .how {
@@ -491,9 +656,6 @@
   }
   .how-step:last-child { border-right: none; }
 
-  .step-icon { display: none; }
-  .step-num { display: none; }
-
   .step-text h3 {
     font-family: 'Noto Serif SC', serif;
     font-size: 18px; font-weight: 600;
@@ -504,70 +666,6 @@
     font-size: 13px;
     color: var(--text-mid);
     line-height: 1.5;
-  }
-
-  @media (max-width: 600px) {
-    .how-steps { flex-direction: column; }
-    .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
-    .how-step:last-child { border-bottom: none; }
-
-    /* Header */
-    .header { padding: 12px 16px; }
-    .header-right { gap: 8px; }
-    .header-logo { font-size: 18px; }
-    .header-logo-sub { font-size: 9px; margin-left: 6px; }
-    .tracking-count { display: none; }
-    .header-cta { font-size: 11px; padding: 6px 12px; }
-    .lang-switch a { padding: 4px 8px; font-size: 12px; }
-
-    /* Hero */
-    .hero { padding: 36px 20px 42px; }
-    .hero h1 { font-size: 26px; }
-    .hero p { font-size: 14px; }
-    .hero-tagline { font-size: 12px; }
-
-    /* Feed */
-    .feed { padding: 24px 16px 12px; }
-    .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
-    .news-title { font-size: 15px; }
-    .track-btn { align-self: flex-start; }
-
-    /* Timeline invite */
-    .tl-invite { padding: 18px 18px; gap: 12px; }
-    .tl-invite-emoji { font-size: 22px; }
-    .tl-invite-title { font-size: 14px; }
-    .timeline-section { padding: 12px 16px 36px; }
-
-    /* Timeline entries */
-    .tl-date-col { width: 40px; }
-    .tl-date { font-size: 10px; }
-    .tl-text { font-size: 12px; }
-    .tl-body { padding: 6px 16px 14px; }
-
-    /* One-liner */
-    .oneliner { padding: 36px 20px; }
-    .oneliner p { font-size: 16px; }
-
-    /* How */
-    .how { padding: 32px 16px; }
-    .how-title { font-size: 20px; }
-
-    /* Bottom CTA */
-    .bottom-cta { padding: 40px 20px; }
-    .bottom-cta h2 { font-size: 19px; }
-    .cta-form { flex-direction: column; }
-    .cta-form input { border-right: 2px solid var(--card-border); border-radius: 7px 7px 0 0; border-bottom: none; }
-    .cta-form button { border-radius: 0 0 7px 7px; }
-
-    /* Sticky bar */
-    .bottom-bar { flex-direction: column; gap: 8px; padding: 12px 16px; }
-    .bar-text { font-size: 13px; }
-    .bar-form { width: 100%; }
-    .bar-form input { flex: 1; width: auto; }
-
-    /* Success overlay */
-    .success { padding: 32px 24px; }
-    .success h2 { font-size: 20px; }
   }
 
   /* ═══ BOTTOM CTA ═══ */
@@ -624,24 +722,31 @@
     border-radius: 0 7px 7px 0;
     cursor: pointer;
     white-space: nowrap;
+    transition: background 0.2s;
   }
   .cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+  .cta-form button:focus-visible, .bar-form button:focus-visible, .hero-cta-form button:focus-visible, .inline-cta-form button:focus-visible, .close-btn:focus-visible {
+    outline: 2px solid var(--gold); outline-offset: 2px;
+  }
 
   /* ═══ FOOTER ═══ */
   .footer {
     background: var(--slate);
-    padding: 32px 24px;
+    padding: 32px 24px 80px;
     text-align: center;
   }
   .footer-logo {
     font-family: 'Fraunces', serif;
     font-size: 18px; font-weight: 700;
-    color: #e8e0d4;
+    color: var(--text-cream);
     margin-bottom: 6px;
   }
   .footer-logo span { color: var(--gold); }
+  .footer-logo-cn {
+    font-family: 'Noto Serif SC', serif; font-size: 12px;
+    color: var(--text-light) !important; letter-spacing: 2px; margin-left: 6px;
+  }
   .footer p { font-size: 12px; color: var(--text-light); }
-  .footer a { color: var(--text-faint); text-decoration: none; }
 
   /* ═══ STICKY BAR ═══ */
   .bottom-bar {
@@ -661,7 +766,7 @@
   }
   .bottom-bar.visible { transform: translateY(0); }
 
-  .bar-text { font-size: 14px; color: #e8e0d4; }
+  .bar-text { font-size: 14px; color: var(--text-cream); }
   .bar-text strong { color: var(--gold); }
 
   .bar-form { display: flex; gap: 0; }
@@ -670,7 +775,7 @@
     border: 1.5px solid var(--slate-light);
     border-right: none;
     background: rgba(255,255,255,0.05);
-    color: #e8e0d4;
+    color: var(--text-cream);
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     border-radius: 5px 0 0 5px;
@@ -690,7 +795,9 @@
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     white-space: nowrap;
+    transition: background 0.2s;
   }
+  .bar-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
 
   /* ═══ SUCCESS ═══ */
   .overlay {
@@ -730,7 +837,7 @@
   .success h2 {
     font-family: 'Noto Serif SC', serif;
     font-size: 22px;
-    color: #e8e0d4;
+    color: var(--text-cream);
     margin-bottom: 10px;
   }
 
@@ -756,9 +863,11 @@
 
   .tracked-list-item {
     font-size: 12px;
-    color: #b8c4c8;
+    color: var(--text-faint);
     padding: 3px 0 3px 14px;
     position: relative;
+    overflow-wrap: break-word;
+    word-break: break-word;
   }
   .tracked-list-item::before {
     content: '→';
@@ -779,7 +888,27 @@
     font-size: 12px;
     cursor: pointer;
   }
-  .close-btn:hover { border-color: var(--text-light); color: #e8e0d4; }
+  .success-note { color: var(--text-light); font-size: 11px; }
+  .close-btn:hover { border-color: var(--text-light); color: var(--text-cream); }
+
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+  .ohnoh { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; overflow: hidden; }
+  .inline-error {
+    font-size: 12px; color: var(--red); margin-top: 8px;
+    text-align: center; animation: fadeSlide 0.3s ease;
+  }
+
+  /* Scroll reveal animation */
+  .js .news-card, .js .how-step, .js .tl-invite {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .js .news-card.revealed, .js .how-step.revealed, .js .tl-invite.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
   /* ═══ LANG SWITCH ═══ */
   .lang-switch {
@@ -795,19 +924,109 @@
     text-decoration: none;
     padding: 5px 12px;
     border-radius: 4px;
-    transition: all 0.2s;
+    transition: color 0.2s, background 0.2s;
     font-family: 'DM Sans', sans-serif;
     font-size: 13px;
     font-weight: 500;
   }
-  .lang-switch a:hover { color: #e8e0d4; }
+  .lang-switch a:hover { color: var(--text-cream); }
+  .lang-switch a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .lang-switch a.active {
     background: var(--gold);
     color: var(--slate);
     font-weight: 700;
   }
 
+  /* ═══ REDUCED MOTION ═══ */
+  @media (prefers-reduced-motion: reduce) {
+    .js .news-card, .js .how-step, .js .tl-invite, .news-card, .how-step, .tl-invite { opacity: 1; transform: none; transition: none; }
+    .tl-content, .overlay .success, .hero-ex-line, .hero-ex-line.faded, .hero-cta-form, .hero-scroll-hint { animation: none; }
+    .hero-ex-line.faded { opacity: 1; }
+  }
+
   /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 600px) {
+    .how-steps { flex-direction: column; }
+    .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
+    .how-step:last-child { border-bottom: none; }
+
+    /* Header */
+    .header { padding: 12px 16px; }
+    .header-right { gap: 8px; }
+    .header-logo { font-size: 18px; }
+    .header-logo-sub { font-size: 9px; margin-left: 6px; }
+    .tracking-count { display: none; }
+    .header-cta { font-size: 11px; padding: 6px 12px; }
+    .lang-switch a { padding: 4px 8px; font-size: 12px; }
+
+    /* Hero */
+    .hero { padding: 36px 20px 42px; }
+    .hero h1 { font-size: 26px; }
+
+
+    /* Hero example */
+    .hero-example { max-width: 100%; }
+    .hero-ex-line { font-size: 13px; padding-left: 56px; }
+    .hero-ex-day { font-size: 10px; }
+
+    /* Hero form */
+    .hero-cta-form { flex-direction: column; }
+    .hero-cta-form input { border-right: 2px solid var(--slate-light); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .hero-cta-form input:focus { border-color: var(--gold); }
+    .hero-cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Make Day 47 line visible on mobile (don't hide value prop from fast scrollers) */
+    .hero-ex-line.faded { opacity: 0.4; animation: fadeIn 0.8s ease-out 0.8s forwards; }
+
+    /* Feed */
+    .feed { padding: 24px 16px 12px; }
+    .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
+    .news-title { font-size: 15px; }
+    .track-btn { align-self: flex-start; }
+
+    /* Inline CTA */
+    .inline-cta-form { flex-direction: column; border-radius: 6px; }
+    .inline-cta-form input[type="email"] { border-radius: 6px 6px 0 0; }
+    .inline-cta-form button { border-radius: 0 0 6px 6px; }
+
+    /* Timeline invite */
+    .tl-invite { padding: 18px 18px; gap: 12px; }
+    .tl-invite-emoji { font-size: 22px; }
+    .tl-invite-title { font-size: 14px; }
+    .timeline-section { padding: 12px 16px 36px; }
+
+    /* Timeline entries */
+    .tl-date-col { width: 40px; }
+    .tl-date { font-size: 10px; }
+    .tl-text { font-size: 12px; }
+    .tl-body { padding: 6px 16px 14px; }
+
+    /* One-liner */
+    .oneliner { padding: 36px 20px; }
+    .oneliner p { font-size: 16px; }
+
+    /* How */
+    .how { padding: 32px 16px; }
+    .how-title { font-size: 20px; }
+
+    /* Bottom CTA */
+    .bottom-cta { padding: 40px 20px; }
+    .bottom-cta h2 { font-size: 19px; }
+    .cta-form { flex-direction: column; }
+    .cta-form input { border-right: 2px solid var(--card-border); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Sticky bar */
+    .bottom-bar { flex-direction: column; gap: 8px; padding: 12px 16px; }
+    .bar-text { font-size: 13px; }
+    .bar-form { width: 100%; }
+    .bar-form input { flex: 1; width: auto; }
+
+    /* Success overlay */
+    .success { padding: 32px 24px; }
+    .success h2 { font-size: 20px; }
+  }
+
 </style>
 </head>
 <body>
@@ -815,134 +1034,131 @@
 <!-- lang switch is in header -->
 
 <!-- ═══ HEADER ═══ -->
-<div class="header">
-  <div class="header-logo">old<span>news</span><span class="header-logo-sub">旧闻</span></div>
+<a class="skip-link" href="#emailBottom">跳到注册</a>
+
+<header class="header" role="banner">
+  <div class="header-logo" aria-label="旧闻 OldNews">old<span>news</span><span class="header-logo-sub">旧闻</span></div>
   <div class="header-right">
-    <div class="lang-switch">
-      <a href="/">EN</a>
-      <a href="#" class="active">中文</a>
-    </div>
-    <div class="tracking-count">在盯 <strong id="headerCount">0</strong> 条</div>
+    <nav class="lang-switch" aria-label="语言切换">
+      <a href="/" hreflang="en" lang="en">EN</a>
+      <a href="/cn" class="active" aria-current="page">中文</a>
+    </nav>
+    <div class="tracking-count" aria-live="polite">在盯 <strong id="headerCount">0</strong> 条</div>
     <button class="header-cta" id="headerCta" onclick="document.getElementById('emailBottom').focus(); document.getElementById('emailBottom').scrollIntoView({behavior:'smooth',block:'center'})">留个邮箱 →</button>
   </div>
-</div>
+</header>
 
 <!-- ═══ HERO ═══ -->
 <section class="hero">
-  <div class="date-badge">2026 年 3 月 1 日</div>
+  <div class="date-badge" id="dateBadge">今天</div>
   <h1>热搜下了<br><em>事情还在继续。</em></h1>
-  <p>你肯定有过这种感觉：<br>一条新闻刷屏了三天，然后就没人提了。<br>我们帮你盯着。有动静了告诉你。</p>
-  <div class="hero-tagline">新闻在变旧，事情仍然在发展。</div>
+  <h2 class="hero-sub">新闻后续追踪——有真正的新进展才通知你。</h2>
+  <div class="hero-example">
+    <div class="hero-ex-line"><span class="hero-ex-day">第 1 天</span> "波音认罪协议被驳回"——刷屏了。</div>
+    <div class="hero-ex-line faded"><span class="hero-ex-day">第 47 天</span> 没人再提了。但审判日期刚刚改了。<em>旧闻还在盯着。</em></div>
+  </div>
+  <div class="hero-form">
+    <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
+      <input type="email" id="emailHero" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+      <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit">开始盯着 →</button>
+    </form>
+    <div class="hero-form-note">2026 年 4 月上线。免费每日邮件——注册拿到第一期。</div>
+    <div class="hero-social-proof">内测中 · 绝不发垃圾邮件 · 一键退订</div>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">↓</div>
 </section>
+
+<div class="trust-strip">🔕 没有新进展？那天就不发邮件。只有事情动了，才会通知你。</div>
 
 <!-- ═══ FEED ═══ -->
 <section class="feed">
-  <div class="feed-label">今日旧闻 — 这些事还有下文，感兴趣就点一下</div>
+  <div class="feed-label">我们在盯的故事 — 点"帮我盯着"</div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="波音 737 MAX 认罪协议被法官驳回">
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="波音 737 MAX 认罪协议被法官驳回">
     <div class="news-content">
       <div class="news-cat">诉讼 · 航空安全</div>
       <div class="news-title">波音 737 MAX 刑事案：法官驳回认罪协议，认为处罚力度不足</div>
       <div class="news-summary">联邦法官拒绝批准 24.4 亿美元认罪协议，称罚款金额无法匹配 346 人遇难的严重性。波音面临重新谈判或进入完整刑事庭审。</div>
-      <div class="news-source">路透社 · 6 小时前</div>
+      <div class="news-source">路透社 · 已盯 47 天</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="OpenAI 重组：Altman 放弃 100 亿美元股权">
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI 确认转营利结构，Altman 将持约 10% 股份">
     <div class="news-content">
       <div class="news-cat">融资 · 人工智能</div>
       <div class="news-title">OpenAI 营利性转型确认，Altman 将持约 10% 股份但不持控制权</div>
       <div class="news-summary">转型计划预计年底前完成。微软持股稀释至约 30%，换取利润分配优先权。Musk 提起的阻止转型诉讼已被法院驳回。</div>
-      <div class="news-source">The Information · 8 小时前</div>
+      <div class="news-source">The Information · 已盯 31 天</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="欧盟对苹果开出 18 亿欧元反垄断罚单">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="欧盟对苹果开出 18 亿欧元反垄断罚单">
     <div class="news-content">
       <div class="news-cat">监管 · 科技巨头</div>
       <div class="news-title">欧盟因 App Store 垄断行为对苹果处以 18 亿欧元罚款</div>
       <div class="news-summary">欧盟委员会认定苹果利用平台优势限制音乐流媒体竞争。苹果已提起上诉。</div>
-      <div class="news-source">金融时报 · 4 小时前</div>
+      <div class="news-source">金融时报 · 已盯 62 天</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="加沙停火：卡塔尔提出三阶段方案">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="加沙停火：卡塔尔提出三阶段方案">
     <div class="news-content">
       <div class="news-cat">地缘政治 · 中东</div>
       <div class="news-title">加沙停火谈判：卡塔尔提出新的三阶段停火框架</div>
       <div class="news-summary">哈马斯表示正在研究方案内容，以色列尚未正式回应。美方表态"谨慎乐观"。</div>
-      <div class="news-source">半岛电视台 · 3 小时前</div>
+      <div class="news-source">半岛电视台 · 已盯 89 天</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="TikTok 禁令：字节跳动与微软等初步接触">
+  <div class="inline-cta">
+    <div class="inline-cta-text">每天早上收到这些？留个邮箱就行。</div>
+    <form class="inline-cta-form" onsubmit="event.preventDefault(); submitInline()">
+      <input type="email" id="emailInline" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+      <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit">开始盯着 →</button>
+    </form>
+  </div>
+
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok 禁令：字节跳动与微软等初步接触">
     <div class="news-content">
       <div class="news-cat">监管 · 社交媒体</div>
       <div class="news-title">TikTok 出售谈判：字节跳动与至少三家潜在买方初步接触</div>
       <div class="news-summary">尚未进入正式尽职调查阶段。下一个法定截止日期为 4 月 5 日，涉及 1.7 亿美国用户。</div>
-      <div class="news-source">彭博社 · 5 小时前</div>
+      <div class="news-source">彭博社 · 已盯 28 天</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="恒大清盘：海外债权人回收率可能低于 4%">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="恒大清盘：海外债权人回收率可能低于 4%">
     <div class="news-content">
       <div class="news-cat">房地产 · 债务危机</div>
       <div class="news-title">恒大清盘首份资产报告：海外债权人预计回收率不足 4%</div>
       <div class="news-summary">法院指定清盘人评估回收率为 2.1%～3.8%，低于此前市场预期的 5%～8%。</div>
-      <div class="news-source">南华早报 · 7 小时前</div>
+      <div class="news-source">南华早报 · 已盯 54 天</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="SpaceX 星舰：FAA 推迟第七次试飞许可">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="SpaceX 星舰：FAA 推迟第七次试飞许可">
     <div class="news-content">
       <div class="news-cat">航天 · 监管</div>
       <div class="news-title">SpaceX 星舰第七次试飞许可被推迟，FAA 要求补充环境审查</div>
       <div class="news-summary">第六次试飞碎片散落范围超出预期。SpaceX 方面称延迟在数周之内。</div>
-      <div class="news-source">Ars Technica · 10 小时前</div>
+      <div class="news-source">Ars Technica · 已盯 83 天</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="Ozempic 专利挑战：仿制药企提起诉讼">
-    <div class="news-content">
-      <div class="news-cat">制药 · 知识产权</div>
-      <div class="news-title">多家仿制药企挑战 Ozempic 核心专利，诺和诺德股价承压</div>
-      <div class="news-summary">若专利挑战成功，仿制版司美格鲁肽最快 2028 年上市。诺和诺德股价下跌约 3%。</div>
-      <div class="news-source">STAT News · 2 小时前</div>
-    </div>
-    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
-  </div>
-
-  <div class="news-card" onclick="toggle(this)" data-title="三星掌门人李在镕重审判决即将出炉">
-    <div class="news-content">
-      <div class="news-cat">企业 · 韩国</div>
-      <div class="news-title">三星李在镕行贿案重审判决在即</div>
-      <div class="news-summary">首尔高等法院将于近日宣判。结果将直接影响三星集团未来治理结构。</div>
-      <div class="news-source">日经亚洲 · 12 小时前</div>
-    </div>
-    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
-  </div>
-
-  <div class="news-card" onclick="toggle(this)" data-title="印度封禁 14 款与恐怖融资相关的通讯应用">
-    <div class="news-content">
-      <div class="news-cat">政策 · 网络安全</div>
-      <div class="news-title">印度以国家安全为由封禁 14 款通讯应用</div>
-      <div class="news-summary">部分被封应用在克什米尔地区使用广泛。数字权利组织质疑禁令过度。</div>
-      <div class="news-source">The Hindu · 9 小时前</div>
-    </div>
-    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">帮我盯着</span></button>
-  </div>
 </section>
 
 <!-- ═══ TIMELINE ═══ -->
 <section class="timeline-section">
-  <div class="tl-invite" id="tlToggle" onclick="toggleTimeline()">
+  <div class="tl-invite" id="tlToggle" role="button" tabindex="0" aria-expanded="false" onclick="toggleTimeline()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTimeline()}">
     <div class="tl-invite-emoji">👀</div>
     <div class="tl-invite-text">
       <div class="tl-invite-title">一条新闻我们会怎么替你盯？</div>
@@ -1020,6 +1236,30 @@
   <p>我们不会因为出现了某个关键词就推给你。<br>只有事情<em>真的往前走了一步</em>，才会告诉你。</p>
 </section>
 
+<section class="email-preview">
+  <div class="email-preview-label">你每天早上收到的邮件长这样</div>
+  <div class="email-mock">
+    <div class="email-mock-header">
+      <div class="email-mock-subject">旧闻 3.1 &nbsp;|&nbsp; 波音的事又有动静了</div>
+      <div class="email-mock-from">from: hello@oldnews.io</div>
+    </div>
+    <div class="email-mock-body">
+      <div class="email-mock-card">
+        <div class="email-mock-badge big">大动静</div>
+        <div class="email-mock-title">波音 737 MAX</div>
+        <div class="email-mock-text">联邦法官驳回 24.4 亿美元的认罪协议，称罚款与 346 条生命不匹配。波音面临全面刑事审判或重新谈判。</div>
+        <div class="email-mock-meta">已盯 47 天 · 3 次更新</div>
+      </div>
+      <div class="email-mock-card">
+        <div class="email-mock-badge small">小动静</div>
+        <div class="email-mock-title">TikTok 出售</div>
+        <div class="email-mock-text">字节跳动确认与两个美国财团进行"初步对话"。尚未进入正式尽调。4月5日截止日逼近。</div>
+        <div class="email-mock-meta">已盯 22 天 · 5 次更新</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══ HOW ═══ -->
 <section class="how">
   <div class="how-label">HOW IT WORKS</div>
@@ -1028,7 +1268,7 @@
     <div class="how-step">
       <div class="step-text">
         <h3>选</h3>
-        <p>每天 10 条新闻，<br>点"帮我盯着"。</p>
+        <p>每天精选新闻，<br>点"帮我盯着"。</p>
       </div>
     </div>
     <div class="how-step">
@@ -1046,29 +1286,48 @@
   </div>
 </section>
 
-<!-- ═══ BOTTOM CTA ═══ -->
-<section class="bottom-cta">
-  <h2>每条新闻都有下文，只是没人告诉你。</h2>
-  <p>免费。每天一封。随时退。</p>
-  <div class="cta-form">
-    <input type="email" id="emailBottom" placeholder="your@email.com">
-    <button onclick="submitFromBottom()">留下邮箱</button>
+<section class="faq">
+  <div class="faq-label">常见问题</div>
+  <div class="faq-item">
+    <div class="faq-q">和 Google Alerts 有什么不同？</div>
+    <div class="faq-a">Google Alerts 只看关键词。我们用 AI 判断是否有<em>真正的新进展</em>——而不是同一条旧闻被不同媒体转发。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">多久会收到一次邮件？</div>
+    <div class="faq-a">最多一天一封，早上发。如果你盯的故事都没动静，就不会打扰你。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">真的免费吗？</div>
+    <div class="faq-a">是的。我们正在开放测试，希望获得早期反馈。未来会有付费的自定义追踪功能。</div>
   </div>
 </section>
 
+<!-- ═══ BOTTOM CTA ═══ -->
+<section class="bottom-cta">
+  <h2>每条新闻都有下文，只是没人告诉你。</h2>
+  <p>免费。每天一封。没动静不发。随时退。</p>
+  <form class="cta-form" onsubmit="event.preventDefault(); submitFromBottom()">
+    <input type="email" id="emailBottom" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+    <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">开始盯着 →</button>
+  </form>
+</section>
+
 <!-- ═══ FOOTER ═══ -->
-<footer class="footer">
-  <div class="footer-logo">old<span>news</span> <span style="font-family:'Noto Serif SC',serif; font-size:12px; color:var(--text-light); letter-spacing:2px; margin-left:6px;">旧闻</span></div>
-  <p>好奇心 + AI。 <a href="#">关于我们</a> · <a href="#">隐私</a></p>
+<footer class="footer" role="contentinfo">
+  <div class="footer-logo">old<span>news</span> <span class="footer-logo-cn">旧闻</span></div>
+  <p>好奇心 + AI。你的数据很安全——我们只发你关心的更新。</p>
+  <p style="margin-top:12px;font-size:11px;color:var(--text-faint);">© 2026 旧闻 OldNews. 一个读者做的，因为总在想"那件事后来怎么样了？"</p>
 </footer>
 
 <!-- ═══ STICKY BAR ═══ -->
 <div class="bottom-bar" id="bottomBar">
   <div class="bar-text">选了 <strong id="barCount">0</strong> 条让我们盯着，留个邮箱就行</div>
-  <div class="bar-form">
-    <input type="email" id="barEmail" placeholder="your@email.com">
-    <button onclick="submitEmail()">搞定 →</button>
-  </div>
+  <form class="bar-form" onsubmit="event.preventDefault(); submitEmail()">
+    <input type="email" id="barEmail" placeholder="your@email.com" aria-label="邮箱地址" autocomplete="email">
+    <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">搞定 →</button>
+  </form>
 </div>
 
 <!-- ═══ SUCCESS ═══ -->
@@ -1076,20 +1335,47 @@
   <div class="success">
     <div class="check">✓</div>
     <h2>好了，等着收邮件吧</h2>
-    <p>这几条有新消息的时候，我们会告诉你。</p>
+    <p>你已加入早期体验名单。24 小时内会收到一封确认邮件。</p>
     <div class="tracked-list">
       <div class="tracked-list-title">👀 你在盯着</div>
       <div id="trackedItems"></div>
     </div>
-    <p style="color:#7a8a8e; font-size:11px;">每天早上还会有 10 条新的给你挑。</p>
+    <p class="success-note">每天早上还会有新的故事给你挑。</p>
     <button class="close-btn" onclick="document.getElementById('overlay').classList.remove('visible')">知道了</button>
   </div>
 </div>
 
 <script>
+// Dynamic date in Chinese format
+const now = new Date();
+document.getElementById('dateBadge').textContent = `${now.getFullYear()} 年 ${now.getMonth() + 1} 月 ${now.getDate()} 日`;
+
 let tracked = [];
 
+// Restore selections from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('oldnews_tracked_cn') || '[]');
+  if (Array.isArray(saved) && saved.length > 0) {
+    document.querySelectorAll('.news-card').forEach(card => {
+      if (saved.includes(card.dataset.title)) {
+        card.classList.add('tracked');
+        card.querySelector('.track-btn-text').textContent = '盯着了';
+        tracked.push(card.dataset.title);
+      }
+    });
+    updateUI();
+  }
+} catch(e) {}
+
+let hasSubscribed = false;
+
+// Check if already subscribed
+try {
+  if (localStorage.getItem('oldnews_subscribed_cn')) { hasSubscribed = true; disableAllForms(); }
+} catch(e) {}
+
 function toggle(card) {
+  if (hasSubscribed) return;
   const title = card.dataset.title;
   const btnText = card.querySelector('.track-btn-text');
   if (card.classList.contains('tracked')) {
@@ -1100,6 +1386,7 @@ function toggle(card) {
     card.classList.add('tracked');
     btnText.textContent = '盯着了';
     tracked.push(title);
+    trackEvent('story_watch', { title: title.slice(0, 50), count: tracked.length });
     card.style.transform = 'scale(1.01)';
     setTimeout(() => card.style.transform = '', 150);
   }
@@ -1112,9 +1399,49 @@ function updateUI() {
   document.getElementById('barCount').textContent = n;
   document.getElementById('bottomBar').classList.toggle('visible', n > 0);
   document.getElementById('headerCta').classList.toggle('visible', n > 0);
+  try { localStorage.setItem('oldnews_tracked_cn', JSON.stringify(tracked)); } catch(e) {}
 }
 
-async function submitToAPI(email) {
+function trackEvent(name, data) {
+  try { window.va?.track(name, data); } catch(e) {}
+}
+
+function submitHero() {
+  const input = document.getElementById('emailHero');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.hero-cta-form').querySelector('button'));
+}
+
+function submitInline() {
+  const input = document.getElementById('emailInline');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.inline-cta-form').querySelector('button'));
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function setLoading(btn, loading) {
+  btn.disabled = loading;
+  btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+  btn.textContent = loading ? '发送中...' : btn.dataset.originalText;
+  btn.style.opacity = loading ? '0.7' : '1';
+}
+
+function checkHoneypot(form) {
+  const hp = form ? form.querySelector('.ohnoh') : null;
+  return hp && hp.value;
+}
+
+let isSubmitting = false;
+async function submitToAPI(email, sourceBtn) {
+  if (isSubmitting) return;
+  if (checkHoneypot(sourceBtn?.closest('form'))) return;
+  isSubmitting = true;
+  if (sourceBtn) setLoading(sourceBtn, true);
   try {
     const res = await fetch('/api/subscribe', {
       method: 'POST',
@@ -1122,42 +1449,85 @@ async function submitToAPI(email) {
       body: JSON.stringify({ email, stories: tracked, lang: 'cn' })
     });
     if (res.ok) {
+      trackEvent('subscribe', { stories: tracked.length });
       showSuccess();
     } else {
-      alert('出了点问题，请重试。');
+      showInlineError(sourceBtn, '出了点问题，请重试。');
     }
   } catch (e) {
-    alert('网络错误，请重试。');
+    showInlineError(sourceBtn, '网络错误，请重试。');
+  } finally {
+    if (sourceBtn) setLoading(sourceBtn, false);
+    isSubmitting = false;
   }
+}
+
+function showInlineError(nearBtn, msg) {
+  const parent = nearBtn ? nearBtn.closest('form') : document.querySelector('.hero-cta-form');
+  if (!parent) return;
+  const container = parent.parentElement;
+  const existing = container.querySelector('.inline-error');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'inline-error';
+  el.textContent = msg;
+  parent.insertAdjacentElement('afterend', el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+function shakeInvalid(input) {
+  input.style.borderColor = '#c4453a';
+  input.style.animation = 'shake 0.3s ease';
+  setTimeout(() => { input.style.borderColor = ''; input.style.animation = ''; }, 1500);
 }
 
 function submitEmail() {
-  const email = document.getElementById('barEmail').value;
-  if (!email || !email.includes('@')) { document.getElementById('barEmail').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('barEmail').style.borderColor = '', 1500); return; }
-  submitToAPI(email);
+  const input = document.getElementById('barEmail');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.bar-form').querySelector('button'));
 }
 
 function submitFromBottom() {
-  const email = document.getElementById('emailBottom').value;
-  if (!email || !email.includes('@')) { document.getElementById('emailBottom').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('emailBottom').style.borderColor = '', 1500); return; }
-  if (tracked.length === 0) {
-    document.querySelector('.feed').scrollIntoView({ behavior: 'smooth' });
-    return;
-  }
-  submitToAPI(email);
+  const input = document.getElementById('emailBottom');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.cta-form').querySelector('button'));
 }
 
 function showSuccess() {
   const el = document.getElementById('trackedItems');
+  const trackedList = document.querySelector('.tracked-list');
   el.innerHTML = '';
-  tracked.forEach(t => {
-    const d = document.createElement('div');
-    d.className = 'tracked-list-item';
-    d.textContent = t;
-    el.appendChild(d);
-  });
+  if (tracked.length > 0) {
+    trackedList.style.display = '';
+    tracked.forEach(t => {
+      const d = document.createElement('div');
+      d.className = 'tracked-list-item';
+      d.textContent = t;
+      el.appendChild(d);
+    });
+  } else {
+    trackedList.style.display = 'none';
+  }
   document.getElementById('overlay').classList.add('visible');
   document.getElementById('bottomBar').classList.remove('visible');
+  // Disable all forms after successful signup
+  hasSubscribed = true;
+  disableAllForms();
+  try { localStorage.setItem('oldnews_subscribed_cn', '1'); } catch(e) {}
+}
+
+function disableAllForms() {
+  document.querySelectorAll('.hero-cta-form button, .inline-cta-form button, .cta-form button, .bar-form button').forEach(btn => {
+    btn.disabled = true;
+    btn.textContent = '✓ 盯着了';
+  });
+  document.querySelectorAll('.hero-cta-form input, .inline-cta-form input, .cta-form input, .bar-form input').forEach(input => {
+    input.disabled = true;
+  });
+  document.getElementById('bottomBar').classList.remove('visible');
+  document.getElementById('headerCta').classList.remove('visible');
 }
 
 function toggleTimeline() {
@@ -1165,8 +1535,131 @@ function toggleTimeline() {
   const toggle = document.getElementById('tlToggle');
   content.classList.toggle('visible');
   toggle.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', content.classList.contains('visible'));
+}
+
+// Hide scroll hint after first scroll
+const scrollHint = document.querySelector('.hero-scroll-hint');
+if (scrollHint) {
+  const hideHint = () => { scrollHint.style.opacity = '0'; window.removeEventListener('scroll', hideHint); };
+  window.addEventListener('scroll', hideHint, { passive: true });
+}
+
+// Sync email across all inputs
+['emailHero', 'emailInline', 'emailBottom', 'barEmail'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    const val = this.value;
+    ['emailHero', 'emailInline', 'emailBottom', 'barEmail'].forEach(otherId => {
+      if (otherId !== id) document.getElementById(otherId).value = val;
+    });
+  });
+});
+
+// Close overlay with Escape or click outside
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('overlay').classList.remove('visible');
+});
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove('visible');
+});
+
+// Scroll reveal with stable stagger
+let revealCount = 0;
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('revealed'), revealCount * 60);
+      revealCount++;
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.news-card, .how-step, .tl-invite').forEach(el => revealObserver.observe(el));
+
+// Live "aging" ticker on story cards
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+document.querySelectorAll('.news-source').forEach(el => {
+  const match = el.textContent.match(/已盯 (\d+) 天/);
+  if (!match) return;
+  const baseDays = parseInt(match[1]);
+  const baseSeconds = baseDays * 86400 + Math.floor(Math.random() * 86400);
+  let elapsed = baseSeconds;
+  const tick = () => {
+    elapsed++;
+    const d = Math.floor(elapsed / 86400);
+    const h = Math.floor((elapsed % 86400) / 3600);
+    const m = Math.floor((elapsed % 3600) / 60);
+    const s = elapsed % 60;
+    const original = el.textContent.split('·');
+    if (original.length >= 2) {
+      original[original.length - 1] = ` ${d}天 ${h}时 ${m}分 ${String(s).padStart(2,'0')}秒`;
+      el.textContent = original.join('·');
+    }
+  };
+  tick();
+  setInterval(tick, 1000);
+});
 }
 </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "旧闻 OldNews",
+  "url": "https://oldnews.io/cn",
+  "inLanguage": "zh-CN",
+  "description": "新闻热搜三天就消失了，但事情还在发展。旧闻帮你盯着，有动静了才通知你。",
+  "applicationCategory": "NewsApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "OldNews"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "和 Google Alerts 有什么不同？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google Alerts 只看关键词。我们用 AI 判断是否有真正的新进展——而不是同一条旧闻被不同媒体转发。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "多久会收到一次邮件？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "最多一天一封，早上发。如果你盯的故事都没动静，就不会打扰你。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "真的免费吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "是的。我们正在开放测试，希望获得早期反馈。未来会有付费的自定义追踪功能。"
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Vercel Web Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 
 </body>
 </html>

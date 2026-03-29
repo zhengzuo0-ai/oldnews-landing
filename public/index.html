@@ -4,8 +4,39 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OldNews — Headlines fade. Stories don't.</title>
+<meta name="description" content="Remember the Boeing plea deal? The TikTok ban? AI uses real progress detection to track stories after they leave the headlines. Free daily email — launching April 2026.">
+<meta name="theme-color" content="#2a3a40">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="OldNews — Headlines fade. Stories don't.">
+<meta property="og:description" content="Remember the Boeing plea deal? The TikTok ban? AI uses real progress detection to track stories after they leave the headlines. Free daily email — launching April 2026.">
+<meta property="og:url" content="https://oldnews.io">
+<meta property="og:site_name" content="OldNews">
+<meta property="og:locale" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OldNews — Headlines fade. Stories don't.">
+<meta name="twitter:description" content="Remember the Boeing plea deal? The TikTok ban? AI tracks what actually happened next. Free daily email — launching April 2026.">
+<!-- TODO: Create og.png (1200x630) and og-cn.png with brand visuals for social sharing -->
+<meta property="og:image" content="https://oldnews.io/og.png">
+<meta name="twitter:image" content="https://oldnews.io/og.png">
+
+<link rel="canonical" href="https://oldnews.io">
+<link rel="alternate" hreflang="en" href="https://oldnews.io">
+<link rel="alternate" hreflang="zh" href="https://oldnews.io/cn">
+<link rel="alternate" hreflang="x-default" href="https://oldnews.io">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a3a40'/%3E%3Ctext x='4' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23e8e0d4'%3Eo%3C/text%3E%3Ctext x='14' y='23' font-family='Georgia,serif' font-size='20' font-weight='700' fill='%23b8956a'%3En%3C/text%3E%3C/svg%3E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+<!-- Preconnect for faster font loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,700&family=DM+Sans:wght@400;500;700&display=swap">
+<script>document.documentElement.classList.add('js');</script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 
   :root {
     --slate: #2a3a40;
@@ -23,11 +54,25 @@
     --text-mid: #6a7a7e;
     --text-light: #8a9a9e;
     --text-faint: #a8b4b8;
+    --text-cream: #e8e0d4;
     --red: #c4453a;
+    --red-dim: rgba(196, 69, 58, 0.1);
+    --separator: #f0ebe4;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
+
+  /* Skip link for accessibility */
+  .skip-link {
+    position: absolute; top: -40px; left: 0;
+    background: var(--gold); color: var(--slate);
+    padding: 8px 16px; z-index: 200; font-size: 14px;
+    font-family: 'DM Sans', sans-serif; font-weight: 700;
+    text-decoration: none; border-radius: 0 0 4px 0;
+    transition: top 0.2s;
+  }
+  .skip-link:focus { top: 0; }
 
   body {
     font-family: 'DM Sans', sans-serif;
@@ -51,7 +96,7 @@
     font-family: 'Fraunces', serif;
     font-size: 22px;
     font-weight: 700;
-    color: #e8e0d4;
+    color: var(--text-cream);
     letter-spacing: -0.5px;
   }
   .header-logo span { color: var(--gold); }
@@ -65,9 +110,10 @@
     color: var(--text-faint); text-decoration: none;
     padding: 5px 12px; border-radius: 4px;
     font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
-    transition: all 0.2s;
+    transition: color 0.2s, background 0.2s;
   }
-  .lang-switch a:hover { color: #e8e0d4; }
+  .lang-switch a:hover { color: var(--text-cream); }
+  .lang-switch a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .lang-switch a.active { background: var(--gold); color: var(--slate); font-weight: 700; }
   .tracking-count { font-size: 13px; color: var(--text-faint); }
   .tracking-count strong { color: var(--gold); font-size: 15px; }
@@ -79,6 +125,7 @@
   }
   .header-cta.visible { display: block; }
   .header-cta:hover { background: var(--gold-hover); }
+  .header-cta:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
   /* ═══ HERO ═══ */
   .hero {
@@ -95,25 +142,91 @@
   .hero h1 {
     font-family: 'Fraunces', serif;
     font-size: clamp(30px, 5.5vw, 48px);
-    font-weight: 300; color: #e8e0d4;
+    font-weight: 300; color: var(--text-cream);
     line-height: 1.2; margin-bottom: 16px;
   }
   .hero h1 em {
-    font-style: italic; color: var(--gold); font-weight: 400;
+    font-style: normal; color: var(--gold); font-weight: 500;
   }
-  .hero p {
-    font-size: 15px; color: var(--text-light);
-    max-width: 460px; margin: 0 auto; line-height: 1.7;
+  .hero-sub {
+    font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 400;
+    color: var(--text-light); letter-spacing: 0.3px; margin-bottom: 4px;
   }
-  .hero-tagline {
-    font-family: 'Fraunces', serif;
-    font-size: 13px; color: var(--gold);
-    letter-spacing: 0.5px; margin-top: 24px; opacity: 0.7;
-    font-style: italic;
+  .hero-example {
+    max-width: 440px; margin: 20px auto 0; text-align: left;
+  }
+  .hero-ex-line {
+    font-size: 14px; color: var(--text-cream); line-height: 1.8;
+    padding-left: 60px; position: relative;
+  }
+  .hero-ex-line:first-child {
+    animation: newsAge 2s ease-out 0.5s forwards;
+  }
+  .hero-ex-line.faded {
+    color: var(--text-light);
+    opacity: 0;
+    animation: fadeIn 0.8s ease-out 1.5s forwards;
+  }
+  .hero-ex-line em { color: var(--gold); font-style: normal; font-weight: 500; }
+  @keyframes newsAge {
+    0% { color: var(--text-cream); opacity: 1; filter: none; }
+    100% { color: var(--text-faint); opacity: 0.5; filter: sepia(0.3); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-ex-day {
+    position: absolute; left: 0; font-size: 11px; font-weight: 700;
+    color: var(--gold); letter-spacing: 0.5px; top: 3px;
+  }
+  .hero-form { margin-top: 28px; }
+  .hero-cta-form {
+    display: flex; gap: 0; max-width: 400px; margin: 0 auto;
+    border-radius: 7px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    animation: subtleGlow 3s ease-in-out 2s 1;
+  }
+  @keyframes subtleGlow {
+    0%,100% { box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    50% { box-shadow: 0 4px 24px rgba(184,149,106,0.3); }
+  }
+  .hero-cta-form input {
+    flex: 1; padding: 14px 18px; border: 2px solid var(--slate-light);
+    border-right: none; background: rgba(255,255,255,0.08);
+    color: var(--text-cream); font-family: 'DM Sans', sans-serif; font-size: 14px;
+    outline: none; border-radius: 7px 0 0 7px;
+  }
+  .hero-cta-form input::placeholder { color: var(--text-light); }
+  .hero-cta-form input:focus { border-color: var(--gold); }
+  .hero-cta-form button {
+    padding: 14px 22px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    border: 2px solid var(--gold); border-radius: 0 7px 7px 0;
+    cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .hero-cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+  .hero-form-note {
+    font-size: 12px; color: var(--text-light); margin-top: 10px; opacity: 0.7;
+  }
+  .hero-social-proof {
+    font-size: 11px; color: var(--gold); margin-top: 8px; opacity: 0.6;
+    letter-spacing: 0.3px;
+  }
+  .hero-scroll-hint {
+    margin-top: 20px; font-size: 18px; color: var(--text-light); opacity: 0.4;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  /* ═══ TRUST STRIP ═══ */
+  .trust-strip {
+    background: var(--cream-dark); text-align: center; padding: 12px 24px;
+    font-size: 13px; color: var(--text-mid); line-height: 1.5;
   }
 
   /* ═══ FEED ═══ */
-  .feed { max-width: 660px; margin: 0 auto; padding: 32px 24px 16px; }
+  .feed { max-width: 660px; margin: 0 auto; padding: 40px 24px 16px; }
   .feed-label {
     font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
     color: var(--gold); margin-bottom: 20px;
@@ -122,9 +235,11 @@
     background: var(--card-bg); border: 2px solid var(--card-border);
     border-radius: 10px; padding: 20px 22px; margin-bottom: 10px;
     display: flex; align-items: flex-start; gap: 14px;
-    cursor: pointer; transition: all 0.2s ease;
+    cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
   .news-card:hover { border-color: #ccc8be; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+  .news-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .news-card.fresh { border-left: 3px solid var(--red); }
   .news-card.tracked { border-color: var(--gold); background: var(--gold-dim); }
   .news-card.tracked .track-btn { background: var(--gold); color: #fff; border-color: var(--gold); }
   .news-card.tracked .track-btn-text::before { content: '👀 '; }
@@ -140,22 +255,52 @@
   .news-summary { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
   .news-source { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
   .track-btn {
-    flex-shrink: 0; padding: 7px 14px; background: transparent;
+    flex-shrink: 0; padding: 10px 16px; background: transparent;
     color: var(--text-mid); font-family: 'DM Sans', sans-serif;
     font-size: 11px; font-weight: 600;
     border: 1.5px solid var(--card-border); border-radius: 5px;
-    cursor: pointer; white-space: nowrap; margin-top: 3px; transition: all 0.2s;
+    cursor: pointer; white-space: nowrap; margin-top: 3px; transition: border-color 0.2s, color 0.2s, background 0.2s;
+    min-height: 44px; display: flex; align-items: center;
   }
   .track-btn:hover { border-color: var(--gold); color: var(--slate); }
+  .track-btn:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* ═══ INLINE CTA ═══ */
+  .inline-cta {
+    background: var(--gold); border-radius: 10px; padding: 20px 22px;
+    margin-bottom: 10px; text-align: center;
+  }
+  .inline-cta-text {
+    font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500;
+    color: var(--slate); margin-bottom: 12px;
+  }
+  .inline-cta-form {
+    display: flex; gap: 0; max-width: 340px; margin: 0 auto;
+    border-radius: 6px; overflow: hidden;
+  }
+  .inline-cta-form input[type="email"] {
+    flex: 1; padding: 10px 14px; border: none;
+    background: rgba(255,255,255,0.9); color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
+  }
+  .inline-cta-form input::placeholder { color: var(--text-mid); }
+  .inline-cta-form input[type="email"]:focus { outline: 2px solid var(--gold); outline-offset: -2px; }
+  .inline-cta-form button {
+    padding: 10px 16px; background: var(--slate); color: var(--text-cream);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+    border: none; cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .inline-cta-form button:hover { background: var(--slate-dark); }
 
   /* ═══ TIMELINE ═══ */
   .timeline-section { max-width: 660px; margin: 0 auto; padding: 16px 24px 48px; }
   .tl-invite {
     background: var(--gold); border-radius: 10px; padding: 24px 26px;
     cursor: pointer; display: flex; align-items: center; gap: 16px;
-    transition: all 0.2s; border: 2px solid var(--gold);
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; border: 2px solid var(--gold);
   }
   .tl-invite:hover { background: var(--gold-hover); border-color: var(--gold-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+  .tl-invite:focus-visible { outline: 2px solid var(--slate); outline-offset: 2px; }
   .tl-invite-emoji { font-size: 28px; flex-shrink: 0; }
   .tl-invite-text { flex: 1; }
   .tl-invite-title {
@@ -177,14 +322,14 @@
     background: var(--slate); border-radius: 10px 10px 0 0; padding: 18px 22px;
   }
   .tl-header-title {
-    font-family: 'Fraunces', serif; font-size: 16px; color: #e8e0d4; font-weight: 500; margin-bottom: 4px;
+    font-family: 'Fraunces', serif; font-size: 16px; color: var(--text-cream); font-weight: 500; margin-bottom: 4px;
   }
   .tl-header-meta { font-size: 11px; color: var(--text-light); }
   .tl-body {
     background: var(--card-bg); border: 1px solid var(--card-border);
     border-top: none; border-radius: 0 0 10px 10px; padding: 8px 22px 18px;
   }
-  .tl-entry { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid #f0ebe4; }
+  .tl-entry { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid var(--separator); }
   .tl-entry:last-child { border-bottom: none; }
   .tl-date-col { flex-shrink: 0; width: 52px; text-align: right; padding-top: 2px; }
   .tl-date { font-size: 11px; font-weight: 700; color: var(--slate); line-height: 1.3; }
@@ -198,7 +343,7 @@
     display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
     padding: 2px 7px; border-radius: 3px; margin-bottom: 4px;
   }
-  .tl-tag.major { background: rgba(196,69,58,0.1); color: var(--red); }
+  .tl-tag.major { background: var(--red-dim); color: var(--red); }
   .tl-tag.minor { background: var(--gold-dim); color: var(--gold); }
 
   /* ═══ ONE-LINER ═══ */
@@ -206,9 +351,63 @@
   .oneliner p {
     font-family: 'Fraunces', serif;
     font-size: clamp(16px, 3vw, 21px); font-weight: 300;
-    color: #e8e0d4; max-width: 520px; margin: 0 auto; line-height: 1.7;
+    color: var(--text-cream); max-width: 520px; margin: 0 auto; line-height: 1.7;
   }
   .oneliner p em { font-style: normal; color: var(--gold); font-weight: 500; }
+
+  /* ═══ FAQ ═══ */
+  .faq { max-width: 660px; margin: 0 auto; padding: 40px 24px; }
+  .faq-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .faq-item {
+    padding: 16px 0; border-bottom: 1px solid var(--cream-dark);
+  }
+  .faq-item:last-child { border-bottom: none; }
+  .faq-q {
+    font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 6px;
+  }
+  .faq-a { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .faq-a em { color: var(--gold); font-style: normal; font-weight: 500; }
+
+  /* ═══ EMAIL PREVIEW ═══ */
+  .email-preview { max-width: 660px; margin: 0 auto; padding: 40px 24px 16px; }
+  .email-preview-label {
+    font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .email-mock {
+    background: var(--card-bg); border: 2px solid var(--card-border);
+    border-radius: 10px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .email-mock-header {
+    background: var(--slate); padding: 14px 20px;
+  }
+  .email-mock-subject {
+    font-family: 'Fraunces', serif; font-size: 14px; font-weight: 500;
+    color: var(--text-cream); margin-bottom: 2px;
+  }
+  .email-mock-from { font-size: 11px; color: var(--text-light); }
+  .email-mock-body { padding: 16px 20px; }
+  .email-mock-card {
+    padding: 14px 0; border-bottom: 1px solid var(--separator);
+  }
+  .email-mock-card:last-child { border-bottom: none; }
+  .email-mock-badge {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    padding: 2px 7px; border-radius: 3px; margin-bottom: 6px; text-transform: uppercase;
+  }
+  .email-mock-badge.big { background: var(--red-dim); color: var(--red); }
+  .email-mock-badge.small { background: var(--gold-dim); color: var(--gold); }
+  .email-mock-title {
+    font-family: 'Fraunces', serif; font-size: 15px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 4px;
+  }
+  .email-mock-text { font-size: 13px; line-height: 1.6; color: var(--text-mid); }
+  .email-mock-meta { font-size: 11px; color: var(--text-faint); margin-top: 6px; }
 
   /* ═══ HOW ═══ */
   .how { max-width: 660px; margin: 0 auto; padding: 40px 24px; }
@@ -230,6 +429,146 @@
     color: var(--gold); margin-bottom: 6px;
   }
   .how-step p { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+
+  /* ═══ BOTTOM CTA ═══ */
+  .bottom-cta { background: var(--cream-dark); padding: 56px 24px; text-align: center; }
+  .bottom-cta h2 {
+    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
+    color: var(--text-dark); margin-bottom: 8px;
+  }
+  .bottom-cta p { font-size: 14px; color: var(--text-mid); margin-bottom: 28px; }
+  .cta-form {
+    display: flex; gap: 0; max-width: 400px; margin: 0 auto;
+    border-radius: 7px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+  .cta-form input {
+    flex: 1; padding: 14px 18px; border: 2px solid var(--card-border);
+    border-right: none; background: var(--card-bg); color: var(--text-dark);
+    font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none;
+    border-radius: 7px 0 0 7px;
+  }
+  .cta-form input::placeholder { color: var(--text-faint); }
+  .cta-form input:focus { border-color: var(--gold); }
+  .cta-form button {
+    padding: 14px 24px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
+    border: 2px solid var(--gold); border-radius: 0 7px 7px 0;
+    cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+  .cta-form button:focus-visible, .bar-form button:focus-visible, .hero-cta-form button:focus-visible, .inline-cta-form button:focus-visible, .close-btn:focus-visible {
+    outline: 2px solid var(--gold); outline-offset: 2px;
+  }
+
+  /* ═══ FOOTER ═══ */
+  .footer { background: var(--slate); padding: 32px 24px 80px; text-align: center; }
+  .footer-logo {
+    font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700;
+    color: var(--text-cream); margin-bottom: 6px;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer p { font-size: 12px; color: var(--text-light); }
+
+  /* ═══ STICKY BAR ═══ */
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--slate); border-top: 2px solid var(--gold);
+    padding: 14px 24px; display: flex; align-items: center;
+    justify-content: center; gap: 12px;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100; box-shadow: 0 -6px 30px rgba(0,0,0,0.15);
+  }
+  .bottom-bar.visible { transform: translateY(0); }
+  .bar-text { font-size: 14px; color: var(--text-cream); }
+  .bar-text strong { color: var(--gold); }
+  .bar-form { display: flex; gap: 0; }
+  .bar-form input {
+    padding: 10px 14px; border: 1.5px solid var(--slate-light);
+    border-right: none; background: rgba(255,255,255,0.05);
+    color: var(--text-cream); font-family: 'DM Sans', sans-serif; font-size: 13px;
+    border-radius: 5px 0 0 5px; outline: none; width: 200px;
+  }
+  .bar-form input:focus { border-color: var(--gold); }
+  .bar-form input::placeholder { color: var(--text-light); }
+  .bar-form button {
+    padding: 10px 18px; background: var(--gold); color: var(--slate);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
+    border: 1.5px solid var(--gold); border-radius: 0 5px 5px 0;
+    cursor: pointer; white-space: nowrap; transition: background 0.2s;
+  }
+  .bar-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
+
+  /* ═══ SUCCESS ═══ */
+  .overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(42,58,64,0.92); z-index: 200;
+    align-items: center; justify-content: center;
+  }
+  .overlay.visible { display: flex; }
+  .success {
+    background: var(--slate); border: 2px solid var(--gold);
+    border-radius: 14px; padding: 40px 36px; text-align: center;
+    max-width: 420px; margin: 0 20px;
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  .success .check {
+    width: 48px; height: 48px; border-radius: 50%; background: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px; font-size: 24px; color: var(--slate);
+  }
+  .success h2 { font-family: 'Fraunces', serif; font-size: 22px; color: var(--text-cream); margin-bottom: 10px; }
+  .success p { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 6px; }
+  .tracked-list {
+    text-align: left; margin: 16px 0; padding: 14px;
+    background: rgba(184,149,106,0.06); border-radius: 8px;
+    border: 1px solid rgba(184,149,106,0.15);
+  }
+  .tracked-list-title {
+    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .tracked-list-item {
+    font-size: 12px; color: var(--text-faint); padding: 3px 0 3px 14px; position: relative;
+    overflow-wrap: break-word; word-break: break-word;
+  }
+  .tracked-list-item::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 11px; }
+  .close-btn {
+    margin-top: 12px; padding: 8px 28px; background: transparent;
+    color: var(--text-light); border: 1px solid var(--slate-light);
+    border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer;
+  }
+  .success-note { color: var(--text-light); font-size: 11px; }
+  .close-btn:hover { border-color: var(--text-light); color: var(--text-cream); }
+
+  @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+
+  .ohnoh { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; overflow: hidden; }
+  .inline-error {
+    font-size: 12px; color: var(--red); margin-top: 8px;
+    text-align: center; animation: fadeSlide 0.3s ease;
+  }
+
+  /* Scroll reveal animation */
+  .js .news-card, .js .how-step, .js .tl-invite {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .js .news-card.revealed, .js .how-step.revealed, .js .tl-invite.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ═══ REDUCED MOTION ═══ */
+  @media (prefers-reduced-motion: reduce) {
+    .js .news-card, .js .how-step, .js .tl-invite, .news-card, .how-step, .tl-invite { opacity: 1; transform: none; transition: none; }
+    .tl-content, .overlay .success, .hero-ex-line, .hero-ex-line.faded, .hero-cta-form, .hero-scroll-hint { animation: none; }
+    .hero-ex-line.faded { opacity: 1; }
+  }
+
+  /* ═══ RESPONSIVE ═══ */
   @media (max-width: 600px) {
     .how-steps { flex-direction: column; }
     .how-step { border-right: none; border-bottom: 1px solid var(--cream-dark); padding: 16px 0; text-align: left; }
@@ -246,14 +585,32 @@
     /* Hero */
     .hero { padding: 36px 20px 42px; }
     .hero h1 { font-size: 28px; }
-    .hero p { font-size: 14px; }
-    .hero-tagline { font-size: 12px; }
+
+
+    /* Hero example */
+    .hero-example { max-width: 100%; }
+    .hero-ex-line { font-size: 13px; padding-left: 52px; }
+    .hero-ex-day { font-size: 10px; }
+
+    /* Hero form */
+    .hero-cta-form { flex-direction: column; }
+    .hero-cta-form input { border-right: 2px solid var(--slate-light); border-radius: 7px 7px 0 0; border-bottom: none; }
+    .hero-cta-form input:focus { border-color: var(--gold); }
+    .hero-cta-form button { border-radius: 0 0 7px 7px; }
+
+    /* Make Day 47 line visible on mobile (don't hide value prop from fast scrollers) */
+    .hero-ex-line.faded { opacity: 0.4; animation: fadeIn 0.8s ease-out 0.8s forwards; }
 
     /* Feed */
     .feed { padding: 24px 16px 12px; }
     .news-card { flex-direction: column; gap: 10px; padding: 16px 18px; }
     .news-title { font-size: 15px; }
     .track-btn { align-self: flex-start; }
+
+    /* Inline CTA */
+    .inline-cta-form { flex-direction: column; border-radius: 6px; }
+    .inline-cta-form input[type="email"] { border-radius: 6px 6px 0 0; }
+    .inline-cta-form button { border-radius: 0 0 6px 6px; }
 
     /* Timeline invite */
     .tl-invite { padding: 18px 18px; gap: 12px; }
@@ -293,242 +650,132 @@
     .success h2 { font-size: 20px; }
   }
 
-  /* ═══ BOTTOM CTA ═══ */
-  .bottom-cta { background: var(--cream-dark); padding: 56px 24px; text-align: center; }
-  .bottom-cta h2 {
-    font-family: 'Fraunces', serif; font-size: 22px; font-weight: 500;
-    color: var(--text-dark); margin-bottom: 8px;
-  }
-  .bottom-cta p { font-size: 14px; color: var(--text-mid); margin-bottom: 28px; }
-  .cta-form {
-    display: flex; gap: 0; max-width: 400px; margin: 0 auto;
-    border-radius: 7px; overflow: hidden; box-shadow: 0 2px 16px rgba(0,0,0,0.06);
-  }
-  .cta-form input {
-    flex: 1; padding: 14px 18px; border: 2px solid var(--card-border);
-    border-right: none; background: var(--card-bg); color: var(--text-dark);
-    font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none;
-    border-radius: 7px 0 0 7px;
-  }
-  .cta-form input::placeholder { color: var(--text-faint); }
-  .cta-form input:focus { border-color: var(--gold); }
-  .cta-form button {
-    padding: 14px 24px; background: var(--gold); color: var(--slate);
-    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 700;
-    border: 2px solid var(--gold); border-radius: 0 7px 7px 0;
-    cursor: pointer; white-space: nowrap;
-  }
-  .cta-form button:hover { background: var(--gold-hover); border-color: var(--gold-hover); }
-
-  /* ═══ FOOTER ═══ */
-  .footer { background: var(--slate); padding: 32px 24px; text-align: center; }
-  .footer-logo {
-    font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700;
-    color: #e8e0d4; margin-bottom: 6px;
-  }
-  .footer-logo span { color: var(--gold); }
-  .footer p { font-size: 12px; color: var(--text-light); }
-  .footer a { color: var(--text-faint); text-decoration: none; }
-
-  /* ═══ STICKY BAR ═══ */
-  .bottom-bar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--slate); border-top: 2px solid var(--gold);
-    padding: 14px 24px; display: flex; align-items: center;
-    justify-content: center; gap: 12px;
-    transform: translateY(100%);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 100; box-shadow: 0 -6px 30px rgba(0,0,0,0.15);
-  }
-  .bottom-bar.visible { transform: translateY(0); }
-  .bar-text { font-size: 14px; color: #e8e0d4; }
-  .bar-text strong { color: var(--gold); }
-  .bar-form { display: flex; gap: 0; }
-  .bar-form input {
-    padding: 10px 14px; border: 1.5px solid var(--slate-light);
-    border-right: none; background: rgba(255,255,255,0.05);
-    color: #e8e0d4; font-family: 'DM Sans', sans-serif; font-size: 13px;
-    border-radius: 5px 0 0 5px; outline: none; width: 200px;
-  }
-  .bar-form input:focus { border-color: var(--gold); }
-  .bar-form input::placeholder { color: var(--text-light); }
-  .bar-form button {
-    padding: 10px 18px; background: var(--gold); color: var(--slate);
-    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 700;
-    border: 1.5px solid var(--gold); border-radius: 0 5px 5px 0;
-    cursor: pointer; white-space: nowrap;
-  }
-
-  /* ═══ SUCCESS ═══ */
-  .overlay {
-    display: none; position: fixed; inset: 0;
-    background: rgba(42,58,64,0.92); z-index: 200;
-    align-items: center; justify-content: center;
-  }
-  .overlay.visible { display: flex; }
-  .success {
-    background: var(--slate); border: 2px solid var(--gold);
-    border-radius: 14px; padding: 40px 36px; text-align: center;
-    max-width: 420px; margin: 0 20px;
-    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
-  .success .check {
-    width: 48px; height: 48px; border-radius: 50%; background: var(--gold);
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px; font-size: 24px; color: var(--slate);
-  }
-  .success h2 { font-family: 'Fraunces', serif; font-size: 22px; color: #e8e0d4; margin-bottom: 10px; }
-  .success p { font-size: 13px; color: var(--text-light); line-height: 1.6; margin-bottom: 6px; }
-  .tracked-list {
-    text-align: left; margin: 16px 0; padding: 14px;
-    background: rgba(184,149,106,0.06); border-radius: 8px;
-    border: 1px solid rgba(184,149,106,0.15);
-  }
-  .tracked-list-title {
-    font-size: 9px; letter-spacing: 2px; text-transform: uppercase;
-    color: var(--gold); margin-bottom: 8px;
-  }
-  .tracked-list-item {
-    font-size: 12px; color: #b8c4c8; padding: 3px 0 3px 14px; position: relative;
-  }
-  .tracked-list-item::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-size: 11px; }
-  .close-btn {
-    margin-top: 12px; padding: 8px 28px; background: transparent;
-    color: var(--text-light); border: 1px solid var(--slate-light);
-    border-radius: 5px; font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer;
-  }
-  .close-btn:hover { border-color: var(--text-light); color: #e8e0d4; }
-
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="header-logo">old<span>news</span></div>
+<a class="skip-link" href="#emailBottom">Skip to signup</a>
+
+<header class="header" role="banner">
+  <div class="header-logo" aria-label="OldNews">old<span>news</span></div>
   <div class="header-right">
-    <div class="lang-switch">
-      <a href="#" class="active">EN</a>
-      <a href="/cn">中文</a>
-    </div>
-    <div class="tracking-count">Watching <strong id="headerCount">0</strong></div>
+    <nav class="lang-switch" aria-label="Language">
+      <a href="/" class="active" aria-current="page">EN</a>
+      <a href="/cn" hreflang="zh" lang="zh">中文</a>
+    </nav>
+    <div class="tracking-count" aria-live="polite">Watching <strong id="headerCount">0</strong></div>
     <button class="header-cta" id="headerCta" onclick="document.getElementById('emailBottom').focus(); document.getElementById('emailBottom').scrollIntoView({behavior:'smooth',block:'center'})">Leave your email →</button>
   </div>
-</div>
+</header>
 
 <section class="hero">
-  <div class="date-badge">March 1, 2026</div>
+  <div class="date-badge" id="dateBadge">Today</div>
   <h1>Headlines fade.<br><em>Stories don't.</em></h1>
-  <p>You've felt it before:<br>a story dominates the news for three days, then disappears.<br>We keep watching. When something changes, we tell you.</p>
-  <div class="hero-tagline">The news gets old. The story keeps going.</div>
+  <h2 class="hero-sub">News follow-up tracking — updates when stories actually move forward.</h2>
+  <div class="hero-example">
+    <div class="hero-ex-line"><span class="hero-ex-day">Day 1</span> "Boeing plea deal rejected" — everywhere.</div>
+    <div class="hero-ex-line faded"><span class="hero-ex-day">Day 47</span> Silence. But the trial date just moved. <em>We'd tell you.</em></div>
+  </div>
+  <div class="hero-form">
+    <form class="hero-cta-form" onsubmit="event.preventDefault(); submitHero()">
+      <input type="email" id="emailHero" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
+      <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit">Start watching →</button>
+    </form>
+    <div class="hero-form-note">Launching April 2026. Free daily email — sign up to get the first edition.</div>
+    <div class="hero-social-proof">Early access · No spam, ever · Unsubscribe in one click</div>
+  </div>
+  <div class="hero-scroll-hint" aria-hidden="true">↓</div>
 </section>
 
-<section class="feed">
-  <div class="feed-label">Today's old news — these stories aren't over</div>
+<div class="trust-strip">🔕 No updates on your stories? No email that day. We only write when something moves.</div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate">
+<section class="feed">
+  <div class="feed-label">Stories we're watching — tap to follow</div>
+
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate">
     <div class="news-content">
       <div class="news-cat">Litigation · Aviation</div>
       <div class="news-title">Boeing 737 MAX: judge rejects plea deal, calls penalty inadequate</div>
       <div class="news-summary">Federal judge refuses to approve $2.44B guilty plea, saying the fine doesn't match 346 deaths. Boeing faces full criminal trial or renegotiation.</div>
-      <div class="news-source">Reuters · 6h ago</div>
+      <div class="news-source">Reuters · Tracked 47 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="OpenAI confirms for-profit conversion, Altman to hold ~10% equity">
+  <div class="news-card fresh" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="OpenAI confirms for-profit conversion, Altman to hold ~10% equity">
     <div class="news-content">
       <div class="news-cat">Funding · AI</div>
       <div class="news-title">OpenAI confirms for-profit conversion, Altman to hold ~10% equity</div>
       <div class="news-summary">Conversion expected by year-end. Microsoft diluted to ~30% with profit-sharing priority. Musk's lawsuit to block conversion dismissed.</div>
-      <div class="news-source">The Information · 8h ago</div>
+      <div class="news-source">The Information · Tracked 31 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="EU fines Apple €1.8B over App Store antitrust violations">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="EU fines Apple €1.8B over App Store antitrust violations">
     <div class="news-content">
       <div class="news-cat">Regulation · Big Tech</div>
       <div class="news-title">EU fines Apple €1.8B over App Store antitrust violations</div>
       <div class="news-summary">European Commission finds Apple used platform dominance to restrict music streaming competition. Apple has filed an appeal.</div>
-      <div class="news-source">Financial Times · 4h ago</div>
+      <div class="news-source">Financial Times · Tracked 62 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="Gaza ceasefire: Qatar proposes new three-phase framework">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Gaza ceasefire: Qatar proposes new three-phase framework">
     <div class="news-content">
       <div class="news-cat">Geopolitics · Middle East</div>
       <div class="news-title">Gaza ceasefire: Qatar proposes new three-phase framework</div>
       <div class="news-summary">Hamas says it's reviewing the proposal. Israel has not formally responded. US expresses "cautious optimism."</div>
-      <div class="news-source">Al Jazeera · 3h ago</div>
+      <div class="news-source">Al Jazeera · Tracked 89 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="TikTok sale: ByteDance in early talks with at least three potential buyers">
+  <div class="inline-cta">
+    <div class="inline-cta-text">Want these in your inbox every morning?</div>
+    <form class="inline-cta-form" onsubmit="event.preventDefault(); submitInline()">
+      <input type="email" id="emailInline" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
+      <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit">Start watching →</button>
+    </form>
+  </div>
+
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="TikTok sale: ByteDance in early talks with at least three potential buyers">
     <div class="news-content">
       <div class="news-cat">Regulation · Social Media</div>
       <div class="news-title">TikTok sale: ByteDance in early talks with at least three potential buyers</div>
       <div class="news-summary">No formal due diligence yet. Next statutory deadline is April 5, affecting 170M US users.</div>
-      <div class="news-source">Bloomberg · 5h ago</div>
+      <div class="news-source">Bloomberg · Tracked 28 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="Evergrande liquidation: creditor recovery estimated below 4%">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="Evergrande liquidation: creditor recovery estimated below 4%">
     <div class="news-content">
       <div class="news-cat">Real Estate · Debt</div>
       <div class="news-title">Evergrande liquidation: creditor recovery estimated below 4%</div>
       <div class="news-summary">Court-appointed liquidators project 2.1%–3.8% recovery rate, below market expectations of 5%–8%.</div>
-      <div class="news-source">SCMP · 7h ago</div>
+      <div class="news-source">SCMP · Tracked 54 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="SpaceX Starship 7th test flight delayed by FAA environmental review">
+  <div class="news-card" tabindex="0" onclick="toggle(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle(this)}" data-title="SpaceX Starship 7th test flight delayed by FAA environmental review">
     <div class="news-content">
       <div class="news-cat">Space · Regulation</div>
       <div class="news-title">SpaceX Starship 7th test flight delayed by FAA environmental review</div>
       <div class="news-summary">Flight 6 debris scattered beyond predicted zones. SpaceX says the delay will be "weeks, not months."</div>
-      <div class="news-source">Ars Technica · 10h ago</div>
+      <div class="news-source">Ars Technica · Tracked 83 days</div>
     </div>
     <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
   </div>
 
-  <div class="news-card" onclick="toggle(this)" data-title="Ozempic patent challenge: generic drugmakers take Novo Nordisk to court">
-    <div class="news-content">
-      <div class="news-cat">Pharma · IP Law</div>
-      <div class="news-title">Ozempic patent challenge: generic drugmakers take Novo Nordisk to court</div>
-      <div class="news-summary">If successful, generic semaglutide could hit market by 2028. Novo Nordisk shares down ~3%.</div>
-      <div class="news-source">STAT News · 2h ago</div>
-    </div>
-    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
-  </div>
-
-  <div class="news-card" onclick="toggle(this)" data-title="Samsung heir Lee Jae-yong bribery retrial verdict imminent">
-    <div class="news-content">
-      <div class="news-cat">Corporate · South Korea</div>
-      <div class="news-title">Samsung heir Lee Jae-yong bribery retrial verdict imminent</div>
-      <div class="news-summary">Seoul High Court expected to rule within days. Outcome will directly affect Samsung's governance structure.</div>
-      <div class="news-source">Nikkei Asia · 12h ago</div>
-    </div>
-    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
-  </div>
-
-  <div class="news-card" onclick="toggle(this)" data-title="India bans 14 messaging apps citing national security">
-    <div class="news-content">
-      <div class="news-cat">Policy · Cybersecurity</div>
-      <div class="news-title">India bans 14 messaging apps citing national security</div>
-      <div class="news-summary">Several banned apps widely used in Kashmir. Digital rights groups challenge the ban as overreach.</div>
-      <div class="news-source">The Hindu · 9h ago</div>
-    </div>
-    <button class="track-btn" onclick="event.stopPropagation(); toggle(this.parentElement)"><span class="track-btn-text">Watch this</span></button>
-  </div>
 </section>
 
 <section class="timeline-section">
-  <div class="tl-invite" id="tlToggle" onclick="toggleTimeline()">
+  <div class="tl-invite" id="tlToggle" role="button" tabindex="0" aria-expanded="false" onclick="toggleTimeline()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleTimeline()}">
     <div class="tl-invite-emoji">👀</div>
     <div class="tl-invite-text">
       <div class="tl-invite-title">How do we watch a story for you?</div>
@@ -606,13 +853,37 @@
   <p>We don't ping you for every keyword match.<br>Only when the story <em>actually moves forward</em>.</p>
 </section>
 
+<section class="email-preview">
+  <div class="email-preview-label">Here's what your morning email looks like</div>
+  <div class="email-mock">
+    <div class="email-mock-header">
+      <div class="email-mock-subject">OldNews 3.1 &nbsp;|&nbsp; Boeing case moves forward</div>
+      <div class="email-mock-from">from: hello@oldnews.io</div>
+    </div>
+    <div class="email-mock-body">
+      <div class="email-mock-card">
+        <div class="email-mock-badge big">Big move</div>
+        <div class="email-mock-title">Boeing 737 MAX</div>
+        <div class="email-mock-text">Federal judge rejects $2.44B plea deal, calls penalty inadequate. Boeing now faces full criminal trial or renegotiation. Families of the 346 victims had pushed for rejection.</div>
+        <div class="email-mock-meta">Tracking for 47 days · 3 updates</div>
+      </div>
+      <div class="email-mock-card">
+        <div class="email-mock-badge small">Small move</div>
+        <div class="email-mock-title">TikTok sale</div>
+        <div class="email-mock-text">ByteDance confirms "preliminary conversations" with two US-based consortiums. No formal due diligence yet. April 5 deadline looms.</div>
+        <div class="email-mock-meta">Tracking for 22 days · 5 updates</div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="how">
   <div class="how-label">How it works</div>
   <h2 class="how-title">Dead simple.</h2>
   <div class="how-steps">
     <div class="how-step">
       <h3>Pick</h3>
-      <p>10 stories a day.<br>Tap "Watch this."</p>
+      <p>We curate stories daily.<br>Pick what you care about.</p>
     </div>
     <div class="how-step">
       <h3>Watch</h3>
@@ -625,46 +896,91 @@
   </div>
 </section>
 
-<section class="bottom-cta">
-  <h2>Every story has a next chapter.<br>No one tells you what it is.</h2>
-  <p>Free. One email a day. Unsubscribe anytime.</p>
-  <div class="cta-form">
-    <input type="email" id="emailBottom" placeholder="your@email.com">
-    <button onclick="submitFromBottom()">Subscribe free</button>
+<section class="faq">
+  <div class="faq-label">Common questions</div>
+  <div class="faq-item">
+    <div class="faq-q">How is this different from Google Alerts?</div>
+    <div class="faq-a">Google Alerts triggers on keywords. We use AI to judge whether there's <em>actual progress</em> — not just the same story republished by a different outlet.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How often will I get emails?</div>
+    <div class="faq-a">At most once a day, in the morning. If none of your stories have updates, we don't send anything.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is it really free?</div>
+    <div class="faq-a">Yes. We're building in public and want early feedback. A paid tier with custom tracking is coming later.</div>
   </div>
 </section>
 
-<footer class="footer">
+<section class="bottom-cta">
+  <h2>Every story has a next chapter.<br>We'll tell you what it is.</h2>
+  <p>Free. One email a day. No updates = no email. Unsubscribe anytime.</p>
+  <form class="cta-form" onsubmit="event.preventDefault(); submitFromBottom()">
+    <input type="email" id="emailBottom" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
+    <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">Start watching →</button>
+  </form>
+</section>
+
+<footer class="footer" role="contentinfo">
   <div class="footer-logo">old<span>news</span></div>
-  <p>Curiosity + AI. <a href="#">About</a> · <a href="#">Privacy</a></p>
+  <p>Curiosity + AI. Your data stays safe — we only send updates you asked for.</p>
+  <p style="margin-top:12px;font-size:11px;color:var(--text-faint);">© 2026 OldNews. Built with care by a reader who got tired of wondering "what happened with that?"</p>
 </footer>
 
 <div class="bottom-bar" id="bottomBar">
   <div class="bar-text">Watching <strong id="barCount">0</strong> stories. Leave your email.</div>
-  <div class="bar-form">
-    <input type="email" id="barEmail" placeholder="your@email.com">
-    <button onclick="submitEmail()">Done →</button>
-  </div>
+  <form class="bar-form" onsubmit="event.preventDefault(); submitEmail()">
+    <input type="email" id="barEmail" placeholder="your@email.com" aria-label="Email address" autocomplete="email">
+    <input type="text" name="website" class="ohnoh" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">Done →</button>
+  </form>
 </div>
 
 <div class="overlay" id="overlay">
   <div class="success">
     <div class="check">✓</div>
     <h2>You're in.</h2>
-    <p>We'll email you when your stories move forward.</p>
+    <p>You're on the early access list. We'll send a welcome note within 24 hours.</p>
     <div class="tracked-list">
       <div class="tracked-list-title">👀 You're watching</div>
       <div id="trackedItems"></div>
     </div>
-    <p style="color:#7a8a8e; font-size:11px;">Plus 10 new stories to pick from every morning.</p>
+    <p class="success-note">Plus new stories to pick from every morning.</p>
     <button class="close-btn" onclick="document.getElementById('overlay').classList.remove('visible')">Got it</button>
   </div>
 </div>
 
 <script>
+// Dynamic date
+document.getElementById('dateBadge').textContent = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
 let tracked = [];
 
+// Restore selections from localStorage
+try {
+  const saved = JSON.parse(localStorage.getItem('oldnews_tracked') || '[]');
+  if (Array.isArray(saved) && saved.length > 0) {
+    document.querySelectorAll('.news-card').forEach(card => {
+      if (saved.includes(card.dataset.title)) {
+        card.classList.add('tracked');
+        card.querySelector('.track-btn-text').textContent = 'Watching';
+        tracked.push(card.dataset.title);
+      }
+    });
+    updateUI();
+  }
+} catch(e) {}
+
+let hasSubscribed = false;
+
+// Check if already subscribed
+try {
+  if (localStorage.getItem('oldnews_subscribed')) { hasSubscribed = true; disableAllForms(); }
+} catch(e) {}
+
 function toggle(card) {
+  if (hasSubscribed) return;
   const title = card.dataset.title;
   const btnText = card.querySelector('.track-btn-text');
   if (card.classList.contains('tracked')) {
@@ -675,6 +991,7 @@ function toggle(card) {
     card.classList.add('tracked');
     btnText.textContent = 'Watching';
     tracked.push(title);
+    trackEvent('story_watch', { title: title.slice(0, 50), count: tracked.length });
     card.style.transform = 'scale(1.01)';
     setTimeout(() => card.style.transform = '', 150);
   }
@@ -687,9 +1004,50 @@ function updateUI() {
   document.getElementById('barCount').textContent = n;
   document.getElementById('bottomBar').classList.toggle('visible', n > 0);
   document.getElementById('headerCta').classList.toggle('visible', n > 0);
+  try { localStorage.setItem('oldnews_tracked', JSON.stringify(tracked)); } catch(e) {}
 }
 
-async function submitToAPI(email) {
+// Simple event tracking (works with Vercel Analytics if enabled)
+function trackEvent(name, data) {
+  try { window.va?.track(name, data); } catch(e) {}
+}
+
+function submitHero() {
+  const input = document.getElementById('emailHero');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.hero-cta-form').querySelector('button'));
+}
+
+function submitInline() {
+  const input = document.getElementById('emailInline');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.inline-cta-form').querySelector('button'));
+}
+
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function setLoading(btn, loading) {
+  btn.disabled = loading;
+  btn.dataset.originalText = btn.dataset.originalText || btn.textContent;
+  btn.textContent = loading ? 'Sending...' : btn.dataset.originalText;
+  btn.style.opacity = loading ? '0.7' : '1';
+}
+
+function checkHoneypot(form) {
+  const hp = form ? form.querySelector('.ohnoh') : null;
+  return hp && hp.value;
+}
+
+let isSubmitting = false;
+async function submitToAPI(email, sourceBtn) {
+  if (isSubmitting) return;
+  if (checkHoneypot(sourceBtn?.closest('form'))) return;
+  isSubmitting = true;
+  if (sourceBtn) setLoading(sourceBtn, true);
   try {
     const res = await fetch('/api/subscribe', {
       method: 'POST',
@@ -697,39 +1055,85 @@ async function submitToAPI(email) {
       body: JSON.stringify({ email, stories: tracked, lang: 'en' })
     });
     if (res.ok) {
+      trackEvent('subscribe', { stories: tracked.length });
       showSuccess();
     } else {
-      alert('Something went wrong. Please try again.');
+      showInlineError(sourceBtn, 'Something went wrong. Please try again.');
     }
   } catch (e) {
-    alert('Connection error. Please try again.');
+    showInlineError(sourceBtn, 'Connection error. Please try again.');
+  } finally {
+    if (sourceBtn) setLoading(sourceBtn, false);
+    isSubmitting = false;
   }
 }
 
+function showInlineError(nearBtn, msg) {
+  const parent = nearBtn ? nearBtn.closest('form') : document.querySelector('.hero-cta-form');
+  if (!parent) return;
+  const container = parent.parentElement;
+  const existing = container.querySelector('.inline-error');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.className = 'inline-error';
+  el.textContent = msg;
+  parent.insertAdjacentElement('afterend', el);
+  setTimeout(() => el.remove(), 4000);
+}
+
+function shakeInvalid(input) {
+  input.style.borderColor = '#c4453a';
+  input.style.animation = 'shake 0.3s ease';
+  setTimeout(() => { input.style.borderColor = ''; input.style.animation = ''; }, 1500);
+}
+
 function submitEmail() {
-  const email = document.getElementById('barEmail').value;
-  if (!email || !email.includes('@')) { document.getElementById('barEmail').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('barEmail').style.borderColor = '', 1500); return; }
-  submitToAPI(email);
+  const input = document.getElementById('barEmail');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.bar-form').querySelector('button'));
 }
 
 function submitFromBottom() {
-  const email = document.getElementById('emailBottom').value;
-  if (!email || !email.includes('@')) { document.getElementById('emailBottom').style.borderColor = '#c4453a'; setTimeout(() => document.getElementById('emailBottom').style.borderColor = '', 1500); return; }
-  if (tracked.length === 0) { document.querySelector('.feed').scrollIntoView({ behavior: 'smooth' }); return; }
-  submitToAPI(email);
+  const input = document.getElementById('emailBottom');
+  const email = input.value.trim();
+  if (!isValidEmail(email)) { shakeInvalid(input); return; }
+  submitToAPI(email, input.closest('.cta-form').querySelector('button'));
 }
 
 function showSuccess() {
   const el = document.getElementById('trackedItems');
+  const trackedList = document.querySelector('.tracked-list');
   el.innerHTML = '';
-  tracked.forEach(t => {
-    const d = document.createElement('div');
-    d.className = 'tracked-list-item';
-    d.textContent = t;
-    el.appendChild(d);
-  });
+  if (tracked.length > 0) {
+    trackedList.style.display = '';
+    tracked.forEach(t => {
+      const d = document.createElement('div');
+      d.className = 'tracked-list-item';
+      d.textContent = t;
+      el.appendChild(d);
+    });
+  } else {
+    trackedList.style.display = 'none';
+  }
   document.getElementById('overlay').classList.add('visible');
   document.getElementById('bottomBar').classList.remove('visible');
+  // Disable all forms after successful signup
+  hasSubscribed = true;
+  disableAllForms();
+  try { localStorage.setItem('oldnews_subscribed', '1'); } catch(e) {}
+}
+
+function disableAllForms() {
+  document.querySelectorAll('.hero-cta-form button, .inline-cta-form button, .cta-form button, .bar-form button').forEach(btn => {
+    btn.disabled = true;
+    btn.textContent = '✓ Watching';
+  });
+  document.querySelectorAll('.hero-cta-form input, .inline-cta-form input, .cta-form input, .bar-form input').forEach(input => {
+    input.disabled = true;
+  });
+  document.getElementById('bottomBar').classList.remove('visible');
+  document.getElementById('headerCta').classList.remove('visible');
 }
 
 function toggleTimeline() {
@@ -737,8 +1141,131 @@ function toggleTimeline() {
   const toggle = document.getElementById('tlToggle');
   content.classList.toggle('visible');
   toggle.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', content.classList.contains('visible'));
+}
+
+// Hide scroll hint after first scroll
+const scrollHint = document.querySelector('.hero-scroll-hint');
+if (scrollHint) {
+  const hideHint = () => { scrollHint.style.opacity = '0'; window.removeEventListener('scroll', hideHint); };
+  window.addEventListener('scroll', hideHint, { passive: true });
+}
+
+// Sync email across all inputs
+['emailHero', 'emailInline', 'emailBottom', 'barEmail'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    const val = this.value;
+    ['emailHero', 'emailInline', 'emailBottom', 'barEmail'].forEach(otherId => {
+      if (otherId !== id) document.getElementById(otherId).value = val;
+    });
+  });
+});
+
+// Close overlay with Escape or click outside
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('overlay').classList.remove('visible');
+});
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) e.currentTarget.classList.remove('visible');
+});
+
+// Scroll reveal with stable stagger
+let revealCount = 0;
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('revealed'), revealCount * 60);
+      revealCount++;
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.news-card, .how-step, .tl-invite').forEach(el => revealObserver.observe(el));
+
+// Live "aging" ticker on story cards
+if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+document.querySelectorAll('.news-source').forEach(el => {
+  const match = el.textContent.match(/Tracked (\d+) days/);
+  if (!match) return;
+  const baseDays = parseInt(match[1]);
+  const baseSeconds = baseDays * 86400 + Math.floor(Math.random() * 86400);
+  let elapsed = baseSeconds;
+  const tick = () => {
+    elapsed++;
+    const d = Math.floor(elapsed / 86400);
+    const h = Math.floor((elapsed % 86400) / 3600);
+    const m = Math.floor((elapsed % 3600) / 60);
+    const s = elapsed % 60;
+    const original = el.textContent.split('·');
+    if (original.length >= 2) {
+      original[original.length - 1] = ` ${d}d ${h}h ${m}m ${String(s).padStart(2,'0')}s`;
+      el.textContent = original.join('·');
+    }
+  };
+  tick();
+  setInterval(tick, 1000);
+});
 }
 </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "OldNews",
+  "alternateName": "旧闻",
+  "url": "https://oldnews.io",
+  "description": "News stories disappear from headlines, but the events keep developing. OldNews watches stories for you and sends updates only when something actually changes.",
+  "applicationCategory": "NewsApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "OldNews"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is OldNews different from Google Alerts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google Alerts triggers on keywords. OldNews uses AI to judge whether there's actual progress — not just the same story republished by a different outlet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often will I get emails from OldNews?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "At most once a day, in the morning. If none of your stories have updates, we don't send anything."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is OldNews really free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. We're building in public and want early feedback. A paid tier with custom tracking is coming later."
+      }
+    }
+  ]
+}
+</script>
+
+<!-- Vercel Web Analytics -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 
 </body>
 </html>

@@ -46,3 +46,20 @@ create index idx_updates_story on updates(story_id);
 create index idx_updates_created on updates(created_at);
 create index idx_users_token on users(token);
 create index idx_users_verification on users(verification_token);
+
+-- Pipeline execution log for monitoring and idempotency
+create table pipeline_runs (
+  id uuid primary key default gen_random_uuid(),
+  run_date date not null,
+  status text not null check (status in ('success', 'failed', 'partial')),
+  stories_checked int default 0,
+  updates_found int default 0,
+  emails_sent int default 0,
+  skipped_duplicate int default 0,
+  duration_seconds float,
+  error_message text,
+  created_at timestamptz default now(),
+  unique(run_date)
+);
+
+create index idx_pipeline_runs_date on pipeline_runs(run_date);
