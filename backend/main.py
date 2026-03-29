@@ -35,11 +35,17 @@ app.add_middleware(
 
 @app.get("/health")
 async def health():
-    from config import SUPABASE_URL
+    from config import SUPABASE_URL, SERPER_API_KEY, MINIMAX_API_KEY
+    checks = {
+        "supabase": bool(SUPABASE_URL) and supabase is not None,
+        "serper_key": bool(SERPER_API_KEY),
+        "ai_key": bool(MINIMAX_API_KEY),
+        "resend_key": bool(RESEND_API_KEY),
+    }
+    all_ok = all(checks.values())
     return {
-        "status": "ok",
-        "supabase_connected": supabase is not None,
-        "supabase_url_set": bool(SUPABASE_URL),
+        "status": "ok" if all_ok else "degraded",
+        "checks": checks,
     }
 
 
@@ -353,6 +359,20 @@ async def trigger_pipeline(x_api_secret: str = Header(None, alias="X-API-Secret"
         except Exception:
             pass
         raise HTTPException(status_code=500, detail=f"Pipeline failed: {str(e)}")
+
+
+@app.get("/api/pipeline/history")
+async def pipeline_history(x_api_secret: str = Header(None, alias="X-API-Secret")):
+    if API_SECRET and x_api_secret != API_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid API secret")
+    data = (
+        supabase.table("pipeline_runs")
+        .select("*")
+        .order("run_date", desc=True)
+        .limit(30)
+        .execute()
+    )
+    return data.data
 
 
 # ── Stats ─────────────────────────────────────────────────────────────
