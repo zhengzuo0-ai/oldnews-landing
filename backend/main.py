@@ -76,6 +76,33 @@ async def list_stories():
     return data.data
 
 
+@app.patch("/api/stories/{story_id}/deactivate")
+async def deactivate_story(story_id: str, x_api_secret: str = Header(None, alias="X-API-Secret")):
+    if API_SECRET and x_api_secret != API_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid API secret")
+    data = (
+        supabase.table("stories")
+        .update({"is_active": False})
+        .eq("id", story_id)
+        .execute()
+    )
+    if not data.data:
+        raise HTTPException(status_code=404, detail="Story not found")
+    return {"status": "deactivated", "story_id": story_id}
+
+
+@app.get("/api/stories/{story_id}/updates")
+async def story_updates(story_id: str):
+    data = (
+        supabase.table("updates")
+        .select("*")
+        .eq("story_id", story_id)
+        .order("created_at", desc=True)
+        .execute()
+    )
+    return data.data
+
+
 # ── Subscribe + Verify ────────────────────────────────────────────────
 
 
