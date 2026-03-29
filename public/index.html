@@ -110,7 +110,7 @@
     color: var(--text-faint); text-decoration: none;
     padding: 5px 12px; border-radius: 4px;
     font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
-    transition: all 0.2s;
+    transition: color 0.2s, background 0.2s;
   }
   .lang-switch a:hover { color: var(--text-cream); }
   .lang-switch a:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -235,7 +235,7 @@
     background: var(--card-bg); border: 2px solid var(--card-border);
     border-radius: 10px; padding: 20px 22px; margin-bottom: 10px;
     display: flex; align-items: flex-start; gap: 14px;
-    cursor: pointer; transition: all 0.2s ease;
+    cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
   .news-card:hover { border-color: #ccc8be; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
   .news-card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
@@ -259,7 +259,7 @@
     color: var(--text-mid); font-family: 'DM Sans', sans-serif;
     font-size: 11px; font-weight: 600;
     border: 1.5px solid var(--card-border); border-radius: 5px;
-    cursor: pointer; white-space: nowrap; margin-top: 3px; transition: all 0.2s;
+    cursor: pointer; white-space: nowrap; margin-top: 3px; transition: border-color 0.2s, color 0.2s, background 0.2s;
     min-height: 44px; display: flex; align-items: center;
   }
   .track-btn:hover { border-color: var(--gold); color: var(--slate); }
@@ -297,7 +297,7 @@
   .tl-invite {
     background: var(--gold); border-radius: 10px; padding: 24px 26px;
     cursor: pointer; display: flex; align-items: center; gap: 16px;
-    transition: all 0.2s; border: 2px solid var(--gold);
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s; border: 2px solid var(--gold);
   }
   .tl-invite:hover { background: var(--gold-hover); border-color: var(--gold-hover); box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
   .tl-invite:focus-visible { outline: 2px solid var(--slate); outline-offset: 2px; }
