@@ -2,14 +2,14 @@
 
 import logging
 import uuid
-from datetime import date
+from datetime import date, datetime
 
 import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 
-from config import BASE_URL, RESEND_API_KEY, RESEND_FROM_EMAIL
+from config import API_SECRET, BASE_URL, RESEND_API_KEY, RESEND_FROM_EMAIL
 from daily_page import generate_daily_page, generate_verification_page
 from database import supabase
 from email_templates import verification_email_html
@@ -296,9 +296,20 @@ async def daily_page(date_str: str, token: str):
 
 
 @app.post("/api/pipeline/run")
-async def trigger_pipeline():
-    result = await run_pipeline()
-    return result
+async def trigger_pipeline(x_api_secret: str = Header(None, alias="X-API-Secret")):
+    if API_SECRET and x_api_secret != API_SECRET:
+        raise HTTPException(status_code=403, detail="Invalid API secret")
+    start = datetime.utcnow()
+    try:
+        result = await run_pipeline()
+        result["duration_seconds"] = (datetime.utcnow() - start).total_seconds()
+        result["status"] = "success"
+        result["timestamp"] = start.isoformat()
+        logger.info(f"Pipeline completed: {result}")
+        return result
+    except Exception as e:
+        logger.error(f"Pipeline failed after {(datetime.utcnow() - start).total_seconds()}s: {e}")
+        raise HTTPException(status_code=500, detail=f"Pipeline failed: {str(e)}")
 
 
 # ── Stats ─────────────────────────────────────────────────────────────
